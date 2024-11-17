@@ -72,7 +72,7 @@ const listarUser = async (req, res) => {
 const loginUser = async (req, res) => {
   const { userEmail, userPassword } = req.body;
   try {
-    const user = await prisma.user.findUnique({ where: { userEmail } });
+    const user = await prisma.user.findUnique({ where: { userEmail: userEmail } });
     
     if (!user) {
       return res.status(401).json({ message: 'Credenciais inválidas' });
