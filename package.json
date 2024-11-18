@@ -5,7 +5,6 @@
   "scripts": {
     "dev": "nodemon src/server.js",
     "start":"node src/server.js",
-   /*"vercel-build": "npx prisma migrate deploy",*/
     "seed": "node src/prisma/seed.js"
   },
   "keywords": [],
