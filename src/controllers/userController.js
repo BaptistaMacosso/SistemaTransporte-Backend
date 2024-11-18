@@ -73,6 +73,7 @@ const loginUser = async (req, res) => {
   const { userEmail, userPassword } = req.body;
   try {
     const user = await prisma.user.findUnique({ where: { userEmail: userEmail } });
+    console.log('Usuário: '+user.userNome+' - '+user.userEmail);
     
     if (!user) {
       return res.status(401).json({ message: 'Credenciais inválidas' });
