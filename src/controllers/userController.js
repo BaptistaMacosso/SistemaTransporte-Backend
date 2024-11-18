@@ -73,7 +73,6 @@ const loginUser = async (req, res) => {
   const { userEmail, userPassword } = req.body;
   try {
     const user = await prisma.user.findUnique({ where: { userEmail: userEmail } });
-    console.log('Usuário: '+user.userNome+' - '+user.userEmail);
     
     if (!user) {
       return res.status(401).json({ message: 'Credenciais inválidas' });
@@ -81,14 +80,15 @@ const loginUser = async (req, res) => {
     
     // Comparar senha usando bcrypt
     const isMatch = await bcrypt.compare(userPassword, user.userPassword);
-
+    
     if (!isMatch) {
       return res.status(401).json({ message: 'Usuário não autorizado' });
     }
-
+    
     res.status(201).json({ token: generateToken(user.userId, user.userNome) });
   } catch (error) {
-    res.status(500).json({ message: 'Erro ao fazer login' });
+    console.log('Erro encontrado: '+error);
+    res.status(500).json({ message: 'Erro ao fazer login'+error });
   }
 };
 
