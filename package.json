@@ -6,7 +6,7 @@
     "dev": "nodemon src/server.js",
     "start":"node src/server.js",
     "seed": "node src/prisma/seed.js",
-    "vercel-build": "npx prisma generate && next build"
+    "vercel-build": "npx prisma generate"
   },
   "keywords": [],
   "author": "João Baptista Macosso Sumbo",
