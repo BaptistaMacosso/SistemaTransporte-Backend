@@ -31,8 +31,9 @@ app.use('/api/viatura', viaturaRoutes);
 app.use('/api/publicidade', publicidadeRoutes);
 app.use('/api/manutencao', manutencaoRoutes);
 
-app.get("/",(req, res)=>{
-   res.send("Minha rota de teste para a vercel.");
+// Defina uma rota de exemplo
+app.get('/api/teste', (req, res) => {
+  res.json({ message: 'API funcionando!' });
 });
 
 //Iniciar o servidor.
