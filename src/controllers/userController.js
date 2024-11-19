@@ -71,6 +71,8 @@ const listarUser = async (req, res) => {
 // Fazer login
 const loginUser = async (req, res) => {
   const { userEmail, userPassword } = req.body;
+
+  console.log(userEmail+"-"+userPassword);
   try {
     const user = await prisma.user.findUnique({ where: { userEmail: userEmail } });
     
