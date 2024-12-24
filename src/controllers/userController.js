@@ -1,8 +1,8 @@
+const authToken = require('../middlewares/auth');
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
 const { PrismaClient } = require('@prisma/client');
-
 const prisma = new PrismaClient();
+
 module.exports = {
 // Registrar usuário
 async registerUser (req, res) {
@@ -85,10 +85,9 @@ async loginUser (req, res) {
     if (!isMatch) {
       return res.status(401).json({ message: 'Usuário não autorizado' });
     }
-    
-    res.status(201).json({ token: generateToken(user.userId, user.userNome) });
+    const token = await authToken.GenerateToken(user.userId, user.userNome);
+    res.status(201).json({ token: token });
   } catch (error) {
-    console.log('Erro encontrado: '+error);
     res.status(500).json({ message: 'Erro ao fazer login'+error });
   }
 },
@@ -192,13 +191,4 @@ async getUserById (req, res){
   } catch (error) {
     return res.status(500).json({ message: 'Erro ao listar o usuário pelo Id '+error });
   }
-},
-
-// Gerar token JWT
-async generateToken(id, nome){
-  return jwt.sign({ id, nome }, process.env.JWT_SECRET, {
-    expiresIn: '8h',
-  });
-},
-
-};
+},};
