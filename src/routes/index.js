@@ -29,7 +29,7 @@ router.put('/prestadores/update/:id', protect, prestadorController.updatePrestad
 router.delete('/prestadores/delete/:id', protect, prestadorController.deletePrestador); // Deletar Prestador
 
 // Rotas de usuários
-router.post('/usuario/novo', protect, userController.registerUser);
+router.post('/usuario/novo', userController.registerUser);
 router.get('/usuario/listar',protect, userController.listarUser);
 router.post('/auth/login', userController.loginUser);
 router.get('/usuario/listarPeloId/:id', protect, userController.getUserById);

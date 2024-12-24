@@ -48,9 +48,6 @@ async function main() {
       viaturaAnoFabrica: '2020',
       viaturaCombustivel: 'Gasolina',
       viaturaCor: 'Preto',
-      viaturaNumeroChassi: 'CHASSI123456',
-      viaturaNumeroLugar: '5',
-      viaturaNumeroMotor: 'MOTOR123456',
       quilometragem: '50000',
     },
   });
