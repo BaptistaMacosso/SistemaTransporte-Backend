@@ -1,7 +1,8 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
-const createViatura = async (req, res) => {
+module.exports = {
+async createViatura(req, res){
     const { 
         viaturaMarca,
         viaturaModelo,
@@ -46,9 +47,9 @@ const createViatura = async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: 'Erro ao cadastrar viatura: ' + error });
     }
-};
+},
 
-const listarViatura = async (req, res) => {
+async listarViatura (req, res){
     
     try {
         const viatura = await prisma.viatura.findMany({
@@ -75,9 +76,9 @@ const listarViatura = async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: 'Erro ao listar viaturas: ' + error });
     }
-};
+},
 
-const getViaturaById = async (req, res) => {
+async getViaturaById (req, res){
     const { id } = req.params;
 
     try {
@@ -89,9 +90,9 @@ const getViaturaById = async (req, res) => {
     }catch (error) {
         res.status(500).json({ message: 'Erro ao listar viaturas: ' + error });
     }
-};
+},
 
-const updateViatura = async (req, res) => {
+async updateViatura (req, res){
     const { id } = req.params;
     const { 
         viaturaMarca,
@@ -132,9 +133,9 @@ const updateViatura = async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: 'Erro ao atualizar viatura: ' + error });
     }
-};
+},
 
-const deleteViatura = async (req, res) => {
+async deleteViatura (req, res) {
     const { id } = req.params;
 
     try {
@@ -148,7 +149,5 @@ const deleteViatura = async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: 'Erro ao deletar viatura: ' + error });
     }
+},
 };
-
-
-module.exports = { createViatura, listarViatura, getViaturaById, updateViatura, deleteViatura };

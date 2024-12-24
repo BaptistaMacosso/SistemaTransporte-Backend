@@ -45,22 +45,37 @@ model Motorista {
 
 model Viatura {
   viaturaId           Int    @id @default(autoincrement())
+  viaturaTipoId       Int
+  viaturaCategoriaId  Int
   viaturaMarca        String @db.VarChar(100)
   viaturaModelo       String @db.VarChar(30)
   viaturaMatricula    String @unique @db.VarChar(15)
   viaturaAnoFabrica   String @db.VarChar(4) 
   viaturaCombustivel  String @db.VarChar(10)
   viaturaCor          String @db.VarChar(45) 
-  viaturaNumeroChassi String @unique @db.VarChar(80) 
-  viaturaNumeroLugar  String @db.VarChar(4) 
-  viaturaNumeroMotor  String @unique @db.VarChar(80) 
   quilometragem       String @db.VarChar(6)
-  planoManutencao     PlanoManutencao[]
-  publicidade         Publicidade[]
+  viaturaTipo         ViaturaTipo @relation(fields: [viaturaTipoId], references: [id])
+  viaturaCategoria    ViaturaCategoria @relation(fields: [viaturaCategoriaId], references: [id])
   historicoManutencao Manutencao[]
   checklistViatura    Checklist[]
   viaturaMotorista    ViaturaMotorista[]
+  licencaViatura      LicencaTransportacaoViaturas[]
+  pedidos             Pedido[]
   @@map("tblviaturas")
+}
+
+model ViaturaTipo{
+  id          Int @id @default(autoincrement())
+  viaturaTipo String @db.VarChar(40) @unique
+  viatura     Viatura[]
+  @@map("tblviaturaTipo")
+}
+
+model ViaturaCategoria{
+  id               Int @id @default(autoincrement())
+  viaturaCategoria String @db.VarChar(40) @unique
+  viatura          Viatura[]
+  @@map("tblviaturaCategoria")
 }
 
 model ViaturaMotorista{
@@ -68,61 +83,111 @@ model ViaturaMotorista{
   viatura      Viatura @relation(fields: [viaturaId], references: [viaturaId])
   motoristaId  Int @unique
   motorista    Motorista @relation(fields: [motoristaId], references: [motoristaId])
-}
-
-model PlanoManutencao {
-  id             Int      @id @default(autoincrement())
-  viaturaId      Int
-  dataManutencao String @db.Char(10)
-  descricao      String @db.VarChar(250)
-  custoPrevisto  Decimal @db.Decimal(18,2)
-  status         Boolean
-  viatura      Viatura  @relation(fields: [viaturaId], references: [viaturaId])
-  @@map("tblplanomanutencao")
-}
-
-model Publicidade {
-  id            Int      @id @default(autoincrement())
-  viaturaId     Int
-  dataExpiracao String   @db.Char(10) 
-  descricao     String   @db.VarChar(250)
-  viatura       Viatura  @relation(fields: [viaturaId], references: [viaturaId])
-  @@map("tblpublicidade")
+  @@map("tblviaturamotorista")
 }
 
 model Manutencao {
-  id               Int            @id @default(autoincrement())
+  id               Int @id @default(autoincrement())
   viaturaId        Int
-  tipoId           Int
-  data             DateTime       @default(now())
-  quilometragem    Int
-  descricao        String         @db.VarChar(250)
-  servicos         String         @db.VarChar(200)
-  responsavel      String         @db.VarChar(100)
-  viatura          Viatura        @relation(fields: [viaturaId], references: [viaturaId])
-  tipo             TipoManutencao @relation(fields: [tipoId], references: [id])
-   @@map("tblmanutencao")
+  tipoManutencaoId Int
+  descricao        String    @db.VarChar(250)
+  dataManutencao   DateTime  @default(now())
+  quilometragem    Float     @db.DoublePrecision
+  responsavel      String    @db.VarChar(100)
+  statusManutencaoId Int
+  dataCriacao      DateTime  @default(now())
+  viatura          Viatura   @relation(fields: [viaturaId], references: [viaturaId])
+  tipoManutencao   TipoManutencao   @relation(fields: [tipoManutencaoId], references: [id])
+  statusManutencao StatusManutencao @relation(fields: [statusManutencaoId], references: [id])
+  @@map("tblmanutencao")
 }
 
 model TipoManutencao {
-  id               Int            @id @default(autoincrement())
-  nome             String         @unique @db.VarChar(20) // Ex: Preventiva, Corretiva
-  manutencoes      Manutencao[]
-   @@map("tbltipomanutencao")
+  id             Int     @id @default(autoincrement())
+  tipoManutencao String  @db.VarChar(100) @unique
+  checkList      Checklist[]
+  manutencao     Manutencao[]
+  @@map("tbltipomanutencao")
+}
+
+model StatusManutencao {
+  id               Int     @id @default(autoincrement())
+  statusManutencao String  @db.VarChar(100) @unique
+  manutencao       Manutencao[]
+  @@map("tblstatusmanutencao")
 }
 
 model Checklist {
   id               Int       @id @default(autoincrement())
-  tipo             TipoChecklist  // Enum para diferenciar diário ou semanal
-  data             DateTime  @default(now())
-  observacoes      String    @db.VarChar(250)
   viaturaId        Int
+  tipoManutencaoId Int
+  quilometragem    Float     @db.DoublePrecision
+  itemsVerificados String    @db.VarChar(100)
+  observacao       String    @db.VarChar(250)
+  dataCheckList    DateTime  @default(now())
   viatura          Viatura   @relation(fields: [viaturaId], references: [viaturaId])
+  tipoManutencao   TipoManutencao @relation(fields: [tipoManutencaoId], references: [id])
    @@map("tblchecklist")
 }
 
-// Definindo o tipo de checklist (diário ou semanal)
-enum TipoChecklist {
-  DIARIO
-  SEMANAL
+model LicencaPublicidadeViaturas{
+  id             Int @id @default(autoincrement())
+  descricao      String @db.VarChar(100) @unique
+  licencaNumero  String @db.VarChar(30) @unique
+  dataEmissao    String @db.VarChar(10)
+  dataVencimento String @db.VarChar(10)
+  licencaStatus  Boolean @default(true)
+  @@map("tbllicencapublicidade")
+}
+
+model LicencaTransportacaoViaturas{
+  id                Int @id @default(autoincrement())
+  viaturaId         Int @unique 
+  descricao         String @db.VarChar(200) @unique
+  observacao        String @db.VarChar(100) 
+  viatura           Viatura @relation(fields: [viaturaId], references: [viaturaId]) 
+  proprietario      String @db.VarChar(100) 
+  dataEmissao       String @db.VarChar(10)
+  dataVencimento    String @db.VarChar(10)
+  licencaStatus     Boolean @default(true)
+  @@map("tbllicencaTransportacao")
+}
+
+model Pedido {
+  pedidoId         Int @id @default(autoincrement())
+  viaturaId        Int
+  descricao        String
+  dataSolicitacao  DateTime  @default(now())
+  tipoServicoId    Int
+  statusId         Int
+  prestadorId      Int
+  prestador        Prestador @relation(fields: [prestadorId], references: [prestadorId])
+  viatura          Viatura @relation(fields: [viaturaId], references: [viaturaId])
+  tipoServico      TipoServico @relation(fields: [tipoServicoId], references: [id])
+  status           Status @relation(fields: [statusId], references: [statusId])
+  @@map("tblpedidos")
+}
+
+model Prestador {
+  prestadorId   Int  @id @default(autoincrement())
+  prestadorNome String
+  especialidade String @db.VarChar(50)
+  contato       String? @db.VarChar(20)
+  endereco      String? @db.VarChar(200)
+  pedidos     Pedido[]
+  @@map("tblprestador")
+}
+
+model TipoServico {
+  id          Int  @id @default(autoincrement())
+  tipoServico String @db.VarChar(30) 
+  pedido      Pedido[]
+  @@map("tbltiposervico")
+}
+
+model Status {
+  statusId   Int  @id @default(autoincrement())
+  descricao  String @db.VarChar(30)
+  pedido     Pedido[]
+  @@map("tblstatus")
 }

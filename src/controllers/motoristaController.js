@@ -1,7 +1,8 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
-const createMotorista = async (req, res) => {
+module.exports = {
+async createMotorista (req, res){
     const { 
         motoristaNome,
         motoristaEmail, 
@@ -36,18 +37,18 @@ const createMotorista = async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: 'Erro ao cadastrar motorista: ' + error });
     }
-};
+},
 
-const listarMotorista = async (req, res) => {
+async listarMotorista (req, res){
     try {
         const motorista = await prisma.motorista.findMany();
         res.status(200).json({ motorista: motorista });
     } catch (error) {
         res.status(500).json({ message: 'Erro ao listar motoristas: ' + error });
     }
-};
+},
 
-const getMotoristaById = async (req, res) => {
+async getMotoristaById (req, res){
     const { id } = req.params;
 
     try {
@@ -59,9 +60,9 @@ const getMotoristaById = async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: 'Erro ao buscar motorista: ' + error});
     }
-};
+},
 
-const updateMotorista = async (req, res) => {
+async updateMotorista (req, res){
     const { id } = req.params;
     const { 
         motoristaNome,
@@ -94,9 +95,9 @@ const updateMotorista = async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: 'Erro ao atualizar motorista: ' + error });
     }
-};
+},
 
-const deleteMotorista = async (req, res) => {
+async deleteMotorista (req, res){
     const { id } = req.params;
 
     try {
@@ -110,7 +111,5 @@ const deleteMotorista = async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: 'Erro ao deletar motorista: ' + error });
     }
+},
 };
-
-
-module.exports = { createMotorista, listarMotorista, getMotoristaById, updateMotorista, deleteMotorista };

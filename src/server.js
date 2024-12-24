@@ -3,13 +3,7 @@ const express = require('express');
 const cors = require('cors');
 
 //Rotas do sistema.
-const userRoutes = require('./routes/userRoutes');
-const usertipoRoutes = require('./routes/usertipoRoutes');
-const planoManutencaoRoutes = require('./routes/planoManutencaoRoutes');
-const motoristaRoutes = require('./routes/motoristaRoutes');
-const viaturaRoutes = require('./routes/viaturaRoutes');
-const publicidadeRoutes = require('./routes/publicidadeRoutes');
-const manutencaoRoutes = require('./routes/manutencaoRoutes');
+const Rotas = require('./routes');
 
 
 //Configuração Inicial.
@@ -23,18 +17,7 @@ app.use(cors({
 }));
 
 //Usar as Rotas.
-app.use('/api/auth', userRoutes);
-app.use('/api/usertipo', usertipoRoutes);
-app.use('/api/planomanutencao', planoManutencaoRoutes);
-app.use('/api/motorista', motoristaRoutes);
-app.use('/api/viatura', viaturaRoutes);
-app.use('/api/publicidade', publicidadeRoutes);
-app.use('/api/manutencao', manutencaoRoutes);
-
-// Defina uma rota de exemplo
-app.get('/api/teste', (req, res) => {
-  res.json({ message: 'API funcionando!' });
-});
+app.use('/api', Rotas);
 
 //Iniciar o servidor.
 app.listen(PORT, () => {

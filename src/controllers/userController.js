@@ -3,9 +3,9 @@ const jwt = require('jsonwebtoken');
 const { PrismaClient } = require('@prisma/client');
 
 const prisma = new PrismaClient();
-
+module.exports = {
 // Registrar usuário
-const registerUser = async (req, res) => {
+async registerUser (req, res) {
   try {
     const { userNome, userEmail, userPassword, tipoUsuarioId } = req.body;
 
@@ -41,10 +41,10 @@ const registerUser = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: 'Erro ao registrar o usuário '+error });
   }
-};
+},
 
 //Lista de Usuários
-const listarUser = async (req, res) => {
+async listarUser (req, res) {
   try {
     // Run inside `async` function
     const allUsers = await prisma.user.findMany({
@@ -66,13 +66,12 @@ const listarUser = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: 'Erro ao listar os usuários '+error });
   }
-}
+},
 
 // Fazer login
-const loginUser = async (req, res) => {
+async loginUser (req, res) {
   const { userEmail, userPassword } = req.body;
 
-  console.log(userEmail+"-"+userPassword);
   try {
     const user = await prisma.user.findUnique({ where: { userEmail: userEmail } });
     
@@ -92,10 +91,10 @@ const loginUser = async (req, res) => {
     console.log('Erro encontrado: '+error);
     res.status(500).json({ message: 'Erro ao fazer login'+error });
   }
-};
+},
 
 // Atualizar perfil de usuário
-const updateUserProfile = async (req, res) => {
+async updateUserProfile (req, res){
   try {
     const { userNome, userEmail, userPassword, tipoUsuarioId } = req.body;
     const user = await prisma.user.update({
@@ -116,10 +115,10 @@ const updateUserProfile = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: 'Erro ao atualizar perfil' });
   }
-};
+},
 
 // Atualizar perfil de usuário
-const updateUser = async (req, res) => {
+async updateUser (req, res){
   try {
     const { id } = req.params;
     const { userNome, userEmail } = req.body;
@@ -135,11 +134,11 @@ const updateUser = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: 'Erro: Não foi possível atualizar o usuário.' });
   }
-};
+},
 
 
 // Obter perfil de usuário
-const getUserProfile = async (req, res) => {
+async getUserProfile (req, res){
   try {
     const user = await prisma.user.findUnique({
       where: { id: req.user.id },
@@ -158,10 +157,10 @@ const getUserProfile = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: 'Erro ao obter perfil' });
   }
-};
+},
 
 //Deletar Usuário
-const deleteUser = async (req, res) => {
+async deleteUser (req, res){
   const { id } = req.params;
 
   try {
@@ -175,11 +174,11 @@ const deleteUser = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: 'Erro ao deletar usuário: ' + error });
   }
-};
+},
 
 
 //Pegar Usuário pelo Id
-const getUserById = async (req, res) => {
+async getUserById (req, res){
   const { id } = req.body;
 
   try {
@@ -193,22 +192,13 @@ const getUserById = async (req, res) => {
   } catch (error) {
     return res.status(500).json({ message: 'Erro ao listar o usuário pelo Id '+error });
   }
-}
+},
 
 // Gerar token JWT
-const generateToken = (id, nome) => {
+async generateToken(id, nome){
   return jwt.sign({ id, nome }, process.env.JWT_SECRET, {
     expiresIn: '8h',
   });
-};
+},
 
-module.exports = {
-  registerUser,
-  loginUser,
-  getUserProfile,
-  updateUserProfile,
-  updateUser,
-  listarUser,
-  getUserById,
-  deleteUser
 };
