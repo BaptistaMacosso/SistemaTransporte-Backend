@@ -34,8 +34,27 @@ module.exports = {
 
     async listarChecklist(req, res){
         try {
-            const checklist = await prisma.checklist.findMany();
-            res.status(200).json({ checklist });
+            const checklist = await prisma.checklist.findMany({
+                select:{
+                    id: true,
+                    viaturaId: true,
+                    tipoManutencaoId: true,
+                    quilometragem: true,
+                    itemsVerificados: true,
+                    observacao: true,
+                    viatura:{
+                        select:{
+                            viaturaMatricula: true
+                        }
+                    },
+                    tipoManutencao:{
+                        select:{
+                            tipoManutencao: true
+                        }
+                    }
+                }
+            });
+            res.status(200).json({ checklist: checklist });
         } catch (error) {
             res.status(500).json({ message: 'Erro ao listar checklists: ' + error });
         }

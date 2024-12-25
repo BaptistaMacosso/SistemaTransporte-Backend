@@ -12,6 +12,8 @@ const licencaPublicidadeController = require('../controllers/licencaPublicidadeC
 const licencaTransportacaoController = require('../controllers/licencaTransportacaoController');
 const statusManutencaoController = require('../controllers/statusManutencaoController');
 const tiposManutencaoController = require('../controllers/tipoManutencaoController');
+const checkListViatura = require('../controllers/checklistController');
+
 
 
 // Rotas para Pedido
@@ -47,7 +49,7 @@ router.get('/motoristas/listarPeloId/:id', protect, motoristaController.getMotor
 
 //Rotas Viaturas
 router.post('/viaturas/novo',protect, viaturaController.createViatura);
-router.get('/viaturas/listar',protect, viaturaController.listarViatura);
+router.get('/viaturas/listar',protect, viaturaController.getAllViaturas);
 router.put('/viaturas/update/:id',protect, viaturaController.updateViatura);
 router.delete('/viaturas/delete/:id',protect, viaturaController.deleteViatura);
 router.get('/viaturas/listarPeloId/:id',protect, viaturaController.getViaturaById);
@@ -55,6 +57,11 @@ router.get('/viaturas/listarPeloId/:id',protect, viaturaController.getViaturaByI
 //Rotas Tipo Usuário
 router.post('/usuariotipo/novo', tipoUserController.createUsertipo);
 router.get('/usuariotipo/listar', tipoUserController.listarUsertipo);
+
+//Rotas CheckList Viatura
+router.post('/checklist/novo', checkListViatura.createChecklist);
+router.get('/checklist/listar', checkListViatura.listarChecklist);
+router.delete('/checklist/delete/:id', checkListViatura.deleteChecklist);
 
 // Rotas para Licenças de Publicidade
 router.post('/licencas-publicidade/novo',protect, licencaPublicidadeController.createLicencaPublicidade); // Criar Licença de Publicidade

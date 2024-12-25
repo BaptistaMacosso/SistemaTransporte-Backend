@@ -5,57 +5,95 @@ const prisma = new PrismaClient();
 
 async function main() {
   // Tipos de Manutenção
-  const tipoManutencao = [
-    { tipo: "DIARIA" },
-    { tipo: "SEMANAL" },
-    { tipo: "MENSAL" },
-    { tipo: "PERIODICA" },
-    { tipo: "ANUAL" },
-  ];
+  await prisma.tipomanutencao.createMany({
+    data: [
+      { tipo: "DIARIA" },
+      { tipo: "SEMANAL" },
+      { tipo: "MENSAL" },
+      { tipo: "PERIODICA" },
+      { tipo: "ANUAL" },
+    ],
+    skipDuplicates: true,
+  });
+
+  console.log('Tipos de Manutenção criados:');
 
   // Status de Manutenção
-  const statusManutencao = [
-    { status: "PENDENTE" },
-    { status: "EM_ANDAMENTO" },
-    { status: "CONCLUIDA" },
-    { status: "CANCELADA" },
-  ];
+  await prisma.statusManutencao.createMany({
+    data: [
+      { status: "PENDENTE" },
+      { status: "EM_ANDAMENTO" },
+      { status: "CONCLUIDA" },
+      { status: "CANCELADA" },
+    ],
+    skipDuplicates: true,
+  });
+
+  console.log('Status de Manutenção criados:');
+
 
   // Categoria da Viatura
-  const categoriaViatura = [
-    { categoria: "SUV" },
-    { categoria: "SEDAN" },
-    { categoria: "HATCH" },
-    { categoria: "PICKUP" },
-    { categoria: "CAMINHAO" },
-  ];
+  await prisma.categoriaViatura.createMany({
+    data: [
+      { categoria: "SUV" },
+      { categoria: "SEDAN" },
+      { categoria: "HATCH" },
+      { categoria: "PICKUP" },
+      { categoria: "CAMINHAO" },
+    ],
+    skipDuplicates: true,
+  });
+
+  console.log('Categoria da Viatura criada:');
+
 
   // Tipo de Viatura
-  const tipoViatura = [
-    { tipo: "PASSEIO" },
-    { tipo: "COMERCIAL" },
-    { tipo: "UTILITARIO" },
-  ];
+  await prisma.tipoViatura.createMany({
+    data: [
+      { tipo: "CARRO" },
+      { tipo: "PASSEIO" },
+      { tipo: "COMERCIAL" },
+      { tipo: "UTILITARIO" },
+    ],
+    skipDuplicates: true,
+  });
+
+  console.log('Tipo de Viatura criada:');
+
 
   // Tipo de Serviço
-  const tipoServico = [
-    { servico: "REPARACAO" },
-    { servico: "MANUTENCAO" },
-    { servico: "REVISAO" },
-    { servico: "BATE_CHAPA" },
-    { servico: "PINTURA" },
-    { servico: "LAVAGEM" },
-  ];
+  await prisma.tipoServico.createMany({
+    data: [
+      { servico: "REPARACÃO" },
+      { servico: "MANUTENCÃO" },
+      { servico: "REVISÃO" },
+      { servico: "BATE_CHAPA" },
+      { servico: "PINTURA" },
+      { servico: "LAVAGEM" },
+    ],
+    skipDuplicates: true,
+  });
+
+  console.log('Tipo de Serviço criada:');
+
+
 
   // Status de Serviço
-  const statusServico = [
-    { status: "PENDENTE" },
-    { status: "EM_ANDAMENTO" },
-    { status: "CONCLUIDO" },
-    { status: "CANCELADO" },
-  ];
+  await prisma.status.createMany({
+    data:[
+      { status: "PENDENTE" },
+      { status: "EM_ANDAMENTO" },
+      { status: "CONCLUIDO" },
+      { status: "CANCELADO" },
+    ],
+    skipDuplicates: true,
+  });
+
+  console.log('Status de Serviço criado:');
+
 
   // Inserir dados
+  /*
   await prisma.$transaction([
     prisma.tipoManutencao.createMany({ data: tipoManutencao }),
     prisma.statusManutencao.createMany({ data: statusManutencao }),
@@ -66,13 +104,13 @@ async function main() {
   ]);
 
   console.log('Seed concluído com sucesso!');
+*/
 }
-
 main()
-  .catch((e) => {
-    console.error(e);
-    process.exit(1);
-  })
-  .finally(async () => {
+  .then(async () => {
     await prisma.$disconnect();
-  });
+  }).catch(async (e) => {
+    console.error(e);
+    await prisma.$disconnect();
+    process.exit(1);
+});
