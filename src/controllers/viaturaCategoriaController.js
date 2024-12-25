@@ -14,17 +14,15 @@ module.exports = {
       });
       res.status(201).json({message: "Categoria de viatura criado com sucesso", tipo});
     } catch (error) {
-      console.error(error);
       res.status(500).json({ error: "Erro ao criar categoria de viatura" });
     }
   },
 
   async getAllViaturaCategoria(req, res) {
     try {
-      const tipos = await prisma.viaturacategoria.findMany();
-      res.status(200).json({viaturaCategoria: viaturaCategoria});
+      const categoria = await prisma.viaturacategoria.findMany();
+      res.status(200).json({viaturaCategoria: categoria});
     } catch (error) {
-      console.error(error);
       res.status(500).json({ error: "Erro ao buscar categorias de viatura" });
     }
   },
@@ -37,7 +35,6 @@ module.exports = {
       });
       res.status(200).json({ message: "Categoria de viatura deletado com sucesso" });
     } catch (error) {
-      console.error(error);
       res.status(500).json({ error: "Erro ao deletar categoria de viatura" });
     }
   },
