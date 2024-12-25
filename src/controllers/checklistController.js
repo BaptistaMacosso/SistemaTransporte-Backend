@@ -2,16 +2,18 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 module.exports = {
+    //Create CheckList
     async createChecklist(req, res){
         const { 
             viaturaId,
             tipoManutencaoId,
             quilometragem,
             itemsVerificados,
-            observacao
+            observacao,
+            tecnoResponsavel
         } = req.body;
 
-        if (!viaturaId || !tipoManutencaoId || !quilometragem || !itemsVerificados || !observacao) {
+        if (!viaturaId || !tipoManutencaoId || !quilometragem || !itemsVerificados || !observacao || !tecnoResponsavel) {
             return res.status(400).json({ message: 'Todos os campos são obrigatórios' });
         }
 
@@ -22,7 +24,8 @@ module.exports = {
                     tipoManutencaoId: tipoManutencaoId,
                     quilometragem: quilometragem,
                     itemsVerificados: itemsVerificados,
-                    observacao: observacao
+                    observacao: observacao,
+                    tecnoResponsavel: tecnoResponsavel
                 }
             });
 
@@ -32,6 +35,7 @@ module.exports = {
         }
     },
 
+    //Obter CheckList
     async listarChecklist(req, res){
         try {
             const checklist = await prisma.checklist.findMany({
@@ -42,6 +46,7 @@ module.exports = {
                     quilometragem: true,
                     itemsVerificados: true,
                     observacao: true,
+                    tecnoResponsavel: true,
                     viatura:{
                         select:{
                             viaturaMatricula: true
@@ -60,6 +65,7 @@ module.exports = {
         }
     },
 
+    //Deletar Checklist por ID
     async deleteChecklist (req, res){
         const { id } = req.params;
 

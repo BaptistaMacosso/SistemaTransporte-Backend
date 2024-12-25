@@ -53,7 +53,7 @@ model Viatura {
   viaturaAnoFabrica   String @db.VarChar(4) 
   viaturaCombustivel  String @db.VarChar(10)
   viaturaCor          String @db.VarChar(45) 
-  quilometragem       String @db.VarChar(6)
+  quilometragem       Decimal @db.Decimal(10,2)
   viaturaTipo         ViaturaTipo @relation(fields: [viaturaTipoId], references: [id])
   viaturaCategoria    ViaturaCategoria @relation(fields: [viaturaCategoriaId], references: [id])
   historicoManutencao Manutencao[]
@@ -125,6 +125,7 @@ model Checklist {
   itemsVerificados String    @db.VarChar(100)
   observacao       String    @db.VarChar(250)
   dataCheckList    DateTime  @default(now())
+  tecnoResponsavel String    @db.VarChar(100)
   viatura          Viatura   @relation(fields: [viaturaId], references: [viaturaId])
   tipoManutencao   TipoManutencao @relation(fields: [tipoManutencaoId], references: [id])
    @@map("tblchecklist")

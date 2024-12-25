@@ -5,14 +5,14 @@ module.exports = {
 async createMotorista (req, res){
     const { 
         motoristaNome,
+        numeroBI,
         motoristaEmail, 
         motoristaTelefone, 
         CartaDeConducaoNr, 
         DataValidade, 
-        numeroBI 
     } = req.body;
 
-    if (!motoristaNome || !motoristaTelefone || !CartaDeConducaoNr || !DataValidade || !numeroBI) {
+    if (!motoristaNome || !numeroBI || !motoristaEmail || !motoristaTelefone || !CartaDeConducaoNr || !DataValidade ) {
         return res.status(400).json({ message: 'Todos os campos são obrigatórios' });
     }
 
@@ -25,11 +25,11 @@ async createMotorista (req, res){
         const motorista = await prisma.motorista.create({
             data: {
                 motoristaNome : motoristaNome,
+                numeroBI: numeroBI,
                 motoristaEmail: motoristaEmail,
                 motoristaTelefone: motoristaTelefone,
                 CartaDeConducaoNr: CartaDeConducaoNr,
-                DataValidade: DataValidade,
-                numeroBI: numeroBI
+                DataValidade: DataValidade
             }
         });
 
@@ -42,7 +42,7 @@ async createMotorista (req, res){
 async listarMotorista (req, res){
     try {
         const motorista = await prisma.motorista.findMany();
-        res.status(200).json({ motorista: motorista });
+        res.status(200).json({ motoristas: motorista });
     } catch (error) {
         res.status(500).json({ message: 'Erro ao listar motoristas: ' + error });
     }
@@ -54,9 +54,9 @@ async getMotoristaById (req, res){
     try {
         const motorista = await prisma.motorista.findUnique({ where: { motoristaId: parseInt(id) } });
         if (!motorista) {
-            return res.status(404).json({ message: 'Motorista não encontrado' });
+            return res.status(404).json({ message: 'Motorista não encontrado.' });
         }
-        res.json(motorista);
+        res.status(200).json({motorista: motorista});
     } catch (error) {
         res.status(500).json({ message: 'Erro ao buscar motorista: ' + error});
     }
@@ -66,11 +66,11 @@ async updateMotorista (req, res){
     const { id } = req.params;
     const { 
         motoristaNome,
+        numeroBI, 
         motoristaEmail, 
         motoristaTelefone, 
         CartaDeConducaoNr, 
-        DataValidade, 
-        numeroBI 
+        DataValidade
     } = req.body;
 
     try {
@@ -83,11 +83,11 @@ async updateMotorista (req, res){
             where: { motoristaId: parseInt(id) },
             data: {
                 motoristaNome : motoristaNome,
+                numeroBI: numeroBI,
                 motoristaEmail: motoristaEmail,
                 motoristaTelefone: motoristaTelefone,
                 CartaDeConducaoNr: CartaDeConducaoNr,
-                DataValidade: DataValidade,
-                numeroBI: numeroBI
+                DataValidade: DataValidade
             }
         });
 
