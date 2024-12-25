@@ -8,7 +8,7 @@ module.exports = {
   async createViaturaTipo(req, res) {
     try {
       const { viaturaTipo } = req.body;
-      const tipo = await prisma.viaturatipo.create({
+      const tipo = await prisma.viaturaTipo.create({
         data: { viaturaTipo },
       });
       res.status(201).json({message: "Tipo de viatura criado com sucesso", tipo});
@@ -19,7 +19,7 @@ module.exports = {
 
   async getAllViaturaTipo(req, res) {
     try {
-      const tipos = await prisma.viaturatipo.findMany({
+      const tipos = await prisma.viaturaTipo.findMany({
         select: {
           id: true,
           viaturaTipo: true,
@@ -34,7 +34,7 @@ module.exports = {
   async deleteViaturaTipo(req, res) {
     try {
       const { id } = req.params;
-      await prisma.viaturatipo.delete({
+      await prisma.viaturaTipo.delete({
         where: { id: parseInt(id) },
       });
       res.status(200).json({ message: "Tipo de viatura deletado com sucesso" });
