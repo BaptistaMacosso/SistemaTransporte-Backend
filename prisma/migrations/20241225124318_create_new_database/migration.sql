@@ -42,7 +42,7 @@ CREATE TABLE "tblviaturas" (
     "viaturaAnoFabrica" VARCHAR(4) NOT NULL,
     "viaturaCombustivel" VARCHAR(10) NOT NULL,
     "viaturaCor" VARCHAR(45) NOT NULL,
-    "quilometragem" VARCHAR(6) NOT NULL,
+    "quilometragem" DECIMAL(10,2) NOT NULL,
 
     CONSTRAINT "tblviaturas_pkey" PRIMARY KEY ("viaturaId")
 );
@@ -109,6 +109,7 @@ CREATE TABLE "tblchecklist" (
     "itemsVerificados" VARCHAR(100) NOT NULL,
     "observacao" VARCHAR(250) NOT NULL,
     "dataCheckList" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "tecnoResponsavel" VARCHAR(100) NOT NULL,
 
     CONSTRAINT "tblchecklist_pkey" PRIMARY KEY ("id")
 );

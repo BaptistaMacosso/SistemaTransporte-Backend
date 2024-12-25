@@ -3,86 +3,151 @@ const prisma = new PrismaClient();
 
 async function main() {
   // Seed TipoUser
-  const tipoUsers = await prisma.tipoUser.createMany({
+  await prisma.tipoUser.createMany({
     data: [
       { descricaoTipo: 'Administrador', parametro_edit_config: true },
-      { descricaoTipo: 'Motorista', parametro_edit_config: false },
+      { descricaoTipo: 'Operador', parametro_edit_config: false },
     ],
     skipDuplicates: true,
   });
 
-  console.log('Tipos de Usuário criados:', tipoUsers);
-
-  // Seed User
-  /*const userAdmin = await prisma.user.create({
-    data: {
-      userNome: 'administrador',
-      userEmail: 'admin@admin.com',
-      userPassword: 'admin123', // Idealmente, use hash
-      tipoUsuarioId: 1, // ID do Administrador
-    },
+  // Seed ViaturaTipo
+  await prisma.viaturaTipo.createMany({
+    data: [
+      { viaturaTipo: 'Caminhão' },
+      { viaturaTipo: 'Carro' },
+      { viaturaTipo: 'Moto' },
+    ],
+    skipDuplicates: true,
   });
 
-  console.log('Usuário Admin criado:', userAdmin);*/
+  // Seed ViaturaCategoria
+  await prisma.viaturaCategoria.createMany({
+    data: [
+      { viaturaCategoria: 'Leve' },
+      { viaturaCategoria: 'Pesada' },
+    ],
+    skipDuplicates: true,
+  });
 
   // Seed Motorista
-  const motorista = await prisma.motorista.create({
-    data: {
-      motoristaNome: 'João Silva',
-      numeroBI: '123456789',
-      motoristaEmail: 'joao.silva@example.com',
-      motoristaTelefone: '923456789',
-      CartaDeConducaoNr: 'AA123456',
-      DataValidade: '2025-12-31',
-    },
+  await prisma.motorista.createMany({
+    data: [
+      {
+        motoristaNome: 'João Silva',
+        numeroBI: '123456789',
+        motoristaEmail: 'joao.silva@email.com',
+        motoristaTelefone: '987654321',
+        CartaDeConducaoNr: 'ABC12345',
+        DataValidade: '2025-12-31',
+      },
+      {
+        motoristaNome: 'Maria Oliveira',
+        numeroBI: '987654321',
+        motoristaEmail: 'maria.oliveira@email.com',
+        motoristaTelefone: '123456789',
+        CartaDeConducaoNr: 'XYZ98765',
+        DataValidade: '2026-06-30',
+      },
+    ],
+    skipDuplicates: true,
   });
 
-  console.log('Motorista criado:', motorista);
-
-  // Seed Viatura
-  const viatura = await prisma.viatura.create({
-    data: {
-      viaturaMarca: 'Toyota',
-      viaturaModelo: 'Corolla',
-      viaturaMatricula: 'ABC-1234',
-      viaturaAnoFabrica: '2020',
-      viaturaCombustivel: 'Gasolina',
-      viaturaCor: 'Preto',
-      quilometragem: '50000',
-    },
+  // Seed TipoManutencao
+  await prisma.tipoManutencao.createMany({
+    data: [
+      { tipoManutencao: 'Preventiva' },
+      { tipoManutencao: 'Corretiva' },
+      { tipoManutencao: 'Emergencial' },
+    ],
+    skipDuplicates: true,
   });
 
-  console.log('Viatura criada:', viatura);
-
-  // Seed Plano de Manutenção
-  const planoManutencao = await prisma.planoManutencao.create({
-    data: {
-      viaturaId: viatura.viaturaId,
-      dataManutencao: '2024-01-15',
-      descricao: 'Troca de óleo e filtros',
-      custoPrevisto: 150.00,
-      status: false,
-    },
+  // Seed StatusManutencao
+  await prisma.statusManutencao.createMany({
+    data: [
+      { statusManutencao: 'Pendente' },
+      { statusManutencao: 'Concluído' },
+      { statusManutencao: 'Cancelado' },
+    ],
+    skipDuplicates: true,
   });
 
-  console.log('Plano de Manutenção criado:', planoManutencao);
-
-  // Seed Tipo de Manutenção
-  const tipoManutencao = await prisma.tipoManutencao.create({
-    data: {
-      nome: 'Preventiva',
-    },
+  // Seed Viaturas
+  await prisma.viatura.createMany({
+    data: [
+      {
+        viaturaTipoId: 1,
+        viaturaCategoriaId: 1,
+        viaturaMarca: 'Toyota',
+        viaturaModelo: 'Hilux',
+        viaturaMatricula: 'ABC-1234',
+        viaturaAnoFabrica: '2020',
+        viaturaCombustivel: 'Diesel',
+        viaturaCor: 'Prata',
+        quilometragem: 50000.0,
+      },
+      {
+        viaturaTipoId: 2,
+        viaturaCategoriaId: 1,
+        viaturaMarca: 'Honda',
+        viaturaModelo: 'Civic',
+        viaturaMatricula: 'XYZ-5678',
+        viaturaAnoFabrica: '2019',
+        viaturaCombustivel: 'Gasolina',
+        viaturaCor: 'Preto',
+        quilometragem: 30000.0,
+      },
+    ],
+    skipDuplicates: true,
   });
 
-  console.log('Tipo de Manutenção criado:', tipoManutencao);
+  // Seed TipoServico
+  await prisma.tipoServico.createMany({
+    data: [
+      { tipoServico: 'Transporte' },
+      { tipoServico: 'Entrega' },
+    ],
+    skipDuplicates: true,
+  });
+
+  // Seed Status
+  await prisma.status.createMany({
+    data: [
+      { descricao: 'Aguardando' },
+      { descricao: 'Em andamento' },
+      { descricao: 'Finalizado' },
+    ],
+    skipDuplicates: true,
+  });
+
+  // Seed Prestador
+  await prisma.prestador.createMany({
+    data: [
+      {
+        prestadorNome: 'Oficina Central',
+        especialidade: 'Manutenção de veículos',
+        contato: '555-1234',
+        endereco: 'Rua A, 123',
+      },
+      {
+        prestadorNome: 'Auto Elétrica São José',
+        especialidade: 'Serviços elétricos',
+        contato: '555-5678',
+        endereco: 'Rua B, 456',
+      },
+    ],
+    skipDuplicates: true,
+  });
 }
 
 main()
   .then(async () => {
+    console.log('Seeding concluído!');
     await prisma.$disconnect();
   })
   .catch(async (e) => {
-    console.error(e);
+    console.error('Erro no seeding:', e);
     await prisma.$disconnect();
     process.exit(1);
   });

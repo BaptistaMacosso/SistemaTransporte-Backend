@@ -46,6 +46,7 @@ module.exports = {
                     quilometragem: true,
                     itemsVerificados: true,
                     observacao: true,
+                    dataCheckList: true,
                     tecnoResponsavel: true,
                     viatura:{
                         select:{
