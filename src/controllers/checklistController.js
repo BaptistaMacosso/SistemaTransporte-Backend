@@ -17,12 +17,16 @@ module.exports = {
             return res.status(400).json({ message: 'Todos os campos são obrigatórios' });
         }
 
+        if (isNaN(Number(quilometragem))) {
+            return res.status(500).json({message:"Quilometragem deve ser um número."});
+          }
+
         try {
             const checklist = await prisma.checklist.create({
                 data: {
                     viaturaId: viaturaId,
                     tipoManutencaoId: tipoManutencaoId,
-                    quilometragem: quilometragem,
+                    quilometragem: Number(quilometragem),
                     itemsVerificados: itemsVerificados,
                     observacao: observacao,
                     tecnicoResponsavel: tecnicoResponsavel
