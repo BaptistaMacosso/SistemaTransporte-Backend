@@ -6,16 +6,17 @@ module.exports = {
     //Nova Viatura
     async createViatura(req, res){
         const { viaturaTipoId, viaturaCategoriaId, viaturaMarca, viaturaModelo, viaturaMatricula,
-                viaturaAnoFabrica, viaturaCombustivel, viaturaCor, quilometragem,
+                viaturaAnoFabrica, viaturaCombustivel, viaturaCor, quilometragem
             } = req.body;
 
         //Verificação
-        if (!viaturaTipoId || !viaturaCategoriaId || !viaturaMarca || !viaturaModelo || !viaturaCor || !viaturaCombustivel || !viaturaMatricula || !viaturaAnoFabrica || !quilometragem) {
+        if (!viaturaTipoId || !viaturaCategoriaId || !viaturaMarca || !viaturaModelo || !viaturaMatricula 
+        || !viaturaAnoFabrica || !viaturaCombustivel || !viaturaCor || !quilometragem) {
             return res.status(400).json({ message: 'Todos os campos são obrigatórios' });
         }
 
         try {
-            const viaturaExists = await prisma.viatura.findUnique({ where: { viaturaMatricula } });
+            const viaturaExists = await prisma.viatura.findUnique({ where: { viaturaMatricula: viaturaMatricula } });
             if (viaturaExists) {
                 return res.status(400).json({ message: 'Viatura já cadastrada' });
             }
