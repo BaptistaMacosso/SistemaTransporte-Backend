@@ -109,7 +109,7 @@ CREATE TABLE "tblchecklist" (
     "itemsVerificados" VARCHAR(100) NOT NULL,
     "observacao" VARCHAR(250) NOT NULL,
     "dataCheckList" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "tecnoResponsavel" VARCHAR(100) NOT NULL,
+    "tecnicoResponsavel" VARCHAR(100) NOT NULL,
 
     CONSTRAINT "tblchecklist_pkey" PRIMARY KEY ("id")
 );

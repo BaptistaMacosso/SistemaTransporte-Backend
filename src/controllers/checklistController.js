@@ -10,10 +10,10 @@ module.exports = {
             quilometragem,
             itemsVerificados,
             observacao,
-            tecnoResponsavel
+            tecnicoResponsavel
         } = req.body;
 
-        if (!viaturaId || !tipoManutencaoId || !quilometragem || !itemsVerificados || !observacao || !tecnoResponsavel) {
+        if (!viaturaId || !tipoManutencaoId || !quilometragem || !itemsVerificados || !observacao || !tecnicoResponsavel) {
             return res.status(400).json({ message: 'Todos os campos são obrigatórios' });
         }
 
@@ -25,7 +25,7 @@ module.exports = {
                     quilometragem: quilometragem,
                     itemsVerificados: itemsVerificados,
                     observacao: observacao,
-                    tecnoResponsavel: tecnoResponsavel
+                    tecnicoResponsavel: tecnicoResponsavel
                 }
             });
 
@@ -47,7 +47,7 @@ module.exports = {
                     itemsVerificados: true,
                     observacao: true,
                     dataCheckList: true,
-                    tecnoResponsavel: true,
+                    tecnicoResponsavel: true,
                     viatura:{
                         select:{
                             viaturaMatricula: true

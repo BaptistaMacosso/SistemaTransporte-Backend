@@ -125,7 +125,7 @@ model Checklist {
   itemsVerificados String    @db.VarChar(100)
   observacao       String    @db.VarChar(250)
   dataCheckList    DateTime  @default(now())
-  tecnoResponsavel String    @db.VarChar(100)
+  tecnicoResponsavel String    @db.VarChar(100)
   viatura          Viatura   @relation(fields: [viaturaId], references: [viaturaId])
   tipoManutencao   TipoManutencao @relation(fields: [tipoManutencaoId], references: [id])
    @@map("tblchecklist")
