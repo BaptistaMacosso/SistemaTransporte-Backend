@@ -19,7 +19,12 @@ module.exports = {
 
   async getAllViaturaTipo(req, res) {
     try {
-      const tipos = await prisma.viaturatipo.findMany();
+      const tipos = await prisma.viaturatipo.findMany({
+        select: {
+          id: true,
+          viaturaTipo: true,
+        },
+      });
       res.status(200).json({viaturatipo: tipos});
     } catch (error) {
       res.status(500).json({ error: "Erro ao buscar tipo de viatura" });

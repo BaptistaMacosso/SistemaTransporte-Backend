@@ -20,7 +20,12 @@ module.exports = {
 
   async getAllViaturaCategoria(req, res) {
     try {
-      const categoria = await prisma.viaturacategoria.findMany();
+      const categoria = await prisma.viaturacategoria.findMany({
+        select: {
+          id: true,
+          viaturaCategoria: true,
+        },
+      });
       res.status(200).json({viaturaCategoria: categoria});
     } catch (error) {
       res.status(500).json({ error: "Erro ao buscar categorias de viatura" });
