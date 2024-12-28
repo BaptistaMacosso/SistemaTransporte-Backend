@@ -73,8 +73,12 @@ async loginUser (req, res) {
   const { userEmail, userPassword } = req.body;
 
   try {
+    // Verifique se os dados foram enviados corretamente
+    if (!userEmail || !userPassword) {
+      return res.status(400).json({ message: 'Campos obrigatórios não preenchidos.' });
+    }
+
     const user = await prisma.user.findUnique({ where: { userEmail: userEmail } });
-    
     if (!user) {
       return res.status(404).json({ message: 'Falha na autenticação.' });
     }
