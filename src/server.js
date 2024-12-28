@@ -11,8 +11,8 @@ const PORT = process.env.PORT || 5000;
 const app = express();
 app.use(express.json());
 app.use(cors({
-  origin: 'https://sistema-transporte-react-js.vercel.app',
-  //origin: '*',
+  //origin: 'https://sistema-transporte-react-js.vercel.app',
+  origin: '*',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
