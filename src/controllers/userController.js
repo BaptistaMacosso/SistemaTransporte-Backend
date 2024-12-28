@@ -76,19 +76,19 @@ async loginUser (req, res) {
     const user = await prisma.user.findUnique({ where: { userEmail: userEmail } });
     
     if (!user) {
-      return res.status(401).json({ message: 'Credenciais inválidas' });
+      return res.status(404).json({ message: 'Falha na autenticação.' });
     }
     
     // Comparar senha usando bcrypt
     const isMatch = await bcrypt.compare(userPassword, user.userPassword);
     
     if (!isMatch) {
-      return res.status(401).json({ message: 'Usuário não autorizado' });
+      return res.status(401).json({ message: 'Falha na autenticação.' });
     }
     const token = await authToken.GenerateToken(user.userId, user.userNome);
     res.status(201).json({ token: token });
   } catch (error) {
-    res.status(500).json({ message: 'Erro ao fazer login'+error });
+    res.status(500).json({ message: 'Erro ao efectuar o login do usuário. Detalhes: '+error });
   }
 },
 
