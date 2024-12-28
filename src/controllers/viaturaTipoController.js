@@ -8,10 +8,16 @@ module.exports = {
   async createViaturaTipo(req, res) {
     try {
       const { viaturaTipo } = req.body;
+      //Verificação
+      if (!viaturaTipo) {
+        return res.status(400).json({ message: 'Todos os campos são obrigatórios.' });
+      };
+
+      //Criar Tipo de Viatura
       const tipo = await prisma.viaturaTipo.create({
         data: { viaturaTipo },
       });
-      res.status(201).json({message: "Tipo de viatura criado com sucesso", tipo});
+      res.status(201).json({message: "Tipo de viatura criado com sucesso.", tipo});
     } catch (error) {
       res.status(500).json({ error: "Erro ao criar tipo de viatura. Detalhes: "+error });
     }
@@ -34,10 +40,15 @@ module.exports = {
   async deleteViaturaTipo(req, res) {
     try {
       const { id } = req.params;
-      await prisma.viaturaTipo.delete({
-        where: { id: parseInt(id) },
-      });
-      res.status(200).json({ message: "Tipo de viatura deletado com sucesso" });
+      //Verificação
+      const tipoExiste = await prisma.viaturaTipo.findUnique({ where: { id: parseInt(id)}});
+      if (!tipoExiste) {
+        return res.status(404).json({ message: 'Tipo de viatura não encontrado.' });
+      };
+      //Deletar Tipo de Viatura
+      const tipoDelete = await prisma.viaturaTipo.delete({ where: { id: parseInt(id)}});
+
+      res.status(200).json({ message: "Tipo de viatura deletado com sucesso. "+tipoDelete });
     } catch (error) {
       res.status(500).json({ error: "Erro ao deletar tipo de viatura. Detalhes: "+error });
     }
