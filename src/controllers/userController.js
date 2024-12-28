@@ -137,17 +137,13 @@ async updateUser (req, res){
   }
 },
 
-
 // Obter perfil de usuário
 async getUserProfile (req, res){
   try {
-    const user = await prisma.user.findUnique({
-      where: { id: req.user.id },
-    });
-
+    const user = await prisma.user.findUnique({ where: { id: req.user.id }});
     if (!user) {
-      return res.status(404).json({ message: 'Usuário não encontrado' });
-    }
+      return res.status(404).json({ message: 'Usuário não encontrado.' });
+    };
 
     res.json({
       id: user.id,
@@ -156,7 +152,7 @@ async getUserProfile (req, res){
       isAdmin: user.isAdmin,
     });
   } catch (error) {
-    res.status(500).json({ message: 'Erro ao obter perfil' });
+    res.status(500).json({ message: 'Erro ao obter perfil.'});
   }
 },
 

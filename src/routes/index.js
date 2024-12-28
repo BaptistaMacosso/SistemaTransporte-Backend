@@ -56,13 +56,13 @@ router.delete('/viaturas/delete/:id',protect, viaturaController.deleteViatura);
 router.get('/viaturas/listarPeloId/:id',protect, viaturaController.getViaturaById);
 
 //Rotas Tipo Usuário
-router.post('/usuariotipo/novo', tipoUserController.createUsertipo);
-router.get('/usuariotipo/listar', tipoUserController.listarUsertipo);
+router.post('/usuariotipo/novo',protect, tipoUserController.createUsertipo);
+router.get('/usuariotipo/listar',protect, tipoUserController.listarUsertipo);
 
 //Rotas CheckList Viatura
-router.post('/checklist/novo', checkListViatura.createChecklist);
-router.get('/checklist/listar', checkListViatura.listarChecklist);
-router.delete('/checklist/delete/:id', checkListViatura.deleteChecklist);
+router.post('/checklist/novo',protect, checkListViatura.createChecklist);
+router.get('/checklist/listar',protect, checkListViatura.listarChecklist);
+router.delete('/checklist/delete/:id',protect, checkListViatura.deleteChecklist);
 
 // Rotas para Licenças de Publicidade
 router.post('/licencas-publicidade/novo',protect, licencaPublicidadeController.createLicencaPublicidade); // Criar Licença de Publicidade
