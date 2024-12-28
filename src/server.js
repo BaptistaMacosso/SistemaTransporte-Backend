@@ -19,11 +19,10 @@ app.use(express.json());
 });*/
 
 app.use('*', cors({
-  origin: 'https://sistema-transporte-react-js.vercel.app',
-  //origin: 'http://localhost:3000',
+  //origin: 'https://sistema-transporte-react-js.vercel.app',
+  origin: '*',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
-  
   }));
   
   //Usar as Rotas.
