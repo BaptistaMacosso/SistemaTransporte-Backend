@@ -73,6 +73,7 @@ async loginUser (req, res) {
   const { userEmail, userPassword } = req.body;
 
   try {
+    console.log("dados do login. "+userEmail+" - "+userPassword);
     // Verifique se os dados foram enviados corretamente
     if (!userEmail || !userPassword) {
       return res.status(400).json({ message: 'Campos obrigatórios não preenchidos.' });
