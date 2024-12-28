@@ -59,9 +59,7 @@ async listarUser (req, res) {
         }
       },
     });
-    res.status(200).json({
-      allUsers: allUsers,
-    });
+    res.status(200).json({ allUsers: allUsers });
 
   } catch (error) {
     res.status(500).json({ message: 'Erro ao listar os usuários '+error });
@@ -73,7 +71,6 @@ async loginUser (req, res) {
   const { userEmail, userPassword } = req.body;
 
   try {
-    console.log("dados do login. "+userEmail+" - "+userPassword);
     // Verifique se os dados foram enviados corretamente
     if (!userEmail || !userPassword) {
       return res.status(400).json({ message: 'Campos obrigatórios não preenchidos.' });

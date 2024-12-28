@@ -10,14 +10,21 @@ const app = express();
 //Configuração para permitir o JSON
 app.use(express.json());
 
+/*app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'http://localhost:3000'); // Permitir apenas 'https://example.com'
+  res.header('Access-Control-Allow-Credentials', 'true'); // Permitir envio de credenciais
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  next();
+});*/
+
 app.use('*', cors({
-  //origin: 'https://sistema-transporte-react-js.vercel.app',
-  origin: 'http://localhost:3000',
+  origin: 'https://sistema-transporte-react-js.vercel.app',
+  //origin: 'http://localhost:3000',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   
   }));
-  
   
   //Usar as Rotas.
   app.use('/api', Rotas);
