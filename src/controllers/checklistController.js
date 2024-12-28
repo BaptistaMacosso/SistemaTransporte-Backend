@@ -64,6 +64,7 @@ module.exports = {
                     }
                 }
             });
+            console.log('Lista de checklists: '+checklist);
             res.status(200).json({ checklist: checklist });
         } catch (error) {
             res.status(500).json({ message: 'Erro ao listar checklists: ' + error });

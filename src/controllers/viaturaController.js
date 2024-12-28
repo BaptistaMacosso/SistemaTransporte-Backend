@@ -51,6 +51,7 @@ module.exports = {
                 viaturaCategoria: true,
                 },
             });
+            console.log('Lista de viaturas: '+viaturas);
             res.status(200).json({ viaturas: viaturas });
         } catch (error) {
             res.status(500).json({ message: 'Erro ao listar viaturas: ' + error });
