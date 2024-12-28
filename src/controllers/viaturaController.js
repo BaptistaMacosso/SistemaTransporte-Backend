@@ -45,14 +45,14 @@ module.exports = {
     async getAllViaturas (req, res){
         
         try {
-            const viaturas = await prisma.viatura.findMany({
+            const todasViaturas = await prisma.viatura.findMany({
                 include: {
                 viaturaTipo: true,
                 viaturaCategoria: true,
                 },
             });
-            console.log('Lista de viaturas: '+viaturas);
-            res.status(200).json({ viaturas: viaturas });
+            console.log('Lista de viaturas: '+todasViaturas);
+            res.status(200).json({ viaturas: todasViaturas });
         } catch (error) {
             res.status(500).json({ message: 'Erro ao listar viaturas: ' + error });
         }
