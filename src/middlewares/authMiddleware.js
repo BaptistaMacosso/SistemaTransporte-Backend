@@ -10,7 +10,6 @@ const protect = async (req, res, next) => {
     try {
       token = req.headers.authorization.split(' ')[1];
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      console.log('Chave Secreta:', process.env.JWT_SECRET);
       req.user = await prisma.user.findUnique({ where: { userId: decoded.id } });
 
       if (!req.user) {

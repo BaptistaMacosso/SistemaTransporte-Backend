@@ -13,17 +13,15 @@ module.exports = {
       });
       res.status(201).json({message: "Tipo de manutenção criado com sucesso", tipo});
     } catch (error) {
-      console.error(error);
       res.status(500).json({ error: "Erro ao criar tipo de manutenção" });
     }
   },
 
   async getAllTiposManutencao(req, res) {
     try {
-      const tipos = await prisma.tipoManutencao.findMany();
-      res.status(200).json({tipos: tipos});
+      const todosTipos = await prisma.tipoManutencao.findMany();
+      res.status(200).json({tipos: todosTipos});
     } catch (error) {
-      console.error(error);
       res.status(500).json({ error: "Erro ao buscar tipos de manutenção" });
     }
   },
@@ -36,7 +34,6 @@ module.exports = {
       });
       res.status(200).json({ message: "Tipo de manutenção deletado com sucesso" });
     } catch (error) {
-      console.error(error);
       res.status(500).json({ error: "Erro ao deletar tipo de manutenção" });
     }
   },};
