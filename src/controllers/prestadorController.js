@@ -7,6 +7,12 @@ module.exports = {
     async createPrestador(req, res) {
       try {
         const { prestadorNome, especialidade, contato, endereco } = req.body;
+       
+        //Verificação
+        if (!prestadorNome || !especialidade || !contato || !endereco) {
+          return res.status(400).json({ error: "Todos os campos são obrigatórios." });
+        };
+
         const prestador = await prisma.prestador.create({
           data: {
             prestadorNome,
@@ -15,10 +21,9 @@ module.exports = {
             endereco,
           },
         });
-        res.status(201).json({message: "Prestador criado com sucesso", prestador});
+        return res.status(201).json({message: "Prestador criado com sucesso", prestador});
       } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: "Erro ao criar prestador" });
+        return res.status(500).json({ error: "Erro ao criar prestador" });
       }
     },
   
@@ -78,10 +83,9 @@ module.exports = {
             endereco,
           },
         });
-        res.status(201).json({message: "Prestador de serviço actualizado com sucesso.", prestador});
+        return res.status(201).json({message: "Prestador de serviço actualizado com sucesso.", prestador});
       } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: "Erro ao actualizar prestador de serviço." });
+        return res.status(500).json({ error: "Erro ao actualizar prestador de serviço." });
       }
     },
   
@@ -97,10 +101,9 @@ module.exports = {
 
         // Deletar prestador
         const prestadorDeleted = await prisma.prestador.delete({ where: { prestadorId: parseInt(id) } });
-        res.status(200).json({ message: "Prestador de serviço deletado com sucesso.",prestadorDeleted });
+        return res.status(200).json({ message: "Prestador de serviço deletado com sucesso.",prestadorDeleted });
       } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: "Erro ao deletar prestador de serviço" });
+        return res.status(500).json({ error: "Erro ao deletar prestador de serviço" });
       }
     },
   };

@@ -42,9 +42,9 @@ async createMotorista (req, res){
 async listarMotorista (req, res){
     try {
         const motorista = await prisma.motorista.findMany();
-        res.status(200).json({ motoristas: motorista });
+        return res.status(200).json({ motoristas: motorista });
     } catch (error) {
-        res.status(500).json({ message: 'Erro ao listar motoristas: ' + error });
+        return res.status(500).json({ message: 'Erro ao listar motoristas: ' + error });
     }
 },
 
@@ -56,9 +56,9 @@ async getMotoristaById (req, res){
         if (!motorista) {
             return res.status(404).json({ message: 'Motorista não encontrado.' });
         }
-        res.status(200).json({motorista: motorista});
+        return res.status(200).json({motorista: motorista});
     } catch (error) {
-        res.status(500).json({ message: 'Erro ao buscar motorista: ' + error});
+        return res.status(500).json({ message: 'Erro ao buscar motorista: ' + error});
     }
 },
 
@@ -91,9 +91,9 @@ async updateMotorista (req, res){
             }
         });
 
-        res.status(201).json({ message: 'Motorista atualizado com sucesso', updatedMotorista });
+        return res.status(201).json({ message: 'Motorista atualizado com sucesso', updatedMotorista });
     } catch (error) {
-        res.status(500).json({ message: 'Erro ao atualizar motorista: ' + error });
+        return res.status(500).json({ message: 'Erro ao atualizar motorista: ' + error });
     }
 },
 
@@ -106,10 +106,10 @@ async deleteMotorista (req, res){
             return res.status(404).json({ message: 'Motorista não encontrado' });
         }
 
-        await prisma.motorista.delete({ where: { motoristaId: parseInt(id) } });
-        res.status(201).json({ message: 'Motorista deletado com sucesso' });
+        const deletedMotorista = await prisma.motorista.delete({ where: { motoristaId: parseInt(id) } });
+        return res.status(201).json({ message: 'Motorista deletado com sucesso', deletedMotorista });
     } catch (error) {
-        res.status(500).json({ message: 'Erro ao deletar motorista: ' + error });
+        return res.status(500).json({ message: 'Erro ao deletar motorista: ' + error });
     }
 },
 };

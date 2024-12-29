@@ -33,9 +33,9 @@ module.exports = {
                 }
             });
 
-            res.status(201).json({ message: 'Checklist cadastrado com sucesso.'});
+            return res.status(201).json({ message: 'Checklist cadastrado com sucesso.', insertedChecklist });
         } catch (error) {
-            res.status(500).json({ message: 'Erro ao cadastrar checklist: ' + error });
+            return res.status(500).json({ message: 'Erro ao cadastrar checklist: ' + error });
         }
     },
 
@@ -64,9 +64,9 @@ module.exports = {
                     }
                 }
             });
-            res.status(200).json({ RetornoChecklist: listarTodo });
+            return res.status(200).json({ RetornoChecklist: listarTodo });
         } catch (error) {
-            res.status(500).json({ message: 'Erro ao listar checklists: ' + error });
+            return res.status(500).json({ message: 'Erro ao listar checklists: ' + error });
         }
     },
 
@@ -80,9 +80,9 @@ module.exports = {
                 return res.status(404).json({ message: 'Checklist não encontrado.' });
             }
 
-            await prisma.checklist.delete({ where: { id: parseInt(id) } });
-            res.status(201).json({ message: 'Checklist deletado com sucesso.' });
+            const checklistDeleted = await prisma.checklist.delete({ where: { id: parseInt(id) } });
+            return res.status(201).json({ message: 'Checklist deletado com sucesso.', checklistDeleted });
         } catch (error) {
-            res.status(500).json({ message: 'Erro ao deletar checklist: ' + error });
+            return res.status(500).json({ message: 'Erro ao deletar checklist: ' + error });
         }
 },};
