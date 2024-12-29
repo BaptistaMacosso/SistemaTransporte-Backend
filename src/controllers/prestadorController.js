@@ -23,7 +23,7 @@ module.exports = {
     // Listar Prestadores
     async getAllPrestadores(req, res) {
       try {
-        const listaPrestadores = await prisma.prestador.findMany();
+        const listaPrestadores = await prisma.Prestador.findMany();
         res.status(200).json({prestadores: listaPrestadores});
       } catch (error) {
         console.error(error);
