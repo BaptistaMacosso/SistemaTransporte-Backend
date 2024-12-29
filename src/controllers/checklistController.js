@@ -22,7 +22,7 @@ module.exports = {
           }
 
         try {
-            const checklist = await prisma.checklist.create({
+            const insertedChecklist = await prisma.checklist.create({
                 data: {
                     viaturaId: viaturaId,
                     tipoManutencaoId: tipoManutencaoId,
@@ -33,7 +33,7 @@ module.exports = {
                 }
             });
 
-            res.status(201).json({ message: 'Checklist cadastrado com sucesso', checklist });
+            res.status(201).json({ message: 'Checklist cadastrado com sucesso.'});
         } catch (error) {
             res.status(500).json({ message: 'Erro ao cadastrar checklist: ' + error });
         }
@@ -65,7 +65,6 @@ module.exports = {
                 }
             });
             res.status(200).json({ RetornoChecklist: listarTodo });
-            console.log('Lista de checklists: '+listarTodo);
         } catch (error) {
             res.status(500).json({ message: 'Erro ao listar checklists: ' + error });
         }
@@ -78,11 +77,11 @@ module.exports = {
         try {
             const checklistExists = await prisma.checklist.findUnique({ where: { id: parseInt(id) } });
             if (!checklistExists) {
-                return res.status(404).json({ message: 'Checklist não encontrado' });
+                return res.status(404).json({ message: 'Checklist não encontrado.' });
             }
 
             await prisma.checklist.delete({ where: { id: parseInt(id) } });
-            res.status(201).json({ message: 'Checklist deletado com sucesso' });
+            res.status(201).json({ message: 'Checklist deletado com sucesso.' });
         } catch (error) {
             res.status(500).json({ message: 'Erro ao deletar checklist: ' + error });
         }
