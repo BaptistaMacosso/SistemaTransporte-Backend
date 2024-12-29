@@ -55,6 +55,9 @@ module.exports = {
     try {
       const { id } = req.params;
       const { descricao, licencaNumero, dataEmissao, dataVencimento, licencaStatus } = req.body;
+      console.log(id);
+      console.log(req.body);
+
 
       // Verificar se a licença de publicidade existe
       const licencaExiste = await prisma.licencaPublicidadeViaturas.findUnique({ where: {id: parseInt(id)}});
