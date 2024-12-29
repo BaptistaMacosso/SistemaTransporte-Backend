@@ -21,6 +21,7 @@ module.exports = {
     try {
       const todosTipos = await prisma.tipoManutencao.findMany();
       res.status(200).json({tipos: todosTipos});
+      console.log(todosTipos);
     } catch (error) {
       res.status(500).json({ error: "Erro ao buscar tipos de manutenção" });
     }

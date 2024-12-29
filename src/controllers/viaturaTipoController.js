@@ -31,6 +31,7 @@ module.exports = {
           viaturaTipo: true,
         },
       });
+      console.log(tipos);
       res.status(200).json({viaturatipo: tipos});
     } catch (error) {
       res.status(500).json({ error: "Erro ao buscar tipo de viatura. Detalhes: "+error });
