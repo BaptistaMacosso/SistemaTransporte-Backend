@@ -32,7 +32,6 @@ module.exports = {
           viaturaCategoria: true,
         },
       });
-      console.log(categoria);
       res.status(200).json({Categorias: categoria});
     } catch (error) {
       res.status(500).json({ error: "Erro ao buscar categorias de viatura. Detalhes: "+error });

@@ -64,7 +64,7 @@ module.exports = {
                     }
                 }
             });
-            res.status(200).json({ checklist: listarTodo });
+            res.status(200).json({ RetornoChecklist: listarTodo });
             console.log('Lista de checklists: '+listarTodo);
         } catch (error) {
             res.status(500).json({ message: 'Erro ao listar checklists: ' + error });

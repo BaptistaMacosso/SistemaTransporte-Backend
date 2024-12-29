@@ -42,14 +42,33 @@ module.exports = {
     },
 
     // Obter todas as viaturas
-    async getAllViaturas (req, res){
-        
+    async getAllViaturas (req, res){  
         try {
             const todasViaturas = await prisma.Viatura.findMany({
-                include: {
-                viaturaTipo: true,
-                viaturaCategoria: true,
-                },
+                select:{
+                    viaturaId: true,
+                    viaturaTipoId: true,
+                    viaturaCategoriaId: true,
+                    viaturaMarca: true,
+                    viaturaModelo: true,
+                    viaturaMatricula: true,
+                    viaturaAnoFabrica: true,
+                    viaturaCombustivel: true,
+                    viaturaCor: true,
+                    quilometragem: true,
+                    viaturaTipo:{
+                        select:{
+                            id: true,
+                            viaturaTipo: true
+                        }
+                    },
+                    viaturaCategoria:{
+                        select:{
+                            id: true,
+                            viaturaCategoria: true
+                        }
+                    }
+                }
             });
             console.log('Lista de viaturas: '+todasViaturas);
             res.status(200).json({ viaturas: todasViaturas });
