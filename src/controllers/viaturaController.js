@@ -70,7 +70,6 @@ module.exports = {
                     }
                 }
             });
-            console.log('Lista de viaturas: '+todasViaturas);
             res.status(200).json({ viaturas: todasViaturas });
         } catch (error) {
             res.status(500).json({ message: 'Erro ao listar viaturas: ' + error });
