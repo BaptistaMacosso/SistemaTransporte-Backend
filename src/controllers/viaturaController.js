@@ -45,7 +45,7 @@ module.exports = {
     async getAllViaturas (req, res){
         
         try {
-            const todasViaturas = await prisma.viatura.findMany({
+            const todasViaturas = await prisma.Viatura.findMany({
                 include: {
                 viaturaTipo: true,
                 viaturaCategoria: true,
