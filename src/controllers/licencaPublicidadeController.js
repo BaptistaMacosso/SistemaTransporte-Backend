@@ -17,10 +17,9 @@ module.exports = {
           licencaStatus,
         },
       });
-      res.status(201).json({message: "Licença de publicidade criada com sucesso", licenca});
+      return res.status(201).json({message: "Licença de publicidade criada com sucesso.", licenca});
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Erro ao criar licença de publicidade" });
+      return res.status(500).json({ error: "Erro ao criar licença de publicidade." });
     }
   },
 
@@ -28,10 +27,9 @@ module.exports = {
   async getAllLicencasPublicidade(req, res) {
     try {
       const licencas = await prisma.licencaPublicidadeViaturas.findMany();
-      res.status(200).json({licencas: licencas});
+      return res.status(200).json({licencas: licencas});
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Erro ao buscar licenças de publicidade" });
+      return res.status(500).json({ error: "Erro ao buscar licenças de publicidade." });
     }
   },
 
@@ -42,11 +40,13 @@ module.exports = {
       const licenca = await prisma.licencaPublicidadeViaturas.findUnique({
         where: { id: parseInt(id) },
       });
-      if (!licenca) return res.status(404).json({ error: "Licença de publicidade não encontrada" });
-      res.status(200).json({licenca: licenca});
+      if (!licenca){ 
+        return res.status(404).json({ error: "Licença de publicidade não encontrada." });
+      };
+
+      return res.status(200).json({licenca: licenca});
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Erro ao buscar licença de publicidade" });
+      return res.status(500).json({ error: "Erro ao buscar licença de publicidade." });
     }
   },
 
@@ -55,13 +55,12 @@ module.exports = {
     try {
       const { id } = req.params;
       const { descricao, licencaNumero, dataEmissao, dataVencimento, licencaStatus } = req.body;
-      console.log(id);
-      console.log(req.body);
-
 
       // Verificar se a licença de publicidade existe
       const licencaExiste = await prisma.licencaPublicidadeViaturas.findUnique({ where: {id: parseInt(id)}});
-      if(!licencaExiste) return res.status(404).json({error: "Licença de publicidade não encontrada"});
+      if(!licencaExiste){ 
+        return res.status(404).json({error: "Licença de publicidade não encontrada."});
+      };
 
       //Actualizar licença de publicidade
       const licenca = await prisma.licencaPublicidadeViaturas.update({
@@ -74,27 +73,27 @@ module.exports = {
           licencaStatus,
         },
       });
-      res.status(200).json({message: "Licença de publicidade atualizada com sucesso", licenca});
+      return res.status(200).json({message: "Licença de publicidade atualizada com sucesso", licenca});
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Erro ao atualizar licença de publicidade" });
+      return res.status(500).json({ error: "Erro ao atualizar licença de publicidade" });
     }
   },
 
   // Deletar Licença de Publicidade
   async deleteLicencaPublicidade(req, res) {
     try {
-      const { id } = req.params;
+      const id = req.params.id;
       // Verificar se a licença de publicidade existe
       const licencaExiste = await prisma.licencaPublicidadeViaturas.findUnique({ where: {id: parseInt(id)}});
-      if(!licencaExiste) return res.status(404).json({error: "Licença de publicidade não encontrada"});
+      if(!licencaExiste){ 
+        return res.status(404).json({error: "Licença de publicidade não encontrada."});
+      };
      
       // Deletar licença de publicidade
       await prisma.licencaPublicidadeViaturas.delete({ where: { id: parseInt(id) } });
-      res.status(200).json({ message: "Licença de publicidade deletada com sucesso" });
+      return res.status(200).json({ message: "Licença de publicidade deletada com sucesso." });
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Erro ao deletar licença de publicidade" });
+      return res.status(500).json({ error: "Erro ao deletar licença de publicidade." });
     }
   },
 };
