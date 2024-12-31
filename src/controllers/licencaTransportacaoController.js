@@ -51,7 +51,7 @@ module.exports = {
         });
         return res.status(200).json({licencas: licencas});
       } catch (error) {
-        return res.status(500).json({ error: "Erro ao buscar licenças de transportação." });
+        return res.status(500).json({ message: "Erro ao buscar licenças de transportação. "+error });
       }
     },
   
