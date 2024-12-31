@@ -1,5 +1,4 @@
 // controllers/licencaPublicidadeController.js
-
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
@@ -81,8 +80,8 @@ module.exports = {
 
   // Deletar Licença de Publicidade
   async deleteLicencaPublicidade(req, res) {
+    const { id } = req.params;
     try {
-      const id = req.params.id;
       // Verificar se a licença de publicidade existe
       const licencaExiste = await prisma.licencaPublicidadeViaturas.findUnique({ where: {id: parseInt(id)}});
       if(!licencaExiste){ 
