@@ -42,11 +42,13 @@ module.exports = {
             dataEmissao: true,
             dataVencimento: true,
             licencaStatus: true,
-            select:{
-              viaturaMarca: true,
-              viaturaModelo: true,
-              viaturaMatricula: true,
-            },
+            viatura:{
+              select:{
+                viaturaMarca: true,
+                viaturaModelo: true,
+                viaturaMatricula: true,
+              }
+            }
           }
         });
         return res.status(200).json({licencas: licencas});
