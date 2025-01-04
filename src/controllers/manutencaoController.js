@@ -72,7 +72,29 @@ module.exports = {
   async listarManutencaoPorId(req, res) {
     try {
       const { id } = req.params;
-      const manutencao = await prisma.manutencao.findUnique({ where: { id: parseInt(id) } });
+      const manutencao = await prisma.manutencao.findUnique({ where: { id: parseInt(id) },
+        select:{
+          id: true,
+          viaturaId: true,
+          tipoManutencaoId: true,
+          descricao: true,
+          quilometragem: true,
+          responsavel: true,
+          statusManutencaoId: true,
+          viatura:{
+            select:{
+              viaturaMarca: true,
+              viaturaModelo: true,
+              viaturaMatricula: true
+            }
+          },
+          tipoManutencao:{
+            select:{
+              tipoManutencao: true
+            }
+          },
+        }
+    });
       if (!manutencao) {
         return res.status(404).json({ message: 'Manutenção não encontrada.' });
       }
@@ -90,7 +112,29 @@ module.exports = {
   async listarManutencaoPorMatricula(req, res) {
     try {
       const { viaturaMatricula } = req.params;
-      const manutencao = await prisma.manutencao.findUnique({ where: { viaturaMatricula: parseInt(viaturaMatricula) }});
+      const manutencao = await prisma.manutencao.findUnique({ where: { viaturaMatricula: parseInt(viaturaMatricula) },
+        select:{
+          id: true,
+          viaturaId: true,
+          tipoManutencaoId: true,
+          descricao: true,
+          quilometragem: true,
+          responsavel: true,
+          statusManutencaoId: true,
+          viatura:{
+            select:{
+              viaturaMarca: true,
+              viaturaModelo: true,
+              viaturaMatricula: true
+            }
+          },
+          tipoManutencao:{
+            select:{
+              tipoManutencao: true
+            }
+          },
+        }
+    });
       if(!manutencao){ return res.status(404).json({message: "Manutenção não encontrada."});}
 
       return res.status(200).json({manutencao: manutencao});
@@ -106,7 +150,29 @@ module.exports = {
    */
   async listarManutencao(req, res) {
     try {
-      const manutencao = await prisma.manutencao.findMany();
+      const manutencao = await prisma.manutencao.findMany({
+        select:{
+          id: true,
+          viaturaId: true,
+          tipoManutencaoId: true,
+          descricao: true,
+          quilometragem: true,
+          responsavel: true,
+          statusManutencaoId: true,
+          viatura:{
+            select:{
+              viaturaMarca: true,
+              viaturaModelo: true,
+              viaturaMatricula: true
+            }
+          },
+          tipoManutencao:{
+            select:{
+              tipoManutencao: true
+            }
+          },
+        }
+      });
       return res.status(200).json({manutencao: manutencao});
     } catch (error) {
       return res.status(500).json({ message: "Erro ao buscar manutenção. Detalhes: "+error});
