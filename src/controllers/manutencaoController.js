@@ -11,9 +11,9 @@ module.exports = {
    */
   async criarManutencao(req, res) {
     try {
-      const { viaturaId, tipoManutencaoId, descricao, Quilometragem, responsavel, statusManutencaoId } = req.body;
+      const { viaturaId, tipoManutencaoId, descricao, quilometragem, responsavel, statusManutencaoId } = req.body;
 
-      if(!viaturaId || !tipoManutencaoId || !descricao || !Quilometragem || !responsavel 
+      if(!viaturaId || !tipoManutencaoId || !descricao || !quilometragem || !responsavel 
          || !statusManutencaoId){ return res.status(400).json({ message: "Todos os campos são obrigatórios." });}
 
       if (isNaN(Number(quilometragem))) { return res.status(500).json({message:"Quilometragem deve ser um número."}); }
@@ -22,7 +22,7 @@ module.exports = {
         viaturaId: viaturaId,
         tipoManutencaoId: tipoManutencaoId,
         descricao: descricao,
-        quilometragem: Quilometragem,
+        quilometragem: quilometragem,
         responsavel: responsavel,
         statusManutencaoId: statusManutencaoId
       }});
@@ -41,7 +41,7 @@ module.exports = {
   async editarManutencao(req, res) {
     try {
       const { id } = req.params;
-      const {viaturaId, tipoManutencaoId, descricao, Quilometragem, responsavel, statusManutencaoId} = req.body;
+      const {viaturaId, tipoManutencaoId, descricao, quilometragem, responsavel, statusManutencaoId} = req.body;
       
       //Verificação
       const Existe = await prisma.manutencao.findUnique({ where: { id: parseInt(id) }});
@@ -53,7 +53,7 @@ module.exports = {
             viaturaId: viaturaId,
             tipoManutencao: tipoManutencaoId,
             descricao: descricao,
-            quilometragem: Quilometragem,
+            quilometragem: quilometragem,
             responsavel: responsavel,
             statusManutencaoId: statusManutencaoId
         }
