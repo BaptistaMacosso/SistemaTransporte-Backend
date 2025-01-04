@@ -42,7 +42,8 @@ module.exports = {
     try {
       const { id } = req.params;
       const {viaturaId, tipoManutencaoId, descricao, quilometragem, responsavel, statusManutencaoId} = req.body;
-      
+      console.log(req.body);
+
       //Verificação
       const Existe = await prisma.manutencao.findUnique({ where: { id: parseInt(id) }});
       if(!Existe){ return res.status(404).json({message: "Manutenção não encontrada."}); }
