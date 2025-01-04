@@ -22,7 +22,7 @@ module.exports = {
         viaturaId: viaturaId,
         tipoManutencaoId: tipoManutencaoId,
         descricao: descricao,
-        quilometragem: quilometragem,
+        quilometragem: parseFloat(quilometragem),
         responsavel: responsavel,
         statusManutencaoId: statusManutencaoId
       }});
