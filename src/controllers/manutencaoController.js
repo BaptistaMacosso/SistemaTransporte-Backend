@@ -210,7 +210,7 @@ module.exports = {
       if(!manutencaoExiste){ return res.status(404).json({message: "Manutenção não encontrada."});}
 
       const manutencaoDeletada = await prisma.manutencao.delete({where: { id: parseInt(id) }});
-      return resstatus(200).json({message: "Manutenção deletada com sucesso.", manutencaoDeletada});
+      return res.status(200).json({message: "Manutenção deletada com sucesso.", manutencaoDeletada});
     } catch (error) {
       return res.status(500).json({ message: 'Erro ao deletar manutenção. Detalhes: '+error });
     }
