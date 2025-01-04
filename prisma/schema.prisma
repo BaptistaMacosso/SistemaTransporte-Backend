@@ -192,3 +192,11 @@ model Status {
   pedido     Pedido[]
   @@map("tblstatus")
 }
+
+model NotificacaoEmailJaEnviado{
+  id Int @id @default(autoincrement())
+  licencaId Int
+  emailJaEnviado Boolean @default(false)
+  licencas String @db.VarChar(50) 
+  @@map("tblnotificacaoEmailJaEnviado")
+}

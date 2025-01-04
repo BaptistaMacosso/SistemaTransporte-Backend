@@ -15,6 +15,7 @@ const tiposManutencaoController = require('../controllers/tipoManutencaoControll
 const checkListViatura = require('../controllers/checklistController');
 const viaturaCategoriaController = require('../controllers/viaturaCategoriaController');
 const viaturaTipoController = require('../controllers/viaturaTipoController');
+const manutencaoController = require('../controllers/manutencaoController');
 
 
 // Rotas para Pedido
@@ -97,6 +98,16 @@ router.delete('/viaturacategoria/delete/:id',protect, viaturaCategoriaController
 router.post('/viaturatipo/novo',protect, viaturaTipoController.createViaturaTipo);
 router.get('/viaturatipo/listar',protect, viaturaTipoController.getAllViaturaTipo);
 router.delete('/viaturatipo/delete/:id',protect, viaturaTipoController.deleteViaturaTipo);
+
+//Rotas para Manutenção
+router.post('/manutencao/novo',protect, manutencaoController.criarManutencao);
+router.get('/manutencao/listar',protect, manutencaoController.listarManutencao);
+router.get('/manutencao/listarPeloId/:id',protect, manutencaoController.listarManutencaoPorId);
+router.get('/manutencao/listarPorMatricula/:viaturaMatricula',protect, manutencaoController.listarManutencaoPorMatricula);
+router.put('/manutencao/update/:id',protect, manutencaoController.editarManutencao);
+router.delete('/manutencao/delete/:id',protect, manutencaoController.deletarManutencao);
+router.put('/manutencao/alterarStatus/:id',protect, manutencaoController.alterarManutencaoStatus);
+
 
 
 module.exports = router;
