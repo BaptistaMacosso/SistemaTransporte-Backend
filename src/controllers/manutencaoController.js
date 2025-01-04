@@ -22,7 +22,7 @@ module.exports = {
         viaturaId: viaturaId,
         tipoManutencaoId: tipoManutencaoId,
         descricao: descricao,
-        Quilometragem: Quilometragem,
+        quilometragem: Quilometragem,
         responsavel: responsavel,
         statusManutencaoId: statusManutencaoId
       }});
