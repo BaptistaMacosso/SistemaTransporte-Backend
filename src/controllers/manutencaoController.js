@@ -94,6 +94,11 @@ module.exports = {
               tipoManutencao: true
             }
           },
+          statusManutencao: {
+            select: {
+              statusManutencao: true
+            },
+          },
         }
     });
       if (!manutencao) {
@@ -135,6 +140,11 @@ module.exports = {
               tipoManutencao: true
             }
           },
+          statusManutencao: {
+            select: {
+              statusManutencao: true
+            },
+          },
         }
     });
       if(!manutencao){ return res.status(404).json({message: "Manutenção não encontrada."});}
@@ -173,6 +183,11 @@ module.exports = {
             select:{
               tipoManutencao: true
             }
+          },
+          statusManutencao: {
+            select: {
+              statusManutencao: true
+            },
           },
         }
       });
