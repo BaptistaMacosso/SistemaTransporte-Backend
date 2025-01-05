@@ -15,7 +15,7 @@ async registerUser (req, res) {
 
     const userExists = await prisma.user.findUnique({ where: { userEmail } }); 
     if (userExists) {
-      return res.status(400).json({ message: 'Usuário já existe' });
+      return res.status(400).json({ message: 'Usuário já existe.' });
     }
     
     // Hash da senha usando bcrypt
@@ -32,14 +32,14 @@ async registerUser (req, res) {
       },
     });
 
-    res.status(201).json({
+    return res.status(201).json({
       id: user.userId,
       name: user.userNome,
       email: user.userEmail,
       tipoUsuarioId: user.tipoUsuarioId,
     });
   } catch (error) {
-    res.status(500).json({ message: 'Erro ao registrar o usuário '+error });
+    return res.status(500).json({ message: 'Erro ao registrar o usuário. '+error });
   }
 },
 
@@ -59,10 +59,9 @@ async listarUser (req, res) {
         }
       },
     });
-    res.status(200).json({ allUsers: allUsers });
-
+    return res.status(200).json({ allUsers: allUsers });
   } catch (error) {
-    res.status(500).json({ message: 'Erro ao listar os usuários '+error });
+    return res.status(500).json({ message: 'Erro ao listar os usuários '+error });
   }
 },
 
@@ -131,9 +130,9 @@ async updateUser (req, res){
       },
     });
 
-    res.status(201).json({message: 'Usuário atualizado com sucesso.', user});
+    return res.status(201).json({message: 'Usuário atualizado com sucesso.', user});
   } catch (error) {
-    res.status(500).json({ message: 'Erro: Não foi possível atualizar o usuário.' });
+    return res.status(500).json({ message: 'Erro: Não foi possível atualizar o usuário.' });
   }
 },
 
