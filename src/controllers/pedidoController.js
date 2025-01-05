@@ -59,7 +59,7 @@ module.exports = {
           },
           status: {
             select: {
-              status: true,
+              descricao: true,
             },
           },
         }
