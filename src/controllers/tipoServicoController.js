@@ -21,10 +21,9 @@ module.exports = {
   async getAllTipoServico(req, res) {
     try {
       const tipo = await prisma.tiposervico.findMany();
-      res.status(200).json({tipoServico: tipo});
+      return res.status(200).json({tipoServico: tipo});
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Erro ao buscar tipo de serviço" });
+      return res.status(500).json({ message: "Erro ao listar tipo de serviço. "+error });
     }
   },
 

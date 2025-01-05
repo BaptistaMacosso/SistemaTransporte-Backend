@@ -16,6 +16,8 @@ const checkListViatura = require('../controllers/checklistController');
 const viaturaCategoriaController = require('../controllers/viaturaCategoriaController');
 const viaturaTipoController = require('../controllers/viaturaTipoController');
 const manutencaoController = require('../controllers/manutencaoController');
+const tipoServicoController = require('../controllers/tipoServicoController');
+const statusServicoController = require('../controllers/statusServicoController');
 
 
 // Rotas para Pedido
@@ -107,6 +109,17 @@ router.get('/manutencao/listarPorMatricula/:viaturaMatricula',protect, manutenca
 router.put('/manutencao/update/:id',protect, manutencaoController.editarManutencao);
 router.delete('/manutencao/delete/:id',protect, manutencaoController.deletarManutencao);
 router.put('/manutencao/alterarStatus/:id',protect, manutencaoController.alterarManutencaoStatus);
+
+//Rotas para Tipo Serviço
+router.post('/tiposervico/novo',protect, tipoServicoController.createTipoServico);
+router.get('/tiposervico/listar',protect, tipoServicoController.getAllTipoServico);
+router.delete('/tiposervico/delete/:id',protect, tipoServicoController.deleteTipoServico);
+
+//Rotas para Status Serviço
+router.post('/statusservico/novo',protect, statusServicoController.createStatusServico);
+router.get('/statusservico/listar',protect, statusServicoController.getAllStatusServico);
+router.delete('/statusservico/delete/:id',protect, statusServicoController.deleteStatusServico);
+
 
 
 

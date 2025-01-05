@@ -21,10 +21,9 @@ module.exports = {
   async getAllStatusServico(req, res) {
     try {
       const status = await prisma.status.findMany();
-      res.status(200).json({statusServico: status});
+      return res.status(200).json({statusServico: status});
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Erro ao buscar status de serviço" });
+      return res.status(500).json({ message: "Erro ao buscar status de serviço. "+error });
     }
   },
 
