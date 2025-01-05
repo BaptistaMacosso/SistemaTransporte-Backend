@@ -160,9 +160,9 @@ module.exports = {
           statusId: parseInt(statusId),
         },
       });
-      return res.status(200).json({message: "Status do Pedido de assistência técnica atualizado com sucesso.", pedido});
+      return res.status(200).json({message: "Status do Pedido actualizado com sucesso.", pedido});
     } catch (error) {
-      return res.status(500).json({ message: "Erro ao atualizar o status do pedido de assistência técnica."+error });
+      return res.status(500).json({ message: "Erro ao actualizar o status do pedido."+error });
     }
   },
 
