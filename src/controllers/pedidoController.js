@@ -138,7 +138,7 @@ module.exports = {
       });
       return res.status(200).json({message: "Pedido de assisência técnica atualizado com sucesso.", pedido});
     } catch (error) {
-      return res.status(500).json({ message: "Erro ao atualizar pedido de assisência técnica."+error });
+      return res.status(500).json({ message: "Erro ao atualizar pedido de assistência técnica."+error });
     }
   },
 
@@ -171,13 +171,13 @@ module.exports = {
       const { id } = req.params;
       //Verificar se existe
       const pedidoExiste = await prisma.pedido.findUnique({ where: { pedidoId: parseInt(id) } });
-      if(!pedidoExiste) return res.status(404).json({message: "Pedido de assisência técnica não encontrado."});
+      if(!pedidoExiste) return res.status(404).json({message: "Pedido de assistência técnica não encontrado."});
 
       // Deletar pedido
       const pedidoDeleted = await prisma.pedido.delete({ where: { pedidoId: parseInt(id) } });
-      return res.status(200).json({ message: "Pedido de assisência técnica deletado com sucesso."+ pedidoDeleted });
+      return res.status(200).json({ message: "Pedido de assistência técnica deletado com sucesso."+ pedidoDeleted });
     } catch (error) {
-      return res.status(500).json({ message: "Erro ao deletar pedido de assisência técnica."+error });
+      return res.status(500).json({ message: "Erro ao deletar pedido de assistência técnica."+error });
     }
   },
 };
