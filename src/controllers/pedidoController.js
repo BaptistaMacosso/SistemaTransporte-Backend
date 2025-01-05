@@ -76,18 +76,42 @@ module.exports = {
       const { id } = req.params;
       const pedido = await prisma.pedido.findUnique({
         where: { pedidoId: parseInt(id) },
-        include: {
-          prestador: true,
-          viatura: true,
-          tipoServico: true,
-          status: true,
-        },
+        select: {
+          pedidoId: true,
+          viaturaId: true,
+          descricao: true,
+          dataSolicitacao: true,
+          tipoServicoId: true,
+          statusId: true,
+          prestadorId: true,
+          viatura: {
+            select: {
+              viaturaMarca: true,
+              viaturaModelo: true,
+              viaturaMatricula: true,
+            },
+            },
+          prestador: {
+            select: {
+              prestadorNome: true,
+            },
+          },
+          tipoServico: {
+            select: {
+              tipoServico: true,
+            },
+          },
+          status: {
+            select: {
+              descricao: true,
+            },
+          },
+        }
       });
-      if (!pedido) return res.status(404).json({ error: "Pedido de serviço não encontrado" });
-      res.status(200).json(pedido);
+      if (!pedido) return res.status(404).json({ message: "Pedido de serviço não encontrado." });
+      return res.status(200).json({pedido: pedido});
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Erro ao buscar pedido de serviço" });
+      return res.status(500).json({ message: "Erro ao buscar pedido de serviço. "+error });
     }
   },
 
@@ -99,7 +123,7 @@ module.exports = {
 
       //Verificar se existe
       const pedidoExiste = await prisma.pedido.findUnique({ where: { pedidoId: parseInt(id) } });
-      if(!pedidoExiste) return res.status(404).json({error: "Pedido de assisência técnica não encontrado"});
+      if(!pedidoExiste) return res.status(404).json({message: "Pedido de assisência técnica não encontrado."});
 
       // Atualizar pedido
       const pedido = await prisma.pedido.update({
@@ -112,9 +136,9 @@ module.exports = {
           prestadorId,
         },
       });
-      return res.status(200).json({message: "Pedido de assisência técnica atualizado com sucesso", pedido});
+      return res.status(200).json({message: "Pedido de assisência técnica atualizado com sucesso.", pedido});
     } catch (error) {
-      return res.status(500).json({ message: "Erro ao atualizar pedido de assisência técnica." });
+      return res.status(500).json({ message: "Erro ao atualizar pedido de assisência técnica."+error });
     }
   },
 
@@ -124,13 +148,13 @@ module.exports = {
       const { id } = req.params;
       //Verificar se existe
       const pedidoExiste = await prisma.pedido.findUnique({ where: { pedidoId: parseInt(id) } });
-      if(!pedidoExiste) return res.status(404).json({error: "Pedido de assisência técnica não encontrado."});
+      if(!pedidoExiste) return res.status(404).json({message: "Pedido de assisência técnica não encontrado."});
 
       // Deletar pedido
       const pedidoDeleted = await prisma.pedido.delete({ where: { pedidoId: parseInt(id) } });
       return res.status(200).json({ message: "Pedido de assisência técnica deletado com sucesso."+ pedidoDeleted });
     } catch (error) {
-      return res.status(500).json({ message: "Erro ao deletar pedido de assisência técnica" });
+      return res.status(500).json({ message: "Erro ao deletar pedido de assisência técnica."+error });
     }
   },
 };
