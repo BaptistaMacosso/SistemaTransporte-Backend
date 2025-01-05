@@ -147,7 +147,6 @@ module.exports = {
     try {
       const { id } = req.params;
       const { statusId } = req.body;
-      console.log("Status: "+statusId + " ID: "+id);
 
       //Verificar se existe
       const pedidoExiste = await prisma.pedido.findUnique({ where: { pedidoId: parseInt(id) } });
