@@ -8,7 +8,7 @@ module.exports = {
   async createTipoServico(req, res) {
     try {
       const { tipoServico } = req.body;
-      const tipo = await prisma.tiposervico.create({
+      const tipo = await prisma.tipoServico.create({
         data: { tipoServico },
       });
       res.status(201).json({message: "Tipo de serviço criado com sucesso", tipo});
@@ -20,7 +20,7 @@ module.exports = {
 
   async getAllTipoServico(req, res) {
     try {
-      const tipo = await prisma.tiposervico.findMany();
+      const tipo = await prisma.tipoServico.findMany();
       return res.status(200).json({tipoServico: tipo});
     } catch (error) {
       return res.status(500).json({ message: "Erro ao listar tipo de serviço. "+error });
@@ -30,7 +30,7 @@ module.exports = {
   async deleteTipoServico(req, res) {
     try {
       const { id } = req.params;
-      await prisma.tiposervico.delete({
+      await prisma.tipoServico.delete({
         where: { id: parseInt(id) },
       });
       res.status(200).json({ message: "Tipo de serviço deletado com sucesso" });
