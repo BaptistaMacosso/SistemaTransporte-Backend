@@ -25,7 +25,7 @@ module.exports = {
   // Listar Licenças de Publicidade
   async getAllLicencasPublicidade(req, res) {
     try {
-      const licencas = await prisma.licencaPublicidadeViaturas.findMany();
+      const licencas = await prisma.licencaPublicidadeViaturas.findMany({orderBy: { id: 'asc', },});
       return res.status(200).json({licencas: licencas});
     } catch (error) {
       return res.status(500).json({ error: "Erro ao buscar licenças de publicidade." });

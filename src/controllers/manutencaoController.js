@@ -162,7 +162,7 @@ module.exports = {
    */
   async listarManutencao(req, res) {
     try {
-      const manutencao = await prisma.manutencao.findMany({
+      const manutencao = await prisma.manutencao.findMany({orderBy: { id: 'asc', },
         select:{
           id: true,
           viaturaId: true,

@@ -42,7 +42,7 @@ module.exports = {
     //Obter CheckList
     async listarChecklist(req, res){
         try {
-            const listarTodo = await prisma.Checklist.findMany({
+            const listarTodo = await prisma.Checklist.findMany({orderBy: { id: 'asc', },
                 select:{
                     id: true,
                     viaturaId: true,

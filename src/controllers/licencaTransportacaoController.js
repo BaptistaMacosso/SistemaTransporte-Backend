@@ -32,7 +32,7 @@ module.exports = {
     // Listar Licenças de Transportação
     async getAllLicencasTransportacao(req, res) {
       try {
-        const licencas = await prisma.licencaTransportacaoViaturas.findMany({
+        const licencas = await prisma.licencaTransportacaoViaturas.findMany({orderBy: { id: 'asc', },
           select:{
             id: true,
             viaturaId: true,

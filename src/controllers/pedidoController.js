@@ -31,7 +31,7 @@ module.exports = {
   // Listar Pedidos
   async getAllPedidos(req, res) {
     try {
-      const pedidos = await prisma.pedido.findMany({
+      const pedidos = await prisma.pedido.findMany({orderBy: { pedidoId: 'asc', },
         select: {
           pedidoId: true,
           viaturaId: true,

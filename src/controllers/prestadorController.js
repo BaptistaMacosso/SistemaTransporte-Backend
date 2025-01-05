@@ -30,7 +30,7 @@ module.exports = {
     // Listar Prestadores
     async getAllPrestadores(req, res) {
       try {
-        const listaPrestadores = await prisma.Prestador.findMany({
+        const listaPrestadores = await prisma.Prestador.findMany({orderBy: { prestadorId: 'asc', },
           select: {
             prestadorId: true,
             prestadorNome: true,

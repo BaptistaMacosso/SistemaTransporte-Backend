@@ -47,7 +47,7 @@ async registerUser (req, res) {
 async listarUser (req, res) {
   try {
     // Run inside `async` function
-    const allUsers = await prisma.user.findMany({
+    const allUsers = await prisma.user.findMany({orderBy: { userId: 'asc', },
       select: {
         userId: true,
         userNome: true,

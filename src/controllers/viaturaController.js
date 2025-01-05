@@ -48,7 +48,7 @@ module.exports = {
     // Obter todas as viaturas
     async getAllViaturas (req, res){  
         try {
-            const todasViaturas = await prisma.Viatura.findMany({
+            const todasViaturas = await prisma.Viatura.findMany({orderBy: { viaturaId: 'asc', },
                 select:{
                     viaturaId: true,
                     viaturaTipoId: true,

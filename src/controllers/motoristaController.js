@@ -41,7 +41,7 @@ async createMotorista (req, res){
 
 async listarMotorista (req, res){
     try {
-        const motorista = await prisma.motorista.findMany();
+        const motorista = await prisma.motorista.findMany({orderBy: { motoristaId: 'asc', },});
         return res.status(200).json({ motoristas: motorista });
     } catch (error) {
         return res.status(500).json({ message: 'Erro ao listar motoristas: ' + error });
