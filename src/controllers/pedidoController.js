@@ -123,7 +123,7 @@ module.exports = {
 
       //Verificar se existe
       const pedidoExiste = await prisma.pedido.findUnique({ where: { pedidoId: parseInt(id) } });
-      if(!pedidoExiste) return res.status(404).json({message: "Pedido de assisência técnica não encontrado."});
+      if(!pedidoExiste) return res.status(404).json({message: "Pedido de assistência técnica não encontrado."});
 
       // Atualizar pedido
       const pedido = await prisma.pedido.update({
@@ -150,7 +150,7 @@ module.exports = {
 
       //Verificar se existe
       const pedidoExiste = await prisma.pedido.findUnique({ where: { pedidoId: parseInt(id) } });
-      if(!pedidoExiste) return res.status(404).json({message: "Pedido de assisência técnica não encontrado."});
+      if(!pedidoExiste) return res.status(404).json({message: "Pedido de assistência técnica não encontrado."});
 
       // Atualizar pedido
       const pedido = await prisma.pedido.update({
@@ -159,9 +159,9 @@ module.exports = {
           statusId: parseInt(statusId),
         },
       });
-      return res.status(200).json({message: "Status do Pedido de assisência técnica atualizado com sucesso.", pedido});
+      return res.status(200).json({message: "Status do Pedido de assistência técnica atualizado com sucesso.", pedido});
     } catch (error) {
-      return res.status(500).json({ message: "Erro ao atualizar o status do pedido de assisência técnica."+error });
+      return res.status(500).json({ message: "Erro ao atualizar o status do pedido de assistência técnica."+error });
     }
   },
 
