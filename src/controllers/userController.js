@@ -178,7 +178,7 @@ async getUserById (req, res){
   try {
     const { id } = req.body;
     //Verificação
-    const user = await prisma.user.findFirst({ where: { id }, 
+    const user = await prisma.user.findUnique({ where: { id }, 
       select: {
         userId: true,
         userNome: true,
