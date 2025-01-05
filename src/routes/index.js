@@ -25,6 +25,7 @@ router.post('/pedidos/novo', protect, pedidoController.createPedido); // Criar P
 router.get('/pedidos/listar', protect, pedidoController.getAllPedidos); // Listar Pedidos
 router.get('/pedidos/listarPeloId/:id', protect, pedidoController.getPedidoById); // Obter Pedido por ID
 router.put('/pedidos/update/:id', protect, pedidoController.updatePedido); // Atualizar Pedido
+router.put('/pedidos/updateStatus/:id', protect, pedidoController.updatePedidoStatus); // Atualizar Pedido
 router.delete('/pedidos/delete/:id', protect, pedidoController.deletePedido); // Deletar Pedido
 
 // Rotas para Prestador
