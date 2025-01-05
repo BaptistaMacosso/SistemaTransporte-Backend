@@ -15,11 +15,11 @@ module.exports = {
       //Criar Pedido
       const pedido = await prisma.pedido.create({
         data: {
-          viaturaId,
-          descricao,
-          tipoServicoId,
-          statusId,
-          prestadorId,
+          viaturaId: parseInt(viaturaId),
+          descricao: descricao,
+          tipoServicoId: parseInt(tipoServicoId),
+          statusId: parseInt(statusId),
+          prestadorId: parseInt(prestadorId),
         },
       });
       return res.status(201).json({message: "Pedido de serviço criado com sucesso.", pedido});
