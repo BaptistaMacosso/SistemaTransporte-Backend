@@ -175,16 +175,24 @@ async deleteUser (req, res){
 
 //Pegar Usuário pelo Id
 async getUserById (req, res){
-  const { id } = req.body;
-
   try {
-    const user = await prisma.user.findFirst({ where: { id }, });
-    
-    res.json({
-      id: user.userId,
-      nome: user.userNome,
-      email: user.userEmail,
+    const { id } = req.body;
+    //Verificação
+    const user = await prisma.user.findFirst({ where: { id }, 
+      select: {
+        userId: true,
+        userNome: true,
+        userEmail: true,
+        tipoUsuarioId: true,
+        tipoUser:{
+          select:{
+            descricaoTipo: true
+          }
+        },
+      }
     });
+    if(!user){ return res.status(404).json({message: "Usuário não encontrado."}); }
+    return res.status(200).json({user: user});
   } catch (error) {
     return res.status(500).json({ message: 'Erro ao listar o usuário pelo Id '+error });
   }
