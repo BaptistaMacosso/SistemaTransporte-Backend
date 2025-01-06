@@ -76,7 +76,7 @@ async updateMotorista (req, res){
     try {
         const motoristaExists = await prisma.motorista.findUnique({ where: { motoristaId: parseInt(id) } });
         if (!motoristaExists) {
-            return res.status(404).json({ message: 'Motorista não encontrado' });
+            return res.status(404).json({ message: 'Motorista não encontrado.' });
         }
 
         const updatedMotorista = await prisma.motorista.update({
@@ -91,9 +91,9 @@ async updateMotorista (req, res){
             }
         });
 
-        return res.status(201).json({ message: 'Motorista atualizado com sucesso', updatedMotorista });
+        return res.status(200).json({ message: 'Motorista actualizado com sucesso.', updatedMotorista });
     } catch (error) {
-        return res.status(500).json({ message: 'Erro ao atualizar motorista: ' + error });
+        return res.status(500).json({ message: 'Erro ao actualizar motorista: ' + error });
     }
 },
 
@@ -107,7 +107,7 @@ async deleteMotorista (req, res){
         }
 
         const deletedMotorista = await prisma.motorista.delete({ where: { motoristaId: parseInt(id) } });
-        return res.status(201).json({ message: 'Motorista deletado com sucesso', deletedMotorista });
+        return res.status(200).json({ message: 'Motorista deletado com sucesso.', deletedMotorista });
     } catch (error) {
         return res.status(500).json({ message: 'Erro ao deletar motorista: ' + error });
     }
