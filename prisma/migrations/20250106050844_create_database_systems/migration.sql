@@ -5,6 +5,7 @@ CREATE TABLE "tblusuarios" (
     "userEmail" VARCHAR(100) NOT NULL,
     "userPassword" VARCHAR(200) NOT NULL,
     "tipoUsuarioId" INTEGER NOT NULL,
+    "GrupoUsuarioId" INTEGER NOT NULL,
 
     CONSTRAINT "tblusuarios_pkey" PRIMARY KEY ("userId")
 );
@@ -16,6 +17,27 @@ CREATE TABLE "tbltipousuarios" (
     "parametro_edit_config" BOOLEAN NOT NULL DEFAULT false,
 
     CONSTRAINT "tbltipousuarios_pkey" PRIMARY KEY ("tipoId")
+);
+
+-- CreateTable
+CREATE TABLE "tblgrupousuarios" (
+    "grupoId" SERIAL NOT NULL,
+    "grupoName" VARCHAR(100) NOT NULL,
+    "descricao" VARCHAR(200),
+
+    CONSTRAINT "tblgrupousuarios_pkey" PRIMARY KEY ("grupoId")
+);
+
+-- CreateTable
+CREATE TABLE "tblpermissoes" (
+    "permissaoId" SERIAL NOT NULL,
+    "permissaonome" VARCHAR(100) NOT NULL,
+    "descricao" VARCHAR(200),
+    "permitido" BOOLEAN NOT NULL DEFAULT false,
+    "grupoId" INTEGER,
+    "userId" INTEGER,
+
+    CONSTRAINT "tblpermissoes_pkey" PRIMARY KEY ("permissaoId")
 );
 
 -- CreateTable
@@ -75,11 +97,11 @@ CREATE TABLE "tblmanutencao" (
     "viaturaId" INTEGER NOT NULL,
     "tipoManutencaoId" INTEGER NOT NULL,
     "descricao" VARCHAR(250) NOT NULL,
-    "dataManutencao" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "dataManutencao" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
     "quilometragem" DOUBLE PRECISION NOT NULL,
     "responsavel" VARCHAR(100) NOT NULL,
     "statusManutencaoId" INTEGER NOT NULL,
-    "dataCriacao" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "dataCriacao" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "tblmanutencao_pkey" PRIMARY KEY ("id")
 );
@@ -180,6 +202,16 @@ CREATE TABLE "tblstatus" (
     CONSTRAINT "tblstatus_pkey" PRIMARY KEY ("statusId")
 );
 
+-- CreateTable
+CREATE TABLE "tblnotificacaoEmailJaEnviado" (
+    "id" SERIAL NOT NULL,
+    "licencaId" INTEGER NOT NULL,
+    "emailJaEnviado" BOOLEAN NOT NULL DEFAULT false,
+    "licencas" VARCHAR(50) NOT NULL,
+
+    CONSTRAINT "tblnotificacaoEmailJaEnviado_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "tblusuarios_userEmail_key" ON "tblusuarios"("userEmail");
 
@@ -230,6 +262,15 @@ CREATE UNIQUE INDEX "tbllicencaTransportacao_descricao_key" ON "tbllicencaTransp
 
 -- AddForeignKey
 ALTER TABLE "tblusuarios" ADD CONSTRAINT "tblusuarios_tipoUsuarioId_fkey" FOREIGN KEY ("tipoUsuarioId") REFERENCES "tbltipousuarios"("tipoId") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "tblusuarios" ADD CONSTRAINT "tblusuarios_GrupoUsuarioId_fkey" FOREIGN KEY ("GrupoUsuarioId") REFERENCES "tblgrupousuarios"("grupoId") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "tblpermissoes" ADD CONSTRAINT "tblpermissoes_grupoId_fkey" FOREIGN KEY ("grupoId") REFERENCES "tblgrupousuarios"("grupoId") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "tblpermissoes" ADD CONSTRAINT "tblpermissoes_userId_fkey" FOREIGN KEY ("userId") REFERENCES "tblusuarios"("userId") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "tblviaturas" ADD CONSTRAINT "tblviaturas_viaturaTipoId_fkey" FOREIGN KEY ("viaturaTipoId") REFERENCES "tblviaturaTipo"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

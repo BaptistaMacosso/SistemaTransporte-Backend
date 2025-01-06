@@ -14,12 +14,15 @@ datasource db {
 }
 
 model User {
-  userId       Int     @id @default(autoincrement())
-  userNome     String  @db.VarChar(100)
-  userEmail    String  @unique @db.VarChar(100)
-  userPassword String  @db.VarChar(200)
-  tipoUsuarioId Int
-  tipoUser TipoUser @relation(fields: [tipoUsuarioId], references: [tipoId])
+  userId         Int     @id @default(autoincrement())
+  userNome       String  @db.VarChar(100)
+  userEmail      String  @unique @db.VarChar(100)
+  userPassword   String  @db.VarChar(200)
+  tipoUsuarioId  Int
+  GrupoUsuarioId Int
+  tipoUser       TipoUser @relation(fields: [tipoUsuarioId], references: [tipoId])
+  grupoUser      GrupoUser @relation(fields: [GrupoUsuarioId], references: [grupoId])
+  permissoes     Permissao[]
   @@map("tblusuarios")
 }
 
@@ -29,6 +32,27 @@ model TipoUser{
   parametro_edit_config Boolean @default(false)
   user User[]
   @@map("tbltipousuarios")
+}
+
+model GrupoUser {
+  grupoId       Int          @id @default(autoincrement())
+  grupoName     String       @db.VarChar(100)
+  descricao     String?      @db.VarChar(200)
+  permissoes    Permissao[]
+  usuarios      User[] 
+  @@map("tblgrupousuarios")
+}
+
+model Permissao {
+  permissaoId    Int     @id @default(autoincrement())
+  permissaonome  String  @db.VarChar(100)
+  descricao      String? @db.VarChar(200)
+  permitido      Boolean @default(false)
+  grupoId        Int?
+  userId         Int?
+  grupoUser      GrupoUser? @relation(fields: [grupoId], references: [grupoId])
+  user           User?      @relation(fields: [userId], references: [userId])
+  @@map("tblpermissoes")
 }
 
 model Motorista {
@@ -91,11 +115,11 @@ model Manutencao {
   viaturaId        Int
   tipoManutencaoId Int
   descricao        String    @db.VarChar(250)
-  dataManutencao   DateTime  @default(now())
+  dataManutencao   DateTime?  @default(now())
   quilometragem    Float     @db.DoublePrecision
   responsavel      String    @db.VarChar(100)
   statusManutencaoId Int
-  dataCriacao      DateTime  @default(now())
+  dataCriacao      DateTime?  @default(now())
   viatura          Viatura   @relation(fields: [viaturaId], references: [viaturaId])
   tipoManutencao   TipoManutencao   @relation(fields: [tipoManutencaoId], references: [id])
   statusManutencao StatusManutencao @relation(fields: [statusManutencaoId], references: [id])
