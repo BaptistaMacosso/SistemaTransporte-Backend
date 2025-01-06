@@ -1,5 +1,4 @@
 // controllers/manutencaoController.js
-
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
@@ -19,12 +18,12 @@ module.exports = {
       if (isNaN(Number(quilometragem))) { return res.status(500).json({message:"Quilometragem deve ser um número."}); }
 
       const novaManutencao = await prisma.manutencao.create({data:{
-        viaturaId: viaturaId,
-        tipoManutencaoId: tipoManutencaoId,
+        viaturaId: parseInt(viaturaId),
+        tipoManutencaoId: parseInt(tipoManutencaoId),
         descricao: descricao,
         quilometragem: parseFloat(quilometragem),
         responsavel: responsavel,
-        statusManutencaoId: statusManutencaoId
+        statusManutencaoId: parseInt(statusManutencaoId)
       }});
 
       return res.status(201).json({message: "Manutenção criada com sucesso.", novaManutencao});
@@ -47,15 +46,17 @@ module.exports = {
       const Existe = await prisma.manutencao.findUnique({ where: { id: parseInt(id) }});
       if(!Existe){ return res.status(404).json({message: "Manutenção não encontrada."}); }
 
+      if (isNaN(Number(quilometragem))) { return res.status(500).json({message:"Quilometragem deve ser um número."}); }
+
       const manutencaoAtualizada = await prisma.manutencao.update({
         where: { id: parseInt(id) },
         data: {
-            viaturaId: viaturaId,
-            tipoManutencao: tipoManutencaoId,
+            viaturaId: parseInt(viaturaId),
+            tipoManutencao: parseInt(tipoManutencaoId),
             descricao: descricao,
-            quilometragem: quilometragem,
+            quilometragem: parseFloat(quilometragem),
             responsavel: responsavel,
-            statusManutencaoId: statusManutencaoId
+            statusManutencaoId: parseInt(statusManutencaoId)
         }
       });
       return res.status(200).json({message: "Manutenção atualizada com sucesso.", manutencaoAtualizada});
@@ -227,7 +228,7 @@ module.exports = {
       const { novoStatusId } = req.body;
       const manutencaoAtualizada = await prisma.manutencao.update({
         where: { id: parseInt(id) },
-        data: { statusManutencaoId: novoStatusId }
+        data: { statusManutencaoId: parseInt(novoStatusId) }
       });
       return res.status(200).json({message: "Status da manutenção alterado com sucesso.",manutencaoAtualizada});
     } catch (error) {

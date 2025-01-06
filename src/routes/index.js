@@ -108,8 +108,8 @@ router.get('/manutencao/listar',protect, manutencaoController.listarManutencao);
 router.get('/manutencao/listarPeloId/:id',protect, manutencaoController.listarManutencaoPorId);
 router.get('/manutencao/listarPorMatricula/:viaturaMatricula',protect, manutencaoController.listarManutencaoPorMatricula);
 router.put('/manutencao/update/:id',protect, manutencaoController.editarManutencao);
+router.put('/manutencao/updateStatus/:id',protect, manutencaoController.alterarManutencaoStatus);
 router.delete('/manutencao/delete/:id',protect, manutencaoController.deletarManutencao);
-router.put('/manutencao/alterarStatus/:id',protect, manutencaoController.alterarManutencaoStatus);
 
 //Rotas para Tipo Serviço
 router.post('/tiposervico/novo',protect, tipoServicoController.createTipoServico);
