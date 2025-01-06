@@ -58,7 +58,7 @@ async listarUser (req, res) {
             descricaoTipo: true
           }
         },
-        GrupoUser:{
+        grupoUser:{
           select:{
             grupoName: true,
             descricao: true
