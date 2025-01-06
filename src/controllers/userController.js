@@ -193,9 +193,10 @@ async getUserById (req, res){
             descricaoTipo: true
           }
         },
-        GrupoUser:{
+        grupoUser:{
           select:{
-            descricaoGrupo: true
+            grupoName: true,
+            descricao: true
           }
         }
       }
