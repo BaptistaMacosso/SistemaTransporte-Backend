@@ -8,6 +8,7 @@ const userController = require('../controllers/userController');
 const motoristaController = require('../controllers/motoristaController');
 const viaturaController = require('../controllers/viaturaController');
 const tipoUserController = require('../controllers/tipoUserController');
+const grupoUserController = require('../controllers/grupoUserController');
 const licencaPublicidadeController = require('../controllers/licencaPublicidadeController');
 const licencaTransportacaoController = require('../controllers/licencaTransportacaoController');
 const statusManutencaoController = require('../controllers/statusManutencaoController');
@@ -62,6 +63,13 @@ router.get('/viaturas/listarPeloId/:id',protect, viaturaController.getViaturaByI
 //Rotas Tipo Usuário
 router.post('/usuariotipo/novo',protect, tipoUserController.createUsertipo);
 router.get('/usuariotipo/listar',protect, tipoUserController.listarUsertipo);
+router.delete('/usuariotipo/delete/:id',protect, tipoUserController.deleteUsertipo);
+
+//Rotas Grupo Usuário
+router.post('/grupousuario/novo',protect, grupoUserController.createGrupoUser);
+router.get('/grupousuario/listar',protect, grupoUserController.listarGrupoUser);
+router.delete('/grupousuario/delete/:id',protect, grupoUserController.deleteGrupoUser);
+
 
 //Rotas CheckList Viatura
 router.post('/checklist/novo',protect, checkListViatura.createChecklist);

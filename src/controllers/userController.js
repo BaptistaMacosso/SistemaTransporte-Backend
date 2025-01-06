@@ -93,16 +93,16 @@ async loginUser (req, res) {
       return res.status(401).json({ message: 'Falha na autenticação.' });
     }
     const token = await authToken.GenerateToken(user.userId, user.userNome);
-    res.status(201).json({ token: token });
+    return res.status(201).json({ token: token });
   } catch (error) {
-    res.status(500).json({ message: 'Erro ao efectuar o login do usuário. Detalhes: '+error });
+    return res.status(500).json({ message: 'Erro ao efectuar o login do usuário. Detalhes: '+error });
   }
 },
 
 // Atualizar perfil de usuário
 async updateUserProfile (req, res){
   try {
-    const { userNome, userEmail, userPassword, tipoUsuarioId } = req.body;
+    const { userNome, userEmail, userPassword, tipoUsuarioId, GrupoUsuarioId } = req.body;
     const user = await prisma.user.update({
       where: { userId: req.user.id },
       data: {
@@ -110,16 +110,13 @@ async updateUserProfile (req, res){
         userEmail,
         userPassword: userPassword ? await bcrypt.hash(userPassword, await bcrypt.genSalt(10)) : undefined,
         tipoUser: tipoUsuarioId ? { connect: { id: tipoUsuarioId } } : undefined,
+        GrupoUser: GrupoUsuarioId ? { connect: { id: GrupoUsuarioId } } : undefined,
       },
     });
 
-    res.json({
-      id: user.userId,
-      name: user.userNome,
-      email: user.userEmail,
-    });
+    return res.status(201).json({message: 'Perfil actualizado com sucesso.', user});
   } catch (error) {
-    res.status(500).json({ message: 'Erro ao atualizar perfil' });
+    return res.status(500).json({ message: 'Erro ao actualizar perfil do usuário.'+error });
   }
 },
 
@@ -168,13 +165,13 @@ async deleteUser (req, res){
   try {
     const userExists = await prisma.user.findUnique({ where: { userId: parseInt(id) } });
     if (!userExists) {
-      return res.status(404).json({ message: 'Usuário não encontrado' });
+      return res.status(404).json({ message: 'Usuário não encontrado.' });
     }
 
-    await prisma.user.delete({ where: { userId: parseInt(id) } });
-    res.status(201).json({ message: 'Usuário deletado com sucesso' });
+    const userDeleted = await prisma.user.delete({ where: { userId: parseInt(id) } });
+    return res.status(201).json({ message: 'Usuário deletado com sucesso.'+userDeleted });
   } catch (error) {
-    res.status(500).json({ message: 'Erro ao deletar usuário: ' + error });
+    return res.status(500).json({ message: 'Erro ao deletar usuário: ' + error });
   }
 },
 
