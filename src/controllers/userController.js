@@ -177,7 +177,6 @@ async deleteUser (req, res){
 async getUserById (req, res){
   try {
     const { id } = req.params;
-    console.log(id);
     //Verificação
     const user = await prisma.user.findUnique({ where: { userId: parseInt(id) }, 
       select: {
