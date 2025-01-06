@@ -170,7 +170,7 @@ async deleteUser (req, res){
     };
 
     const userDeleted = await prisma.user.delete({ where: { userId: parseInt(id) } });
-    return res.status(201).json({ message: 'Usuário deletado com sucesso.'+userDeleted });
+    return res.status(200).json({ message: 'Usuário deletado com sucesso.'+userDeleted });
   } catch (error) {
     return res.status(500).json({ message: 'Erro ao deletar usuário: ' + error });
   }
@@ -201,7 +201,7 @@ async alterarPasswordUser (req, res){
         userPassword: await bcrypt.hash(newPassword, await bcrypt.genSalt(10))
       },
     });
-    return res.status(201).json({ message: 'Senha do usuário alterada com sucesso.'+userPasswordUpdated });
+    return res.status(200).json({ message: 'Senha do usuário alterada com sucesso.'+userPasswordUpdated });
   } catch (error) {
     return res.status(500).json({ message: 'Erro: Não foi possível alterar a senha do usuário. ' + error });
   }
