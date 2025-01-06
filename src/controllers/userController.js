@@ -7,9 +7,9 @@ module.exports = {
 // Registrar usuário
 async registerUser (req, res) {
   try {
-    const { userNome, userEmail, userPassword, tipoUsuarioId } = req.body;
+    const { userNome, userEmail, userPassword, tipoUsuarioId, GrupoUsuarioId } = req.body;
 
-    if (!userNome || !userEmail || !userPassword || !tipoUsuarioId) {
+    if (!userNome || !userEmail || !userPassword || !tipoUsuarioId || !GrupoUsuarioId) {
         return res.status(400).json({ message: 'Todos os campos são obrigatórios' });
     }
 
@@ -28,7 +28,8 @@ async registerUser (req, res) {
         userNome: userNome,
         userEmail: userEmail,
         userPassword: hashedPassword,
-        tipoUsuarioId: tipoUsuarioId,
+        tipoUsuarioId: parseInt(tipoUsuarioId),
+        GrupoUsuarioId: parseInt(GrupoUsuarioId),
       },
     });
 
@@ -55,6 +56,11 @@ async listarUser (req, res) {
         tipoUser:{
           select:{
             descricaoTipo: true
+          }
+        },
+        GrupoUser:{
+          select:{
+            descricaoGrupo: true
           }
         }
       },
@@ -189,6 +195,11 @@ async getUserById (req, res){
             descricaoTipo: true
           }
         },
+        GrupoUser:{
+          select:{
+            descricaoGrupo: true
+          }
+        }
       }
     });
     if(!user){ return res.status(404).json({message: "Usuário não encontrado."}); }

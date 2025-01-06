@@ -2,6 +2,7 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 async function main() {
+  /*
   // Seed TipoUser
   await prisma.tipoUser.createMany({
     data: [
@@ -34,62 +35,13 @@ async function main() {
     skipDuplicates: true,
   });
 
-  // Seed para Manutencao
-  await prisma.manutencao.createMany({
-    data: [
-      {
-        viaturaId: 1,
-        tipoManutencaoId: 1,
-        descricao: 'Troca de óleo e revisão geral',
-        dataManutencao: new Date('2025-01-15'),
-        quilometragem: 75000,
-        responsavel: 'José Manuel',
-        statusManutencaoId: 2,
-      },
-      {
-        viaturaId: 2,
-        tipoManutencaoId: 2,
-        descricao: 'Substituição de pneus e alinhamento',
-        dataManutencao: new Date('2024-12-10'),
-        quilometragem: 60000,
-        responsavel: 'Ana Cardoso',
-        statusManutencaoId: 1,
-      },
-    ],
-    skipDuplicates: true,
-  });
-
-  // Seed para Checklist
-  await prisma.checklist.createMany({
-    data: [
-      {
-        viaturaId: 1,
-        tipoManutencaoId: 1,
-        quilometragem: 75000,
-        itemsVerificados: 'Pneus, Óleo, Freios',
-        observacao: 'Todos os itens em boas condições',
-        dataCheckList: new Date('2025-01-01'),
-        tecnicoResponsavel: 'Carlos Alberto',
-      },
-      {
-        viaturaId: 2,
-        tipoManutencaoId: 2,
-        quilometragem: 60000,
-        itemsVerificados: 'Luzes, Pneus, Suspensão',
-        observacao: 'Substituir lâmpada traseira direita',
-        dataCheckList: new Date('2025-01-05'),
-        tecnicoResponsavel: 'Marta Silva',
-      },
-    ],
-    skipDuplicates: true,
-  });
-
   // Seed ViaturaTipo
   await prisma.viaturaTipo.createMany({
     data: [
       { viaturaTipo: 'Caminhão' },
-      { viaturaTipo: 'Carro' },
-      { viaturaTipo: 'Moto' },
+      { viaturaTipo: 'Ligeiro de Passeio' },
+      { viaturaTipo: 'Ligeiro de Passageiros' },
+      { viaturaTipo: 'Ligeiro de Mercadorias' },
     ],
     skipDuplicates: true,
   });
@@ -97,7 +49,7 @@ async function main() {
   // Seed ViaturaCategoria
   await prisma.viaturaCategoria.createMany({
     data: [
-      { viaturaCategoria: 'Leve' },
+      { viaturaCategoria: 'Ligeiro' },
       { viaturaCategoria: 'Pesada' },
     ],
     skipDuplicates: true,
@@ -112,7 +64,7 @@ async function main() {
         motoristaEmail: 'joao.silva@email.com',
         motoristaTelefone: '987654321',
         CartaDeConducaoNr: 'LA-ABC-12345', // Número da Carta de Condução no formato angolano
-        DataValidade: new Date('2025-12-31'),
+        DataValidade: '2025-12-31',
       },
       {
         motoristaNome: 'Maria Oliveira',
@@ -120,7 +72,7 @@ async function main() {
         motoristaEmail: 'maria.oliveira@email.com',
         motoristaTelefone: '123456789',
         CartaDeConducaoNr: 'LU-XYZ-98765', // Número da Carta de Condução no formato angolano
-        DataValidade: new Date('2026-06-30'),
+        DataValidade: '2026-06-30',
       },
     ],
     skipDuplicates: true,
@@ -147,8 +99,8 @@ async function main() {
       { statusManutencao: 'Cancelado' },
     ],
     skipDuplicates: true,
-  });
-
+  });*/
+/*
   // Seed Viaturas
   await prisma.viatura.createMany({
     data: [
@@ -161,7 +113,7 @@ async function main() {
         viaturaAnoFabrica: '2020',
         viaturaCombustivel: 'Diesel',
         viaturaCor: 'Prata',
-        quilometragem: 50000.0,
+        quilometragem: 50000,
       },
       {
         viaturaTipoId: 2,
@@ -183,7 +135,7 @@ async function main() {
         viaturaAnoFabrica: '2021',
         viaturaCombustivel: 'Diesel',
         viaturaCor: 'Azul',
-        quilometragem: 10000.0,
+        quilometragem: 10000,
       },
       {
         viaturaTipoId: 3,
@@ -194,32 +146,82 @@ async function main() {
         viaturaAnoFabrica: '2018',
         viaturaCombustivel: 'Gasolina',
         viaturaCor: 'Branco',
-        quilometragem: 60000.0,
+        quilometragem: 60000,
       },
       {
         viaturaTipoId: 2,
-        viaturaCategoriaId: 3,
+        viaturaCategoriaId: 2,
         viaturaMarca: 'Mercedes-Benz',
         viaturaModelo: 'Sprinter',
         viaturaMatricula: 'SX-56-78-EE', // Matricula no formato angolano
         viaturaAnoFabrica: '2022',
         viaturaCombustivel: 'Diesel',
         viaturaCor: 'Cinza',
-        quilometragem: 20000.0,
+        quilometragem: 20000,
       },
     ],
     skipDuplicates: true,
   });
 
+   // Seed para Manutencao
+   await prisma.manutencao.createMany({
+    data: [
+      {
+        viaturaId: 1,
+        tipoManutencaoId: 1,
+        descricao: 'Troca de óleo e revisão geral',
+        dataManutencao: new Date(now()),
+        quilometragem: 75000,
+        responsavel: 'José Manuel',
+        statusManutencaoId: 2,
+      },
+      {
+        viaturaId: 2,
+        tipoManutencaoId: 2,
+        descricao: 'Substituição de pneus e alinhamento',
+        dataManutencao: new Date(now()),
+        quilometragem: 60000,
+        responsavel: 'Ana Cardoso',
+        statusManutencaoId: 1,
+      },
+    ],
+    skipDuplicates: true,
+  });
+
+  // Seed para Checklist
+  await prisma.checklist.createMany({
+    data: [
+      {
+        viaturaId: 1,
+        tipoManutencaoId: 1,
+        quilometragem: 75000,
+        itemsVerificados: 'Pneus, Óleo, Freios',
+        observacao: 'Todos os itens em boas condições',
+        dataCheckList: new Date(now()),
+        tecnicoResponsavel: 'Carlos Alberto',
+      },
+      {
+        viaturaId: 2,
+        tipoManutencaoId: 2,
+        quilometragem: 60000,
+        itemsVerificados: 'Luzes, Pneus, Suspensão',
+        observacao: 'Substituir lâmpada traseira direita',
+        dataCheckList: new Date(now()),
+        tecnicoResponsavel: 'Marta Silva',
+      },
+    ],
+    skipDuplicates: true,
+  });*/
+/*
   // Seed TipoServico
   await prisma.tipoServico.createMany({
     data: [
-      { tipoManutencao: 'Manutenção Preventiva' },
-      { tipoManutencao: 'Mecânica Geral' },
-      { tipoManutencao: 'Funilaria e Pintura' },
-      { tipoManutencao: 'Elétrica e Eletrônica' },
-      { tipoManutencao: 'Ar-Condicionado' },
-      { tipoManutencao: 'Pneus' },
+      { tipoServico: 'Manutenção Preventiva' },
+      { tipoServico: 'Mecânica Geral' },
+      { tipoServico: 'Funilaria e Pintura' },
+      { tipoServico: 'Elétrica e Eletrônica' },
+      { tipoServico: 'Ar-Condicionado' },
+      { tipoServico: 'Pneus' },
     ],
     skipDuplicates: true,
   });
@@ -232,7 +234,7 @@ async function main() {
       { descricao: 'Aprovado' },
     ],
     skipDuplicates: true,
-  });
+  });*/
 
   // Seed Prestador
   await prisma.prestador.createMany({
@@ -242,24 +244,24 @@ async function main() {
         especialidade: 'Manutenção de veículos',
         contato: '+244 923 555 123', // Telefone no formato angolano
         endereco: 'Rua A, 123, Luanda', // Endereço completo com cidade
-        oficinaPropria: true, // Indica que é uma oficina própria
+        //oficinaPropria: true, // Indica que é uma oficina própria
       },
       {
         prestadorNome: 'Auto Elétrica São José',
         especialidade: 'Serviços elétricos',
         contato: '+244 923 555 567', // Telefone no formato angolano
         endereco: 'Rua B, 456, Benguela', // Endereço completo com cidade
-        oficinaPropria: false, // Não é uma oficina própria
+       // oficinaPropria: false, // Não é uma oficina própria
       },
     ],
     skipDuplicates: true,
   });
 }
-
+/*
 // Seed Permissão
 await prisma.permissao.createMany({
   data: [
-    { permissaonome: 'Motoristas - Visualizar', descricao: 'Permite visualizar motoristas', permitido: true },
+      { permissaonome: 'Motoristas - Visualizar', descricao: 'Permite visualizar motoristas', permitido: true },
       { permissaonome: 'Motoristas - Criar', descricao: 'Permite criar motoristas', permitido: true },
       { permissaonome: 'Motoristas - Editar', descricao: 'Permite editar motoristas', permitido: true },
       { permissaonome: 'Motoristas - Excluir', descricao: 'Permite excluir motoristas', permitido: true },
@@ -309,7 +311,7 @@ await prisma.permissao.createMany({
   ],
   skipDuplicates: true,
 });
-
+*/
 main()
   .then(async () => {
     console.log('Seeding concluído!');
