@@ -190,16 +190,19 @@ async alterarPasswordUser (req, res){
 
     // Comparar senha usando bcrypt
     const isMatch = await bcrypt.compare(oldPassword, user.userPassword);
-    
     if (!isMatch) {
       return res.status(400).json({ message: 'A senha antiga está incorreta. Tente novamente.' });
     };
+
+    // Hash da senha usando bcrypt
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
 
     //Password Alterada
     const userPasswordUpdated = await prisma.user.update({
       where: { userId: parseInt(id) },
       data: {
-        userPassword: await bcrypt.hash(newPassword, await bcrypt.genSalt(10))
+        userPassword: hashedPassword
       },
     });
     return res.status(200).json({ message: 'Senha do usuário alterada com sucesso.'+userPasswordUpdated });
