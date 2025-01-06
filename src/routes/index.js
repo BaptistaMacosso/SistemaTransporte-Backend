@@ -44,6 +44,7 @@ router.get('/usuario/listarPeloId/:id', protect, userController.getUserById);
 router.get('/usuario/profile', protect, userController.getUserProfile);
 router.put('/usuario/update/profile', protect, userController.updateUserProfile);
 router.put('/usuario/update/:id', protect, userController.updateUser);
+router.put('/usuario/alterarPassword/:id', protect, userController.alterarPasswordUser);
 router.delete('/usuario/delete/:id',protect, userController.deleteUser);
 
 //Rotas Motoristas

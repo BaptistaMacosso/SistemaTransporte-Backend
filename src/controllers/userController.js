@@ -176,6 +176,29 @@ async deleteUser (req, res){
   }
 },
 
+//Alterar Password Usuário
+async alterarPasswordUser (req, res){
+  const { id } = req.params;
+  const { userPassword } = req.body;
+
+  try {
+    const userExists = await prisma.user.findUnique({ where: { userId: parseInt(id) } });
+    if (!userExists) {
+      return res.status(404).json({ message: 'Usuário não encontrado.' });
+    };
+    //Password Alterada
+    const userPasswordUpdated = await prisma.user.update({
+      where: { userId: parseInt(id) },
+      data: {
+        userPassword: await bcrypt.hash(userPassword, await bcrypt.genSalt(10))
+      },
+    });
+    return res.status(201).json({ message: 'Senha do usuário alterada com sucesso.'+userPasswordUpdated });
+  } catch (error) {
+    return res.status(500).json({ message: 'Erro: Não foi possível alterar a senha do usuário. ' + error });
+  }
+},
+
 
 //Pegar Usuário pelo Id
 async getUserById (req, res){
