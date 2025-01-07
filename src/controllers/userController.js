@@ -199,11 +199,10 @@ async alterarPasswordUser (req, res){
 
 
     //Password Alterada
-    const userPasswordUpdated = await prisma.user.update({
-      where: { userId: parseInt(id) },
+    await prisma.user.update({where: { userId: parseInt(id) },
       data: { userPassword: hashedPassword },
     });
-    return res.status(200).json({ message: 'Senha do usuário alterada com sucesso.'+userPasswordUpdated });
+    return res.status(200).json({ message: 'Senha do usuário alterada com sucesso.' });
   } catch (error) {
     return res.status(500).json({ message: 'Erro: Não foi possível alterar a senha do usuário. ' + error });
   }
