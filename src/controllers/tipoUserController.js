@@ -30,7 +30,7 @@ module.exports = {
   async listarUsertipo (req, res){
       try {
           const listaUser = await prisma.tipoUser.findMany();
-          res.status(200).json({ listaUser });
+          return res.status(200).json({ listaUser: listaUser });
       } catch (error) {
           return res.status(500).json({message: 'error ao listar tipo de usuários '+error.message });
       }
