@@ -180,7 +180,7 @@ async deleteUser (req, res){
 async alterarPasswordUser (req, res){
   const { id } = req.params;
   const { newPassword, oldPassword } = req.body;
-  console.log( newPassword, oldPassword);
+  console.log( newPassword, oldPassword, id);
 
   try {
     const userExists = await prisma.user.findUnique({ where: { userId: parseInt(id) } });
