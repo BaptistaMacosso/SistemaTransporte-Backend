@@ -33,12 +33,7 @@ async registerUser (req, res) {
       },
     });
 
-    return res.status(201).json({
-      id: user.userId,
-      name: user.userNome,
-      email: user.userEmail,
-      tipoUsuarioId: user.tipoUsuarioId,
-    });
+    return res.status(201).json({message: 'Usuário registrado com sucesso.', user});
   } catch (error) {
     return res.status(500).json({ message: 'Erro ao registrar o usuário. '+error });
   }
