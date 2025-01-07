@@ -183,7 +183,7 @@ async alterarPasswordUser (req, res){
   console.log( newPassword, oldPassword, id);
 
   try {
-    const userExists = await prisma.user.findUnique({ where: { userId: parseInt(id) } });
+    const userExists = await prisma.User.findUnique({ where: { userId: parseInt(id) } });
     if (!userExists) {
       return res.status(404).json({ message: 'Usuário não encontrado.' });
     };
@@ -201,11 +201,9 @@ async alterarPasswordUser (req, res){
 
 
     //Password Alterada
-    const userPasswordUpdated = await prisma.user.update({
+    const userPasswordUpdated = await prisma.User.update({
       where: { userId: parseInt(id) },
-      data: {
-        userPassword: hashedPassword
-      },
+      data: { userPassword: hashedPassword },
     });
     return res.status(200).json({ message: 'Senha do usuário alterada com sucesso.'+userPasswordUpdated });
   } catch (error) {
