@@ -31,6 +31,12 @@ async registerUser (req, res) {
         userPassword: hashedPassword,
         tipoUsuarioId: tipoUsuarioId,
         grupoUsuarioId: grupoUsuarioId,
+        tipoUser: {
+          connect: { tipoId: tipoUsuarioId } // ID existente no TipoUser
+        },
+        grupoUser: {
+          connect: { grupoId: grupoUsuarioId } // ID existente no GrupoUser
+        }
       },
     });
 
