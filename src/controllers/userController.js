@@ -180,16 +180,15 @@ async deleteUser (req, res){
 async alterarPasswordUser (req, res){
   const { id } = req.params;
   const { newPassword, oldPassword } = req.body;
-  console.log( newPassword, oldPassword, id);
 
   try {
-    const userExists = await prisma.User.findUnique({ where: { userId: parseInt(id) } });
+    const userExists = await prisma.user.findUnique({ where: { userId: parseInt(id) } });
     if (!userExists) {
       return res.status(404).json({ message: 'Usuário não encontrado.' });
     };
 
     // Comparar senha usando bcrypt
-    const isMatch = await bcrypt.compare(oldPassword, user.userPassword);
+    const isMatch = await bcrypt.compare(oldPassword, userExists.userPassword);
     if (!isMatch) {
       return res.status(400).json({ message: 'A senha antiga está incorreta. Tente novamente.' });
     };
@@ -197,11 +196,10 @@ async alterarPasswordUser (req, res){
     // Hash da senha usando bcrypt
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(newPassword, salt);
-    console.log(hashedPassword);
 
 
     //Password Alterada
-    const userPasswordUpdated = await prisma.User.update({
+    const userPasswordUpdated = await prisma.user.update({
       where: { userId: parseInt(id) },
       data: { userPassword: hashedPassword },
     });
