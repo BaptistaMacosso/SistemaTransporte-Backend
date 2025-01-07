@@ -197,6 +197,8 @@ async alterarPasswordUser (req, res){
     // Hash da senha usando bcrypt
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(newPassword, salt);
+    console.log(hashedPassword);
+
 
     //Password Alterada
     const userPasswordUpdated = await prisma.user.update({
