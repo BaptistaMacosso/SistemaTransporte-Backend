@@ -18,10 +18,10 @@ model User {
   userNome       String  @db.VarChar(100)
   userEmail      String  @unique @db.VarChar(100)
   userPassword   String  @db.VarChar(200)
-  tipoUsuarioId  Int?
-  GrupoUsuarioId Int?
-  tipoUser       TipoUser? @relation(fields: [tipoUsuarioId], references: [tipoId])
-  grupoUser      GrupoUser? @relation(fields: [GrupoUsuarioId], references: [grupoId])
+  tipoUsuarioId  Int
+  grupoUsuarioId Int
+  tipoUser       TipoUser @relation(fields: [tipoUsuarioId], references: [tipoId])
+  grupoUser      GrupoUser @relation(fields: [grupoUsuarioId], references: [grupoId])
   permissoes     Permissao[]
   servicos       Servico[]
   agendamento    Agendamento[]
