@@ -7,8 +7,8 @@ module.exports = {
 // Registrar usuário
 async registerUser (req, res) {
   try {
-    const { userNome, userEmail, userPassword, tipoUsuarioId, grupoUsuarioId, funcionarioId } = req.body;
-    console.log(userNome, userEmail, userPassword, tipoUsuarioId, grupoUsuarioId, funcionarioId );
+    const { userNome, userEmail, userPassword, tipoUsuarioId, grupoUsuarioId } = req.body;
+    console.log(userNome, userEmail, userPassword, tipoUsuarioId, grupoUsuarioId );
     //Verificação
     if (!userNome || !userEmail || !userPassword || !tipoUsuarioId || !grupoUsuarioId) {
         return res.status(400).json({ message: 'Todos os campos são obrigatórios' });
@@ -31,7 +31,6 @@ async registerUser (req, res) {
         userPassword: hashedPassword,
         tipoUsuarioId: tipoUsuarioId,
         grupoUsuarioId: grupoUsuarioId,
-        funcionarioId: funcionarioId,
         tipoUser: {
           connect: { tipoId: tipoUsuarioId } // ID existente no TipoUser
         },

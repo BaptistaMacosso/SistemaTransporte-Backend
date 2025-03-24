@@ -20,15 +20,21 @@ model User {
   userPassword   String  @db.VarChar(200)
   tipoUsuarioId  Int?
   GrupoUsuarioId Int?
-  funcionarioId  Int? @unique
   tipoUser       TipoUser? @relation(fields: [tipoUsuarioId], references: [tipoId])
   grupoUser      GrupoUser? @relation(fields: [GrupoUsuarioId], references: [grupoId])
-  funcionario    Funcionario? @relation(fields: [funcionarioId], references: [funcionarioId])
   permissoes     Permissao[]
   servicos       Servico[]
   agendamento    Agendamento[]
   checklist      Checklist[]
+  userFuncionario UserFuncionario[]
   @@map("tblusuarios")
+}
+model UserFuncionario{
+  userID Int @db.Integer @unique
+  FuncionarioID Int @db.Integer @unique
+  funcionario Funcionario @relation(fields: [FuncionarioID], references: [funcionarioId])
+  user User @relation(fields: [userID], references: [userId])
+  @@map("tblusuariofuncionario")
 }
 
 model TipoUser{
@@ -82,7 +88,7 @@ model Funcionario {
   funcaoTipo           FuncaoTipo @relation(fields: [funcaoTipoId], references: [funcaoId])
   categorias           Categorias? @relation(fields: [categoriaId], references: [categoriaId])
   viaturaFuncionario   ViaturaFuncionario[]
-  user                 User[]
+  userFuncionario      UserFuncionario[]
   @@map("tblfuncionarios")
 }
 
@@ -117,6 +123,7 @@ model Viatura {
   licencaPublicidade  LicencaPublicidadeViaturas[]
   servicos            Servico[]
   agendamentos        Agendamento[]
+  inspeccao           CertificadoInspeccao[]
   @@map("tblviaturas")
 }
 
@@ -202,6 +209,21 @@ model LicencaTransportacaoViaturas{
   licencaStatus          Boolean @default(true)
   viatura                Viatura @relation(fields: [viaturaId], references: [viaturaId]) 
   @@map("tbllicencaTransportacao")
+}
+
+model CertificadoInspeccao{
+  id                 Int @id @default(autoincrement())
+  viaturaId          Int
+  centroInspeccao    String @db.VarChar(100)
+  matricula          String @db.VarChar(15)
+  numeroDoQuadro     String @db.VarChar(100)
+  quilometragem      Decimal @db.Decimal(10,2)
+  dataHoraInspeccao  String @db.VarChar(100)
+  proximaInspeccao   String @db.VarChar(10)
+  numeroCertificado  String @db.VarChar(100)
+  copiaDoCertificado Bytes @db.ByteA
+  viatura            Viatura @relation(fields: [viaturaId], references: [viaturaId])
+  @@map("tblcertificadoinspeccao")
 }
 
 model Prestador {
