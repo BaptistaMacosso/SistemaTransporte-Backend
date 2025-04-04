@@ -14,21 +14,10 @@ module.exports = {
         return res.status(400).json({ message: 'Todos os campos obrigatórios devem ser preenchidos.' });
       }
 
-      // ✅ Função para converter base64 para Buffer compatível com BYTEA
-      const parseBinary = (data) => {
-          if (!data || typeof data !== "string") return null; // Evita erro se `data` for `null` ou não for string
-          try {
-              return Buffer.from(data, "base64"); // Converte para Buffer
-          } catch (error) {
-              console.error("❌ Erro ao converter base64:", error);
-              return null;
-          }
-      };
-
       const funcionario = await prisma.funcionario.create({ data:{
         funcionarioNome:      funcionarioNome,
         numeroBI:             numeroBI,
-        nacionalidade:        nacionalidade,
+        nacionalidades:{ connect: { nacionalidade: nacionalidade }},
         genero:               genero,
         provincia:            provincia,
         funcionarioEmail:     funcionarioEmail,
@@ -36,15 +25,12 @@ module.exports = {
         CartaDeConducaoNr:    CartaDeConducaoNr,
         DataEmissao:          DataEmissao,
         DataValidade:         DataValidade,
-        categoriaId:          categoriaId,
-        // ✅ Ajustando `funcaoTipo` corretamente
-        funcaoTipo: {
-          connect: { funcaoTipoId: funcaoTipoId } // Conecta com um registro existente no banco
-        },
-        copiaBI:              parseBinary(copiaBI),
-        copiaCartaConducao:   parseBinary(copiaCartaConducao),
-        copiaLicencaConducao: parseBinary(copiaLicencaConducao),
-        fotografia:           parseBinary(fotografia),
+        categorias: { connect: { categoriaId: categoriaId } },
+        funcaoTipo: { connect: { funcaoTipoId: funcaoTipoId } },
+        copiaBI:              copiaBI,
+        copiaCartaConducao:   copiaCartaConducao,
+        copiaLicencaConducao: copiaLicencaConducao,
+        fotografia:           fotografia,
         estado:               estado
       } });
       return res.status(201).json({ message: 'Funcionário salvo com sucesso.', funcionario });
