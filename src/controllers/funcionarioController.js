@@ -8,6 +8,7 @@ module.exports = {
       const { 
             funcionarioNome, numeroBI, nacionalidade, genero, provincia, funcionarioEmail,funcionarioTelefone, 
             CartaDeConducaoNr, DataEmissao, DataValidade, categoriaId, funcaoTipoId, estado } = req.body;
+            
             console.log('Arquivos recebidos:', req.files);
       
       if (!funcionarioNome || !numeroBI || !nacionalidade || !genero || !provincia || !funcionarioTelefone || !CartaDeConducaoNr || !DataEmissao || !DataValidade || !funcaoTipoId || !estado) {
