@@ -7,7 +7,7 @@ module.exports = {
     try {
       const { 
             funcionarioNome, numeroBI, nacionalidade, genero, provincia, funcionarioEmail,funcionarioTelefone, 
-            CartaDeConducaoNr, DataEmissao, DataValidade, categoriaId, funcaoTipoId, copiaBI, copiaCartaCoducao, 
+            CartaDeConducaoNr, DataEmissao, DataValidade, categoriaId, funcaoTipoId, copiaBI, copiaCartaConducao, 
             copiaLicencaConducao, fotografia, estado } = req.body;
 
             console.log('=== DADOS DO FUNCIONÁRIO ===');
@@ -48,7 +48,7 @@ module.exports = {
         categoriaId:          categoriaId,
         funcaoTipoId:         funcaoTipoId,
         copiaBI:              copiaBI,
-        copiaCartaCoducao:    copiaCartaCoducao,
+        copiaCartaCoducao:    copiaCartaConducao,
         copiaLicencaConducao: copiaLicencaConducao,
         fotografia:           fotografia,
         estado:               estado 
