@@ -75,15 +75,15 @@ model Funcionario {
   provincia            String   @db.VarChar(40)
   funcionarioEmail     String?  @unique @db.VarChar(100)
   funcionarioTelefone  String   @unique @db.VarChar(20)
-  CartaDeConducaoNr    String   @unique @db.VarChar(45) 
-  DataEmissao          String   @db.VarChar(10)
-  DataValidade         String   @db.VarChar(10)
+  CartaDeConducaoNr    String?   @unique @db.VarChar(45) 
+  DataEmissao          String?   @db.VarChar(10)
+  DataValidade         String?   @db.VarChar(10)
   categoriaId          String?  @db.VarChar(20)
   funcaoTipoId         String   @db.VarChar(30)
-  copiaBI              Bytes    @db.ByteA
+  copiaBI              Bytes?    @db.ByteA
   copiaCartaCoducao    Bytes?   @db.ByteA
   copiaLicencaConducao Bytes?   @db.ByteA
-  fotografia           Bytes    @db.ByteA
+  fotografia           Bytes?    @db.ByteA
   estado               String   @db.VarChar(20) 
   funcaoTipo           FuncaoTipo @relation(fields: [funcaoTipoId], references: [funcaoId])
   categorias           Categorias? @relation(fields: [categoriaId], references: [categoriaId])

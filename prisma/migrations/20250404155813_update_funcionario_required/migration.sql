@@ -1,0 +1,6 @@
+-- AlterTable
+ALTER TABLE "tblfuncionarios" ALTER COLUMN "CartaDeConducaoNr" DROP NOT NULL,
+ALTER COLUMN "DataEmissao" DROP NOT NULL,
+ALTER COLUMN "DataValidade" DROP NOT NULL,
+ALTER COLUMN "copiaBI" DROP NOT NULL,
+ALTER COLUMN "fotografia" DROP NOT NULL;
