@@ -15,6 +15,7 @@ module.exports = {
 
       // Tratamento seguro dos arquivos
       const files = req.files || {};
+      console.log('Arquivos recebidos:', req.files);
 
       const fileProcessor = (fieldName) => {
         return files[fieldName]?.[0]?.buffer || null;
@@ -27,7 +28,6 @@ module.exports = {
         fotografia: fileProcessor('fotografia')
       };
       //
-      console.log('Arquivos recebidos:', req.files);
 
       const funcionario = await prisma.funcionario.create({ data:{
         funcionarioNome:      funcionarioNome,
