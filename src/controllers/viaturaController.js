@@ -102,6 +102,23 @@ module.exports = {
         }
     },
 
+    // Obter uma viatura por ID
+    async getViaturaByMatricula (req, res){
+        const { nrMatricula } = req.body;
+
+        try {
+            const viatura = await prisma.viatura.findUnique({ where: { viaturaMatricula: nrMatricula }});
+
+            //Se não encontrar viatura.
+            if (!viatura) {
+                return res.status(404).json({ message: 'Viatura não encontrada.' });
+            }
+            return res.status(200).json({viatura: viatura});
+        }catch (error) {
+            return res.status(500).json({ message: 'Erro ao listar viaturas: ' + error });
+        }
+    },
+
     // Atualizar uma viatura por ID
     async updateViatura (req, res){
         const { id } = req.params;
