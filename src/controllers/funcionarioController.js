@@ -14,6 +14,8 @@ module.exports = {
         return res.status(400).json({ message: 'Todos os campos obrigatórios devem ser preenchidos.' });
       }
 
+      // ✅ Converte campos binários (caso venham em base64, convertemos para buffer)
+      const parseBinary = (data) => (data ? Buffer.from(data, 'base64') : null);
       const funcionario = await prisma.funcionario.create({ data:{
         funcionarioNome:      funcionarioNome,
         numeroBI:             numeroBI,
@@ -27,10 +29,10 @@ module.exports = {
         DataValidade:         DataValidade,
         categoriaId:          categoriaId,
         funcaoTipoId:         funcaoTipoId,
-        copiaBI:              copiaBI,
-        copiaCartaConducao:    copiaCartaConducao,
-        copiaLicencaConducao: copiaLicencaConducao,
-        fotografia:           fotografia,
+        copiaBI:              parseBinary(copiaBI),
+        copiaCartaConducao:   parseBinary(copiaCartaConducao),
+        copiaLicencaConducao: parseBinary(copiaLicencaConducao),
+        fotografia:           parseBinary(fotografia),
         estado:               estado 
       } });
       return res.status(201).json({ message: 'Funcionário salvo com sucesso.', funcionario });
