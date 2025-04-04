@@ -17,7 +17,7 @@ module.exports = {
       const funcionario = await prisma.funcionario.create({ data:{
         funcionarioNome:      funcionarioNome,
         numeroBI:             numeroBI,
-        nacionalidades:{ connect: { nacionalidade: nacionalidade }},
+        nacionalidades:{ connect: { nacionalidadeId: nacionalidade }},
         genero:               genero,
         provincia:            provincia,
         funcionarioEmail:     funcionarioEmail,
