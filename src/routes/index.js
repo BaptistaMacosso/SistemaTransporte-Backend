@@ -20,6 +20,9 @@ const manutencaoController = require('../controllers/manutencaoController');
 const tipoServicoController = require('../controllers/tipoServicoController');
 const statusServicoController = require('../controllers/statusServicoController');
 const funcionarioController = require('../controllers/funcionarioController');
+const categoriasController = require('../controllers/categoriasController');
+const funcaoController = require('../controllers/funcaoController');
+const nacionalidadeController = require('../controllers/nacionalidadesController');
 
 
 // Rotas para Pedido
@@ -137,6 +140,21 @@ router.delete('/tiposervico/delete/:id',protect, tipoServicoController.deleteTip
 router.post('/statusservico/novo',protect, statusServicoController.createStatusServico);
 router.get('/statusservico/listar',protect, statusServicoController.getAllStatusServico);
 router.delete('/statusservico/delete/:id',protect, statusServicoController.deleteStatusServico);
+
+//Rotas para Categorias
+router.post('/categorias/novo',protect, categoriasController.createCategoria);
+router.get('/categorias/listar',protect, categoriasController.getAllCategoria);
+router.delete('/categorias/delete/:id',protect, categoriasController.deleteCategorias);
+
+//Rotas para Funcao
+router.post('/funcao/novo',protect, funcaoController.createFuncao);
+router.get('/funcao/listar',protect, funcaoController.getAllFuncao);
+router.delete('/funcao/delete/:id',protect, funcaoController.deleteFuncao);
+
+//Rotas para Nacionalidade
+router.post('/nacionalidade/novo',protect, nacionalidadeController.createNacionalidade);
+router.get('/nacionalidade/listar',protect, nacionalidadeController.getAllNacionalidade);
+router.delete('/nacionalidade/delete/:id',protect, nacionalidadeController.deleteNacionalidade);
 
 
 

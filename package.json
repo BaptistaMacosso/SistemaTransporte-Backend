@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "nodemon src/server.js",
     "start": "node src/server.js",
-    "seed": "node src/prisma/seed.js",
+    "seed": "node src/prisma/seedFuncionario.js",
+    "seed:nacionalidades": "node prisma/seedNacionalidades.js",
     "vercel-build": "npx prisma generate"
   },
   "keywords": [],

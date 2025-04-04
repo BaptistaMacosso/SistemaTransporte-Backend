@@ -70,9 +70,9 @@ model Funcionario {
   funcionarioId        Int      @id @default(autoincrement())
   funcionarioNome      String   @db.VarChar(150)
   numeroBI             String   @unique @db.VarChar(30)
-  nacionalidade        String   @unique @db.VarChar(40)
-  genero               String   @unique @db.VarChar(20)
-  provincia            String   @unique @db.VarChar(40)
+  nacionalidade        String   @db.VarChar(40)
+  genero               String   @db.VarChar(20)
+  provincia            String   @db.VarChar(40)
   funcionarioEmail     String?  @unique @db.VarChar(100)
   funcionarioTelefone  String   @unique @db.VarChar(20)
   CartaDeConducaoNr    String   @unique @db.VarChar(45) 
@@ -87,19 +87,26 @@ model Funcionario {
   estado               String   @db.VarChar(20) 
   funcaoTipo           FuncaoTipo @relation(fields: [funcaoTipoId], references: [funcaoId])
   categorias           Categorias? @relation(fields: [categoriaId], references: [categoriaId])
+  nacionalidades       Nacionalidades @relation(fields: [nacionalidade], references: [nacionalidadeId])
   viaturaFuncionario   ViaturaFuncionario[]
   userFuncionario      UserFuncionario[]
   @@map("tblfuncionarios")
 }
 
 model FuncaoTipo{
-  funcaoId  String @db.VarChar(30) @unique
+  funcaoId  String @db.VarChar(30) @unique @id
   funcionario     Funcionario[]
   @@map("tblfuncaoTipo")
 }
 
+model Nacionalidades{
+  nacionalidadeId    String @db.VarChar(40) @unique @id
+  funcionario     Funcionario[]
+  @@map("tblnacionalidades")
+}
+
 model Categorias{
-  categoriaId  String @db.VarChar(30) @unique
+  categoriaId  String @db.VarChar(30) @unique @id
   funcionario     Funcionario[]
   @@map("tblcategorias")
 }
