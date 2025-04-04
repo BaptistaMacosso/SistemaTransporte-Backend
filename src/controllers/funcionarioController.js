@@ -9,6 +9,8 @@ module.exports = {
             funcionarioNome, numeroBI, nacionalidade, genero, provincia, funcionarioEmail,funcionarioTelefone, 
             CartaDeConducaoNr, DataEmissao, DataValidade, categoriaId, funcaoTipoId,
             copiaBI, copiaCartaConducao, copiaLicencaConducao, fotografia, estado } = req.body;
+
+            console.log('Dados recebidos:', req.body);
                   
       if (!funcionarioNome || !numeroBI || !nacionalidade || !genero || !provincia || !funcionarioTelefone || !CartaDeConducaoNr || !DataEmissao || !DataValidade || !funcaoTipoId || !estado) {
         return res.status(400).json({ message: 'Todos os campos obrigatórios devem ser preenchidos.' });
