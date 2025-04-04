@@ -26,7 +26,7 @@ module.exports = {
         DataEmissao:          DataEmissao,
         DataValidade:         DataValidade,
         categorias: { connect: { categoriaId: categoriaId } },
-        funcaoTipo: { connect: { funcaoTipoId: funcaoTipoId } },
+        funcaoTipo: { connect: { funcaoId: funcaoTipoId } },
         copiaBI:              copiaBI,
         copiaCartaConducao:   copiaCartaConducao,
         copiaLicencaConducao: copiaLicencaConducao,
