@@ -14,8 +14,18 @@ module.exports = {
         return res.status(400).json({ message: 'Todos os campos obrigatórios devem ser preenchidos.' });
       }
 
-      // ✅ Converte campos binários (caso venham em base64, convertemos para buffer)
-      const parseBinary = (data) => (data ? Buffer.from(data, 'base64') : null);
+      // ✅ Função para converter base64 para Buffer compatível com BYTEA
+      const parseBinary = (data) => {
+        if (!data) return null; // Se não houver dado, retorna null
+        try {
+            const base64Data = data.split(';base64,').pop(); // Remove prefixo "data:image/png;base64,"
+            return Buffer.from(base64Data, 'base64'); // Converte para Buffer
+        } catch (error) {
+            console.error("❌ Erro ao converter base64:", error);
+            return null;
+        }
+    };
+    
       const funcionario = await prisma.funcionario.create({ data:{
         funcionarioNome:      funcionarioNome,
         numeroBI:             numeroBI,
