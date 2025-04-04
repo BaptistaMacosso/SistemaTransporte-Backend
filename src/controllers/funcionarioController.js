@@ -26,7 +26,7 @@ module.exports = {
             console.log('Estado:', estado);
             console.log('Foto:', fotografia);
             console.log('BI:', copiaBI);
-            console.log('Carta:', copiaCartaConducao);
+            console.log('Carta:', copiaCartaCoducao);
             console.log('Licença:', copiaLicencaConducao);
             console.log('============================');
       
