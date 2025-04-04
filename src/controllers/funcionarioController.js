@@ -8,6 +8,7 @@ module.exports = {
       const { 
             funcionarioNome, numeroBI, nacionalidade, genero, provincia, funcionarioEmail,funcionarioTelefone, 
             CartaDeConducaoNr, DataEmissao, DataValidade, categoriaId, funcaoTipoId, estado } = req.body;
+            console.log('Arquivos recebidos:', req.files);
       
       if (!funcionarioNome || !numeroBI || !nacionalidade || !genero || !provincia || !funcionarioTelefone || !CartaDeConducaoNr || !DataEmissao || !DataValidade || !funcaoTipoId || !estado) {
         return res.status(400).json({ message: 'Todos os campos obrigatórios devem ser preenchidos.' });
@@ -15,19 +16,10 @@ module.exports = {
 
       // Tratamento seguro dos arquivos
       const files = req.files || {};
-      console.log('Arquivos recebidos:', req.files);
 
       const fileProcessor = (fieldName) => {
         return files[fieldName]?.[0]?.buffer || null;
       };
-
-      const fileData = {
-        copiaBI: fileProcessor('copiaBI'),
-        copiaCartaConducao: fileProcessor('copiaCartaConducao'),
-        copiaLicencaConducao: fileProcessor('copiaLicencaConducao'),
-        fotografia: fileProcessor('fotografia')
-      };
-      //
 
       const funcionario = await prisma.funcionario.create({ data:{
         funcionarioNome:      funcionarioNome,
@@ -42,7 +34,10 @@ module.exports = {
         DataValidade:         DataValidade,
         categorias: { connect: { categoriaId: categoriaId } },
         funcaoTipo: { connect: { funcaoId: funcaoTipoId } },
-        ...fileData,
+        copiaBI: fileProcessor('copiaBI'),
+        copiaCartaConducao: fileProcessor('copiaCartaConducao'),
+        copiaLicencaConducao: fileProcessor('copiaLicencaConducao'),
+        fotografia: fileProcessor('fotografia'),
         estado:               estado
       } });
       return res.status(201).json({ message: 'Funcionário salvo com sucesso.', funcionario });
