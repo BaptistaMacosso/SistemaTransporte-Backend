@@ -10,36 +10,20 @@ const app = express();
 //Configuração para permitir o JSON
 app.use(express.json());
 
-  // Middleware CORS
-  app.use(cors({
-    origin: [
-      'http://localhost:3000', // Desenvolvimento
-      'https://sistema-transporte-react-js.vercel.app' // Produção
-    ],
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: [
-      'Content-Type',
-      'Authorization',
-      'X-Requested-With',
-      'Accept'
-    ],
-    credentials: true,
-    maxAge: 86400
-  }));
+/*app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'http://localhost:3000'); // Permitir apenas 'https://example.com'
+  res.header('Access-Control-Allow-Credentials', 'true'); // Permitir envio de credenciais
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  next();
+});*/
 
-  // Middleware para headers manuais (Vercel necessita)
-  app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', req.headers.origin || '*');
-    res.header('Access-Control-Allow-Credentials', 'true');
-    res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
-    res.header('Access-Control-Allow-Headers', 
-      'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-    
-    if (req.method === 'OPTIONS') {
-      return res.status(204).end();
-    }
-    next();
-  });
+app.use('*', cors({
+  //origin: 'https://sistema-transporte-react-js.vercel.app',
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  }));
   
   //Usar as Rotas.
   app.use('/api', Rotas);
