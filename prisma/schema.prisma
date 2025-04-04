@@ -81,7 +81,7 @@ model Funcionario {
   categoriaId          String?  @db.VarChar(20)
   funcaoTipoId         String   @db.VarChar(30)
   copiaBI              Bytes?    @db.ByteA
-  copiaCartaCoducao    Bytes?   @db.ByteA
+  copiaCartaConducao    Bytes?   @db.ByteA
   copiaLicencaConducao Bytes?   @db.ByteA
   fotografia           Bytes?    @db.ByteA
   estado               String   @db.VarChar(20) 

@@ -14,7 +14,7 @@ module.exports = {
               CartaDeConducaoNr, DataEmissao, DataValidade, categoriaId, funcaoTipoId,
               copiaBI, copiaCartaConducao, copiaLicencaConducao, fotografia, estado);
                   
-      if (!funcionarioNome || !numeroBI || !nacionalidade || !genero || !provincia || !funcionarioTelefone || !CartaDeConducaoNr || !DataEmissao || !DataValidade || !funcaoTipoId || !estado) {
+      if (!funcionarioNome || !numeroBI || !nacionalidade || !genero || !provincia || !funcionarioTelefone || !funcaoTipoId || !estado) {
         return res.status(400).json({ message: 'Todos os campos obrigatórios devem ser preenchidos.' });
       }
 
