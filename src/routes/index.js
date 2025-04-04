@@ -19,6 +19,7 @@ const viaturaTipoController = require('../controllers/viaturaTipoController');
 const manutencaoController = require('../controllers/manutencaoController');
 const tipoServicoController = require('../controllers/tipoServicoController');
 const statusServicoController = require('../controllers/statusServicoController');
+const funcionarioController = require('../controllers/funcionarioController');
 
 
 // Rotas para Pedido
@@ -53,6 +54,13 @@ router.get('/motoristas/listar',protect, motoristaController.listarMotorista);
 router.put('/motoristas/update/:id', protect, motoristaController.updateMotorista);
 router.delete('/motoristas/delete/:id', protect, motoristaController.deleteMotorista);
 router.get('/motoristas/listarPeloId/:id', protect, motoristaController.getMotoristaById);
+
+//Rotas Funcionários
+router.post('/funcionarios/novo',protect, funcionarioController.createFuncionario);
+router.get('/funcionarios/listar',protect, funcionarioController.listarTodos);
+router.put('/funcionarios/update/:id', protect, funcionarioController.updateFuncionario);
+router.delete('/funcionarios/delete/:id', protect, funcionarioController.deleteFuncionario);
+router.get('/funcionarios/listarPeloId/:id', protect, funcionarioController.getFuncionarioById);
 
 //Rotas Viaturas
 router.post('/viaturas/novo',protect, viaturaController.createViatura);

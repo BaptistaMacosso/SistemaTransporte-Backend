@@ -3,7 +3,7 @@ const prisma = new PrismaClient();
 
 module.exports = {
   // Salvar funcionário
-  async salvarFuncionario(req, res) {
+  async createFuncionario(req, res) {
     try {
       const { 
             funcionarioNome, numeroBI, nacionalidade, genero, provincia, funcionarioEmail,funcionarioTelefone, 
@@ -40,7 +40,7 @@ module.exports = {
   },
 
   // Editar funcionário
-  async editarFuncionario(req, res) {
+  async updateFuncionario(req, res) {
     try {
       const { id } = req.params;
       const funcionarioExiste = await prisma.funcionario.findUnique({ where: { funcionarioId: parseInt(id) } });
@@ -75,7 +75,7 @@ module.exports = {
   },
 
   // Eliminar funcionário
-  async eliminarFuncionario(req, res) {
+  async deleteFuncionario(req, res) {
     try {
       const { id } = req.params;
       const funcionarioExiste = await prisma.funcionario.findUnique({ where: { funcionarioId: parseInt(id) } });
@@ -94,20 +94,21 @@ module.exports = {
   async listarPorNome(req, res) {
     try {
       const { nome } = req.params;
-      const funcionarios = await prisma.funcionario.findMany({ where: { funcionarioNome: { contains: nome } } });
-      return res.status(200).json({ funcionarios });
+      const funcionario = await prisma.funcionario.findMany({ where: { funcionarioNome: { contains: nome } } });
+      if (!funcionario) return res.status(404).json({ message: 'Funcionário não encontrado.' });
+      return res.status(200).json({ funcionario: funcionario });
     } catch (error) {
       return res.status(500).json({ message: 'Erro ao listar funcionário por nome: ' + error.message });
     }
   },
 
   // Listar funcionário por ID
-  async listarPorId(req, res) {
+  async getFuncionarioById(req, res) {
     try {
       const { id } = req.params;
       const funcionario = await prisma.funcionario.findUnique({ where: { funcionarioId: parseInt(id) } });
       if (!funcionario) return res.status(404).json({ message: 'Funcionário não encontrado.' });
-      return res.status(200).json({ funcionario });
+      return res.status(200).json({ funcionario: funcionario });
     } catch (error) {
       return res.status(500).json({ message: 'Erro ao listar funcionário por ID: ' + error.message });
     }
@@ -124,7 +125,7 @@ module.exports = {
   },
 
   // Listar quantos estão com a função de motorista
-  async listarMotoristas(req, res) {
+  async listarFuncionariosMotoristas(req, res) {
     try {
       const motoristas = await prisma.funcionario.count({ where: { funcaoTipoId: 'motorista' } });
       return res.status(200).json({ quantidade: motoristas });
