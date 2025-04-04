@@ -37,7 +37,8 @@ module.exports = {
       } });
       return res.status(201).json({ message: 'Funcionário salvo com sucesso.', funcionario });
     } catch (error) {
-      return res.status(500).json({ message: 'Erro ao salvar funcionário: ' + error.message });
+      console.error("❌ Erro ao salvar funcionário:", error);
+      return res.status(500).json({ message: 'Erro ao salvar funcionário: ' + error });
     }
   },
 
