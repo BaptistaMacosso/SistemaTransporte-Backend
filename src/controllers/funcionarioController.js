@@ -13,17 +13,18 @@ module.exports = {
         return res.status(400).json({ message: 'Todos os campos obrigatórios devem ser preenchidos.' });
       }
 
-      // Processar arquivos
-      const fileToBytea = (file) => {
-        if (!file) return null;
-        return Buffer.from(file.buffer).toString('hex'); // Converte para representação hexadecimal
+      // Tratamento seguro dos arquivos
+      const files = req.files || {};
+
+      const fileProcessor = (fieldName) => {
+        return files[fieldName]?.[0]?.buffer || null;
       };
 
-      const files = {
-        copiaBI: fileToBytea(req.files.copiaBI?.[0]),
-        copiaCartaConducao: fileToBytea(req.files.copiaCartaConducao?.[0]),
-        copiaLicencaConducao: fileToBytea(req.files.copiaLicencaConducao?.[0]),
-        fotografia: fileToBytea(req.files.fotografia?.[0])
+      const fileData = {
+        copiaBI: fileProcessor('copiaBI'),
+        copiaCartaConducao: fileProcessor('copiaCartaConducao'),
+        copiaLicencaConducao: fileProcessor('copiaLicencaConducao'),
+        fotografia: fileProcessor('fotografia')
       };
 
       const funcionario = await prisma.funcionario.create({ data:{
@@ -39,10 +40,7 @@ module.exports = {
         DataValidade:         DataValidade,
         categorias: { connect: { categoriaId: categoriaId } },
         funcaoTipo: { connect: { funcaoId: funcaoTipoId } },
-        copiaBI: files.copiaBI,
-        copiaCartaConducao: files.copiaCartaConducao,
-        copiaLicencaConducao: files.copiaLicencaConducao,
-        fotografia: files.fotografia,
+        ...fileData,
         estado:               estado
       } });
       return res.status(201).json({ message: 'Funcionário salvo com sucesso.', funcionario });
