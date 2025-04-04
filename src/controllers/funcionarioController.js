@@ -9,26 +9,6 @@ module.exports = {
             funcionarioNome, numeroBI, nacionalidade, genero, provincia, funcionarioEmail,funcionarioTelefone, 
             CartaDeConducaoNr, DataEmissao, DataValidade, categoriaId, funcaoTipoId, copiaBI, copiaCartaConducao, 
             copiaLicencaConducao, fotografia, estado } = req.body;
-
-            console.log('=== DADOS DO FUNCIONÁRIO ===');
-            console.log('Nome:', funcionarioNome);
-            console.log('Número BI:', numeroBI);
-            console.log('Nacionalidade:', nacionalidade);
-            console.log('Gênero:', genero);
-            console.log('Província:', provincia);
-            console.log('Email:', funcionarioEmail);
-            console.log('Telefone:', funcionarioTelefone);
-            console.log('Nº Carta de Condução:', CartaDeConducaoNr);
-            console.log('Data de Emissão:', DataEmissao);
-            console.log('Data de Validade:', DataValidade);
-            console.log('Categoria ID:', categoriaId);
-            console.log('Função Tipo ID:', funcaoTipoId);
-            console.log('Estado:', estado);
-            console.log('Foto:', fotografia);
-            console.log('BI:', copiaBI);
-            console.log('Carta:', copiaCartaConducao);
-            console.log('Licença:', copiaLicencaConducao);
-            console.log('============================');
       
       if (!funcionarioNome || !numeroBI || !nacionalidade || !genero || !provincia || !funcionarioTelefone || !CartaDeConducaoNr || !DataEmissao || !DataValidade || !funcaoTipoId || !estado) {
         return res.status(400).json({ message: 'Todos os campos obrigatórios devem ser preenchidos.' });
@@ -48,7 +28,7 @@ module.exports = {
         categoriaId:          categoriaId,
         funcaoTipoId:         funcaoTipoId,
         copiaBI:              copiaBI,
-        copiaCartaCoducao:    copiaCartaConducao,
+        copiaCartaConducao:    copiaCartaConducao,
         copiaLicencaConducao: copiaLicencaConducao,
         fotografia:           fotografia,
         estado:               estado 
