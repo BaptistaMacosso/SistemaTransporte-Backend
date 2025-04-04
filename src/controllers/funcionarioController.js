@@ -26,6 +26,8 @@ module.exports = {
         copiaLicencaConducao: fileProcessor('copiaLicencaConducao'),
         fotografia: fileProcessor('fotografia')
       };
+      //
+      console.log('Arquivos recebidos:', req.files);
 
       const funcionario = await prisma.funcionario.create({ data:{
         funcionarioNome:      funcionarioNome,
