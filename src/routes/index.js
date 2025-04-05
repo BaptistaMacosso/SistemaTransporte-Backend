@@ -68,7 +68,7 @@ router.get('/funcionarios/listarPeloId/:id', protect, funcionarioController.getF
 //Rotas Viaturas
 router.post('/viaturas/novo',protect, viaturaController.createViatura);
 router.get('/viaturas/listar',protect, viaturaController.getAllViaturas);
-router.post('/viaturas/listarPorMatricula',protect, viaturaController.getViaturaByMatricula);
+router.get('/viaturas/listarPorMatricula/:nrMatricula',protect, viaturaController.getViaturaByMatricula);
 router.put('/viaturas/update/:id',protect, viaturaController.updateViatura);
 router.delete('/viaturas/delete/:id',protect, viaturaController.deleteViatura);
 router.get('/viaturas/listarPeloId/:id',protect, viaturaController.getViaturaById);
