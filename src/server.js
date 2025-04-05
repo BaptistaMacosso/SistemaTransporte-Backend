@@ -12,10 +12,11 @@
     credentials: true,
   };
 
-  app.use(cors(corsOptions)); // 👈 deve vir antes de tudo
-
+  
   //Configuração Inicial.
   const app = express();
+  app.use(cors(corsOptions)); // 👈 deve vir antes de tudo
+  
   //Configuração para permitir o JSON
   app.use(express.json());
   
