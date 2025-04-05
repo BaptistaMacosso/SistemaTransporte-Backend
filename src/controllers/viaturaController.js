@@ -105,13 +105,7 @@ module.exports = {
     // Obter uma viatura por ID
     async getViaturaByMatricula (req, res){
         const { nrMatricula } = req.params;
-        console.log('Matricula recebida: ',nrMatricula);
-
-        if (!nrMatricula) {
-            return res.status(400).json({ message: 'Matrícula não fornecida.' });
-        }
         const matriculaFormatada = nrMatricula.trim().toUpperCase();
-        console.log('📌 Matrícula recebida:', matriculaFormatada);
 
         try {
             const viatura = await prisma.viatura.findUnique({ 
@@ -128,7 +122,7 @@ module.exports = {
             return res.status(200).json({viatura: viatura});
         }catch (error) {
             console.error('Erro ao buscar viatura:', error);
-            return res.status(500).json({ message: 'Erro ao listar viaturas: ' + error });
+            return res.status(500).json({ message: 'Erro ao pesquisar viatura pela matrícula, por favor verificar console!'});
         }
     },
 
