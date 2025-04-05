@@ -1,29 +1,23 @@
-require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
-//Rotas do sistema.
-const Rotas = require('./routes');
+  require('dotenv').config();
+  const express = require('express');
+  const cors = require('cors');
+  //Rotas do sistema.
+  const Rotas = require('./routes');
 
+  const corsOptions = {
+    //origin: 'https://sistema-transporte-react-js.vercel.app',
+    origin: 'http://localhost:3000', // ou '*' para testes
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
+  };
 
-//Configuração Inicial.
-const app = express();
-//Configuração para permitir o JSON
-app.use(express.json());
+  app.use(cors(corsOptions)); // 👈 deve vir antes de tudo
 
-/*app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:3000'); // Permitir apenas 'https://example.com'
-  res.header('Access-Control-Allow-Credentials', 'true'); // Permitir envio de credenciais
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  next();
-});*/
-
-app.use('*', cors({
-  //origin: 'https://sistema-transporte-react-js.vercel.app',
-  origin: '*',
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  }));
+  //Configuração Inicial.
+  const app = express();
+  //Configuração para permitir o JSON
+  app.use(express.json());
   
   //Usar as Rotas.
   app.use('/api', Rotas);
