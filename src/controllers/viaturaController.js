@@ -105,7 +105,7 @@ module.exports = {
     // Obter uma viatura por ID
     async getViaturaByMatricula (req, res){
         const { nrMatricula } = req.body;
-
+        console.log('matricula: ',nrMatricula);
         try {
             const viatura = await prisma.viatura.findUnique({ where: { viaturaMatricula: nrMatricula }});
 
