@@ -105,6 +105,7 @@ module.exports = {
     // Obter uma viatura por ID
     async getViaturaByMatricula (req, res){
         const { nrMatricula } = req.body;
+        console.log('Matricula recebida: ',nrMatricula);
 
         if (!nrMatricula) {
             return res.status(400).json({ message: 'Matrícula não fornecida.' });
