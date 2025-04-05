@@ -46,6 +46,16 @@ module.exports = {
       if (!viaturaId || !funcionarioId ) {
         return res.status(400).json({ message: 'Os campos viatura ID e funcionário ID são obrigatórios.' });
       }
+      //Verificar Viatura Atribuida.
+      const viaturaAtribuida = await prisma.viaturaFuncionario.findUnique({where: {viaturaId: viaturaId}});
+      if (viaturaAtribuida) {
+        return res.status(400).json({ message: 'A viatura selecionada já se encontra atribuida.' });
+      }
+      //Verificar Funcionário já Atribuido.
+      const funcionarioAtribuido = await prisma.viaturaFuncionario.findUnique({where: {funcionarioId: funcionarioId}});
+      if (funcionarioAtribuido) {
+        return res.status(400).json({ message: 'O funcionário selecionado já possui uma viatura atribuida.' });
+      }
 
       const atribuicao = await prisma.viaturaFuncionario.create({ 
         data:{
