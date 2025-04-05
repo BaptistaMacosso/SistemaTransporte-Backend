@@ -9,10 +9,6 @@ module.exports = {
             funcionarioNome, numeroBI, nacionalidade, genero, provincia, funcionarioEmail,funcionarioTelefone, 
             CartaDeConducaoNr, DataEmissao, DataValidade, categoriaId, funcaoTipoId,
             copiaBI, copiaCartaConducao, copiaLicencaConducao, fotografia, estado } = req.body;
-
-            console.log('Dados recebidos:', funcionarioNome, numeroBI, nacionalidade, genero, provincia, funcionarioEmail,funcionarioTelefone, 
-              CartaDeConducaoNr, DataEmissao, DataValidade, categoriaId, funcaoTipoId,
-              copiaBI, copiaCartaConducao, copiaLicencaConducao, fotografia, estado);
                   
       if (!funcionarioNome || !numeroBI || !nacionalidade || !genero || !provincia || !funcionarioTelefone || !funcaoTipoId || !estado) {
         return res.status(400).json({ message: 'Todos os campos obrigatórios devem ser preenchidos.' });
@@ -41,6 +37,25 @@ module.exports = {
     } catch (error) {
       console.error("❌ Erro ao salvar funcionário:", error);
       return res.status(500).json({ message: 'Erro ao salvar funcionário: ' + error });
+    }
+  },
+
+  async atribuirViaturaFuncionario(req, res){
+    try {
+      const {viaturaId, funcionarioId } = req.body;
+      if (!viaturaId || !funcionarioId ) {
+        return res.status(400).json({ message: 'Os campos viatura ID e funcionário ID são obrigatórios.' });
+      }
+
+      const atribuicao = await prisma.viaturaFuncionario.create({ 
+        data:{
+          viaturaId: viaturaId,
+          funcionarioId: funcionarioId,
+        } });
+      return res.status(201).json({ message: 'Viatura atribuida com sucesso.', atribuicao });
+    } catch (error) {
+      console.error("❌ Erro ao salvar atribuição de viatura ao funcionário:", error);
+      return res.status(500).json({ message: 'Erro ao salvar atribuição de viatura ao funcionário: ' + error });
     }
   },
 
