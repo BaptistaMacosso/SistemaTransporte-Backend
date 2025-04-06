@@ -8,7 +8,6 @@ module.exports = {
 async registerUser (req, res) {
   try {
     const { userNome, userEmail, userPassword, tipoUsuarioId, grupoUsuarioId } = req.body;
-    console.log(userNome, userEmail, userPassword, tipoUsuarioId, grupoUsuarioId );
     //Verificação
     if (!userNome || !userEmail || !userPassword || !tipoUsuarioId || !grupoUsuarioId) {
         return res.status(400).json({ message: 'Todos os campos são obrigatórios' });
