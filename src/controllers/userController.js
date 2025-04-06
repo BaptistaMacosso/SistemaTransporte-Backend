@@ -15,7 +15,7 @@ async registerUser (req, res) {
 
     const userExists = await prisma.user.findUnique({ where: { userEmail } }); 
     if (userExists) {
-      return res.status(400).json({ message: 'Usuário já existe.' });
+      return res.status(409).json({ message: 'Usuário já existe.' });
     }
     
     // Hash da senha usando bcrypt
