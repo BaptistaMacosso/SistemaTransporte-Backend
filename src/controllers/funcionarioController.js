@@ -73,9 +73,18 @@ module.exports = {
   async updateFuncionario(req, res) {
     try {
       const { id } = req.params;
+      const { 
+        funcionarioNome, numeroBI, nacionalidade, genero, provincia, funcionarioEmail,funcionarioTelefone, 
+        CartaDeConducaoNr, DataEmissao, DataValidade, categoriaId, funcaoTipoId,
+        copiaBI, copiaCartaConducao, copiaLicencaConducao, fotografia, estado } = req.body;
+
       const funcionarioExiste = await prisma.funcionario.findUnique({ where: { funcionarioId: parseInt(id) } });
       if (!funcionarioExiste) {
         return res.status(404).json({ message: 'Funcionário não encontrado.' });
+      }
+
+      if (!funcionarioNome || !numeroBI || !nacionalidade || !genero || !provincia || !funcionarioTelefone || !funcaoTipoId || !estado) {
+        return res.status(400).json({ message: 'Todos os campos (*) são de preenchimento obrigatório.' });
       }
       
       const funcionario = await prisma.funcionario.update({ where: { funcionarioId: parseInt(id) }, 
@@ -93,7 +102,7 @@ module.exports = {
         categoriaId:          categoriaId,
         funcaoTipoId:         funcaoTipoId,
         copiaBI:              copiaBI,
-        copiaCartaCoducao:    copiaCartaCoducao,
+        copiaCartaConducao:   copiaCartaConducao,
         copiaLicencaConducao: copiaLicencaConducao,
         fotografia:           fotografia,
         estado:               estado 
