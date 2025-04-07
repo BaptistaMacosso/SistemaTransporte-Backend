@@ -21,9 +21,9 @@ module.exports = {
             endereco,
           },
         });
-        return res.status(201).json({message: "Prestador criado com sucesso", prestador});
+        return res.status(201).json({message: "Prestador criado com sucesso.", prestador});
       } catch (error) {
-        return res.status(500).json({ error: "Erro ao criar prestador" });
+        return res.status(500).json({ message: "Erro ao criar prestador. Detalhes: ",error });
       }
     },
   
@@ -42,7 +42,7 @@ module.exports = {
         res.status(200).json({prestadores: listaPrestadores});
       } catch (error) {
         console.error(error);
-        res.status(500).json({ error: "Erro ao buscar prestadores de serviço" });
+        res.status(500).json({ message: "Erro ao buscar prestadores de serviço", error });
       }
     },
   
