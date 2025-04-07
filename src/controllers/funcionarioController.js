@@ -156,7 +156,7 @@ module.exports = {
   // Listar todos os funcionários
   async listarTodos(req, res) {
     try {
-      const funcionarios = await prisma.funcionario.findMany();
+      const funcionarios = await prisma.funcionario.findMany({orderBy: {funcionarioId: 'asc'}});
       return res.status(200).json({ funcionarios });
     } catch (error) {
       return res.status(500).json({ message: 'Erro ao listar todos os funcionários: ' + error.message });
