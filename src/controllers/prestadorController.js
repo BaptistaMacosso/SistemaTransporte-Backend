@@ -10,7 +10,7 @@ module.exports = {
        
         //Verificação
         if (!prestadorNome || !especialidade || !contato || !endereco) {
-          return res.status(400).json({ message: "Todos os campos são obrigatórios." });
+          return res.status(409).json({ message: "Todos os campos são de preenchimento obrigatórios." });
         };
 
         const prestador = await prisma.prestador.create({
@@ -23,7 +23,7 @@ module.exports = {
         });
         return res.status(201).json({message: "Prestador criado com sucesso.", prestador});
       } catch (error) {
-        return res.status(500).json({ message: "Erro ao criar prestador. Detalhes: ",error });
+        return res.status(500).json({ message: "Erro ao criar o registo, por favor verifique a console. Detalhes: ",error });
       }
     },
   
@@ -42,7 +42,7 @@ module.exports = {
         res.status(200).json({prestadores: listaPrestadores});
       } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Erro ao buscar prestadores de serviço", error });
+        res.status(500).json({ message: "Erro ao listar todos os registos, por favor verifique a console.", error });
       }
     },
   
@@ -52,12 +52,12 @@ module.exports = {
         const { id } = req.params;
         const prestador = await prisma.prestador.findUnique({where: { prestadorId: parseInt(id) }});
         if (!prestador){ 
-          return res.status(404).json({ message: "Prestador de serviço não encontrado" });
+          return res.status(404).json({ message: "Prestador de serviço não encontrado." });
         }
         res.status(200).json({prestador: prestador});
       } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Erro ao buscar prestador de serviço. Detalhes: ",error });
+        res.status(500).json({ message: "Erro ao listar registo pelo ID, por favor verifique a console.",error });
       }
     },
   
@@ -66,6 +66,11 @@ module.exports = {
       try {
         const { id } = req.params;
         const { prestadorNome, especialidade, contato, endereco } = req.body;
+
+        //Verificação
+        if (!prestadorNome || !especialidade || !contato || !endereco) {
+          return res.status(409).json({ message: "Todos os campos são de preenchimento obrigatórios." });
+        };
 
         //Verificar se existe
         const prestadorExiste = await prisma.prestador.findUnique({ where: { prestadorId: parseInt(id) } });
@@ -85,7 +90,7 @@ module.exports = {
         });
         return res.status(201).json({message: "Prestador de serviço actualizado com sucesso.", prestador});
       } catch (error) {
-        return res.status(500).json({ message: "Erro ao actualizar prestador de serviço. Detalhes: ",error });
+        return res.status(500).json({ message: "Erro ao actualizar o registo, por favor verifique a console.",error });
       }
     },
   
@@ -103,7 +108,7 @@ module.exports = {
         const prestadorDeleted = await prisma.prestador.delete({ where: { prestadorId: parseInt(id) } });
         return res.status(200).json({ message: "Prestador de serviço deletado com sucesso.",prestadorDeleted });
       } catch (error) {
-        return res.status(500).json({ message: "Erro ao deletar prestador de serviço. Detalhes: ",error });
+        return res.status(500).json({ message: "Erro ao deletar o registo, por favor verifique a console.",error });
       }
     },
   };
