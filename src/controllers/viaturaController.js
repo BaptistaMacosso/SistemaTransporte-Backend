@@ -12,17 +12,17 @@ module.exports = {
         //Verificação
         if (!viaturaTipoId || !viaturaCategoriaId || !viaturaMarca || !viaturaModelo || !viaturaMatricula 
         || !viaturaAnoFabrica || !viaturaCombustivel || !viaturaCor || !quilometragem) {
-            return res.status(400).json({ message: 'Todos os campos são obrigatórios' });
+            return res.status(409).json({ message: 'Todos os campos são de preenchimento obrigatório.' });
         };
 
         if (isNaN(Number(quilometragem))) {
-            return res.status(500).json({message:"Quilometragem deve ser um número."});
+            return res.status(409).json({message:"Quilometragem deve ser um número."});
         };
 
         try {
             const viaturaExists = await prisma.viatura.findUnique({ where: { viaturaMatricula: viaturaMatricula } });
             if (viaturaExists) {
-                return res.status(400).json({ message: 'Viatura já cadastrada' });
+                return res.status(400).json({ message: 'Viatura já cadastrada.'});
             }
             
             const novaViatura = await prisma.viatura.create({
@@ -41,7 +41,7 @@ module.exports = {
 
             return res.status(201).json({ message: 'Viatura cadastrada com sucesso.', novaViatura });
         } catch (error) {
-            return res.status(500).json({ message: 'Erro ao cadastrar viatura: ' + error });
+            return res.status(500).json({ message: 'Erro ao criar o registo, por favor verifique a console. Detalhes: ' + error });
         }
     },
 
@@ -76,7 +76,7 @@ module.exports = {
             });
             return res.status(200).json({ viaturas: todasViaturas });
         } catch (error) {
-            return res.status(500).json({ message: 'Erro ao listar viaturas: ' + error });
+            return res.status(500).json({ message: 'Erro ao listar as viaturas, por favor verifique a console.', error });
         }
     },
 
@@ -108,8 +108,7 @@ module.exports = {
         const matriculaFormatada = nrMatricula.trim().toUpperCase();
 
         try {
-            const viatura = await prisma.viatura.findUnique({ 
-                where: { viaturaMatricula: matriculaFormatada },
+            const viatura = await prisma.viatura.findUnique({ where: { viaturaMatricula: matriculaFormatada },
                 include: {
                 viaturaTipo: true,
                 viaturaCategoria: true,
@@ -122,14 +121,26 @@ module.exports = {
             return res.status(200).json({viatura: viatura});
         }catch (error) {
             console.error('Erro ao buscar viatura:', error);
-            return res.status(500).json({ message: 'Erro ao pesquisar viatura pela matrícula, por favor verificar console!'});
+            return res.status(500).json({ message: 'Erro ao pesquisar viatura pela matrícula, por favor verificar console.', error});
         }
     },
 
     // Atualizar uma viatura por ID
     async updateViatura (req, res){
         const { id } = req.params;
-        const data = req.body;
+        const { viaturaTipoId, viaturaCategoriaId, viaturaMarca, viaturaModelo, viaturaMatricula,
+                viaturaAnoFabrica, viaturaCombustivel, viaturaCor, quilometragem
+            } = req.body;
+
+        //Verificação
+        if (!viaturaTipoId || !viaturaCategoriaId || !viaturaMarca || !viaturaModelo || !viaturaMatricula 
+        || !viaturaAnoFabrica || !viaturaCombustivel || !viaturaCor || !quilometragem) {
+            return res.status(409).json({ message: 'Todos os campos são de preenchimento obrigatório.' });
+        };
+
+        if (isNaN(Number(quilometragem))) {
+            return res.status(409).json({message:"Quilometragem deve ser um número."});
+        };
 
         try {
             const viaturaExists = await prisma.viatura.findUnique({ where: { viaturaId: parseInt(id) } });
@@ -139,12 +150,20 @@ module.exports = {
 
             const viaturaAtualizada = await prisma.viatura.update({
                 where: { viaturaId: parseInt(id) },
-                data,
+                viaturaTipoId: viaturaTipoId,
+                viaturaCategoriaId: viaturaCategoriaId,
+                viaturaMarca: viaturaMarca,
+                viaturaModelo: viaturaModelo,
+                viaturaMatricula: viaturaMatricula,
+                viaturaAnoFabrica: viaturaAnoFabrica,
+                viaturaCombustivel: viaturaCombustivel,
+                viaturaCor: viaturaCor,
+                quilometragem: quilometragem,
               });
 
             return res.status(201).json({ message: 'Viatura atualizada com sucesso.', viaturaAtualizada });
         } catch (error) {
-            return res.status(500).json({ message: 'Erro ao atualizar viatura: ' + error });
+            return res.status(500).json({ message: 'Erro ao atualizar o registo, por favor verifique a console. Detalhes:' + error });
         }
     },
 
@@ -155,13 +174,13 @@ module.exports = {
         try {
             const viaturaExists = await prisma.viatura.findUnique({ where: { viaturaId: parseInt(id) } });
             if (!viaturaExists) {
-                return res.status(404).json({ message: 'Viatura não encontrada' });
+                return res.status(404).json({ message: 'Viatura não encontrada.' });
             }
 
-            await prisma.viatura.delete({ where: { viaturaId: parseInt(id) } });
-            return res.status(200).json({ message: 'Viatura deletada com sucesso.' });
+            const viaturaDeleted = await prisma.viatura.delete({ where: { viaturaId: parseInt(id) } });
+            return res.status(200).json({ message: 'Viatura deletada com sucesso.', viaturaDeleted });
         } catch (error) {
-            return res.status(500).json({ message: 'Erro ao deletar viatura: ' + error });
+            return res.status(500).json({ message: 'Erro ao deletar o registo, por favor verifique a console.' + error });
         }
     },
 };
