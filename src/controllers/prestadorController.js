@@ -10,7 +10,7 @@ module.exports = {
        
         //Verificação
         if (!prestadorNome || !especialidade || !contato || !endereco) {
-          return res.status(400).json({ error: "Todos os campos são obrigatórios." });
+          return res.status(400).json({ message: "Todos os campos são obrigatórios." });
         };
 
         const prestador = await prisma.prestador.create({
@@ -52,12 +52,12 @@ module.exports = {
         const { id } = req.params;
         const prestador = await prisma.prestador.findUnique({where: { prestadorId: parseInt(id) }});
         if (!prestador){ 
-          return res.status(404).json({ error: "Prestador de serviço não encontrado" });
+          return res.status(404).json({ message: "Prestador de serviço não encontrado" });
         }
         res.status(200).json({prestador: prestador});
       } catch (error) {
         console.error(error);
-        res.status(500).json({ error: "Erro ao buscar prestador de serviço" });
+        res.status(500).json({ message: "Erro ao buscar prestador de serviço. Detalhes: ",error });
       }
     },
   
@@ -70,7 +70,7 @@ module.exports = {
         //Verificar se existe
         const prestadorExiste = await prisma.prestador.findUnique({ where: { prestadorId: parseInt(id) } });
         if(!prestadorExiste) {
-          return res.status(404).json({error: "Prestador de serviço não encontrado"});
+          return res.status(404).json({message: "Prestador de serviço não encontrado."});
         };
 
         // Atualizar prestador
@@ -85,7 +85,7 @@ module.exports = {
         });
         return res.status(201).json({message: "Prestador de serviço actualizado com sucesso.", prestador});
       } catch (error) {
-        return res.status(500).json({ error: "Erro ao actualizar prestador de serviço." });
+        return res.status(500).json({ message: "Erro ao actualizar prestador de serviço. Detalhes: ",error });
       }
     },
   
@@ -96,14 +96,14 @@ module.exports = {
         //Verificar se existe
         const prestadorExiste = await prisma.prestador.findUnique({ where: { prestadorId: parseInt(id) } });
         if(!prestadorExiste) {
-          return res.status(404).json({error: "Prestador de serviço não encontrado."});
+          return res.status(404).json({message: "Prestador de serviço não encontrado."});
         };
 
         // Deletar prestador
         const prestadorDeleted = await prisma.prestador.delete({ where: { prestadorId: parseInt(id) } });
         return res.status(200).json({ message: "Prestador de serviço deletado com sucesso.",prestadorDeleted });
       } catch (error) {
-        return res.status(500).json({ error: "Erro ao deletar prestador de serviço" });
+        return res.status(500).json({ message: "Erro ao deletar prestador de serviço. Detalhes: ",error });
       }
     },
   };
