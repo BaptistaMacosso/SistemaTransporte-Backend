@@ -10,7 +10,7 @@ module.exports = {
        
         //Verificação
         if (!prestadorNome || !especialidade || !contato || !endereco) {
-          return res.status(409).json({ message: "Todos os campos são de preenchimento obrigatórios." });
+          return res.status(409).json({ message: "Todos os campos são de preenchimento obrigatório." });
         };
 
         const prestador = await prisma.prestador.create({
@@ -69,7 +69,7 @@ module.exports = {
 
         //Verificação
         if (!prestadorNome || !especialidade || !contato || !endereco) {
-          return res.status(409).json({ message: "Todos os campos são de preenchimento obrigatórios." });
+          return res.status(409).json({ message: "Todos os campos são de preenchimento obrigatório." });
         };
 
         //Verificar se existe
