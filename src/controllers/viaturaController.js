@@ -27,15 +27,15 @@ module.exports = {
             
             const novaViatura = await prisma.viatura.create({
                 data: {
-                viaturaTipoId: viaturaTipoId,
-                viaturaCategoriaId: viaturaCategoriaId,
-                viaturaMarca: viaturaMarca,
-                viaturaModelo: viaturaModelo,
-                viaturaMatricula: viaturaMatricula,
-                viaturaAnoFabrica: viaturaAnoFabrica,
-                viaturaCombustivel: viaturaCombustivel,
-                viaturaCor: viaturaCor,
-                quilometragem: quilometragem,
+                    viaturaTipoId: viaturaTipoId,
+                    viaturaCategoriaId: viaturaCategoriaId,
+                    viaturaMarca: viaturaMarca,
+                    viaturaModelo: viaturaModelo,
+                    viaturaMatricula: viaturaMatricula,
+                    viaturaAnoFabrica: viaturaAnoFabrica,
+                    viaturaCombustivel: viaturaCombustivel,
+                    viaturaCor: viaturaCor,
+                    quilometragem: quilometragem,
                 },
             });
 
@@ -148,17 +148,18 @@ module.exports = {
                 return res.status(404).json({ message: 'Viatura não encontrada.' });
             }
 
-            const viaturaAtualizada = await prisma.viatura.update({
-                where: { viaturaId: parseInt(id) },
-                viaturaTipoId: viaturaTipoId,
-                viaturaCategoriaId: viaturaCategoriaId,
-                viaturaMarca: viaturaMarca,
-                viaturaModelo: viaturaModelo,
-                viaturaMatricula: viaturaMatricula,
-                viaturaAnoFabrica: viaturaAnoFabrica,
-                viaturaCombustivel: viaturaCombustivel,
-                viaturaCor: viaturaCor,
-                quilometragem: quilometragem,
+            const viaturaAtualizada = await prisma.viatura.update({where: { viaturaId: parseInt(id) },
+                data:{
+                    viaturaTipoId: viaturaTipoId,
+                    viaturaCategoriaId: viaturaCategoriaId,
+                    viaturaMarca: viaturaMarca,
+                    viaturaModelo: viaturaModelo,
+                    viaturaMatricula: viaturaMatricula,
+                    viaturaAnoFabrica: viaturaAnoFabrica,
+                    viaturaCombustivel: viaturaCombustivel,
+                    viaturaCor: viaturaCor,
+                    quilometragem: quilometragem,
+                }
               });
 
             return res.status(201).json({ message: 'Viatura atualizada com sucesso.', viaturaAtualizada });
