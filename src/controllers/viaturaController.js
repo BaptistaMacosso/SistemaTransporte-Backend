@@ -30,6 +30,13 @@ module.exports = {
             return res.status(400).json({ message: 'Viatura já cadastrada.' });
           }
       
+          console.log({
+            viaturaTipoId: typeof viaturaTipoId,
+            viaturaCategoriaId: typeof viaturaCategoriaId,
+            viaturaAnoFabrica: typeof viaturaAnoFabrica,
+            quilometragem: typeof quilometragem
+          });
+          
           const novaViatura = await prisma.viatura.create({
             data: {
               viaturaTipoId: Number(viaturaTipoId),
@@ -48,7 +55,10 @@ module.exports = {
       
         } catch (error) {
           console.error("Erro ao criar viatura:", error);
-          return res.status(500).json({ message: 'Erro ao criar o registo, verifique o console.', error });
+          return res.status(500).json({ message: 'Erro ao criar o registo, verifique o console.', error:{
+            name: error.name,
+            message: error.message
+          } });
         }
       },
 
