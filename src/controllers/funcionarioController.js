@@ -132,7 +132,7 @@ module.exports = {
   // Listar funcionário por nome
   async listarPorNome(req, res) {
     try {
-      const { nome } = req.params;
+      const { funcionarioNome } = req.body;
 
       const funcionario = await prisma.funcionario.findFirst({ where: { funcionarioNome: nome } });
       if (!funcionario){ 
