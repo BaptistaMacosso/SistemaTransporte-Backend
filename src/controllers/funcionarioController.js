@@ -133,10 +133,12 @@ module.exports = {
   async listarPorNome(req, res) {
     try {
       const { nome } = req.params;
-      const funcionario = await prisma.funcionario.findUnique({ where: { funcionarioNome: nome } });
+
+      const funcionario = await prisma.funcionario.findFirst({ where: { funcionarioNome: nome } });
       if (!funcionario){ 
         return res.status(404).json({ message: 'Funcionário não encontrado.' });
-      }
+      };
+
       return res.status(200).json({ funcionario: funcionario });
     } catch (error) {
       return res.status(500).json({ message: 'Erro ao listar funcionário por nome, por favor verifique a console.', error});
