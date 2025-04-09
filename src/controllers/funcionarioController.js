@@ -133,7 +133,7 @@ module.exports = {
   async listarPorNome(req, res) {
     try {
       const { nome } = req.params;
-      const funcionario = await prisma.funcionario.findMany({ where: { funcionarioNome: { contains: nome } } });
+      const funcionario = await prisma.funcionario.findUnique({ where: { funcionarioNome: { contains: nome } } });
       if (!funcionario){ 
         return res.status(404).json({ message: 'Funcionário não encontrado.' });
       }
