@@ -134,7 +134,7 @@ module.exports = {
     try {
       const { funcionarioNome } = req.body;
 
-      const funcionario = await prisma.funcionario.findFirst({ where: { funcionarioNome: nome } });
+      const funcionario = await prisma.funcionario.findFirst({ where: { funcionarioNome: funcionarioNome } });
       if (!funcionario){ 
         return res.status(404).json({ message: 'Funcionário não encontrado.' });
       };
