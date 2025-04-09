@@ -30,13 +30,6 @@ module.exports = {
             return res.status(400).json({ message: 'Viatura já cadastrada.' });
           }
       
-          console.log({
-            viaturaTipoId: typeof viaturaTipoId,
-            viaturaCategoriaId: typeof viaturaCategoriaId,
-            viaturaAnoFabrica: typeof viaturaAnoFabrica,
-            quilometragem: typeof quilometragem
-          });
-
           const novaViatura = await prisma.viatura.create({
             data: {
               viaturaTipoId: Number(viaturaTipoId),
@@ -155,11 +148,17 @@ module.exports = {
             return res.status(409).json({ message: 'Todos os campos são de preenchimento obrigatório.' });
         };
 
-        if (isNaN(Number(quilometragem))) {
-            return res.status(409).json({message:"Quilometragem deve ser um número."});
-        };
-
         try {
+            if (isNaN(Number(quilometragem)) || isNaN(Number(viaturaAnoFabrica))) {
+                return res.status(409).json({ message: 'Ano de fábrica e quilometragem devem ser números.' });
+            };
+              
+            const tipoExiste = await prisma.viaturaTipo.findUnique({ where: { id: Number(viaturaTipoId) } });
+            const categoriaExiste = await prisma.viaturaCategoria.findUnique({ where: { id: Number(viaturaCategoriaId) } });  
+            if (!tipoExiste || !categoriaExiste) {
+                return res.status(404).json({ message: 'Tipo ou Categoria não encontrada.' });
+            };
+
             const viaturaExists = await prisma.viatura.findUnique({ where: { viaturaId: parseInt(id) } });
             if (!viaturaExists) {
                 return res.status(404).json({ message: 'Viatura não encontrada.' });
@@ -167,15 +166,15 @@ module.exports = {
 
             const viaturaAtualizada = await prisma.viatura.update({where: { viaturaId: parseInt(id) },
                 data:{
-                    viaturaTipoId: viaturaTipoId,
-                    viaturaCategoriaId: viaturaCategoriaId,
+                    viaturaTipoId: Number(viaturaTipoId),
+                    viaturaCategoriaId: Number(viaturaCategoriaId),
                     viaturaMarca: viaturaMarca,
                     viaturaModelo: viaturaModelo,
                     viaturaMatricula: viaturaMatricula,
-                    viaturaAnoFabrica: viaturaAnoFabrica,
+                    viaturaAnoFabrica: String(viaturaAnoFabrica),
                     viaturaCombustivel: viaturaCombustivel,
-                    viaturaCor: viaturaCor,
-                    quilometragem: quilometragem,
+                    viaturaCor:viaturaCor,
+                    quilometragem: Number(quilometragem),
                 }
               });
 
