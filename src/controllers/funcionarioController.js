@@ -134,12 +134,12 @@ module.exports = {
     try {
       const { funcionarioBI } = req.body;
       const BIFormatada = funcionarioBI.trim().toUpperCase();
-      console.log('Recebido: ', BIFormatada);
+      
       const funcionarios = await prisma.funcionario.findUnique({ where: { numeroBI: BIFormatada } });
       if (!funcionarios){ 
         return res.status(404).json({ message: 'Funcionário não encontrado.' });
       };
-      console.log('Encontrado: ', funcionarios);
+      
       return res.status(200).json({ funcionario: funcionarios });
     } catch (error) {
       return res.status(500).json({ message: 'Erro ao listar funcionário pelo número de identificação, por favor verifique a console.', error});
