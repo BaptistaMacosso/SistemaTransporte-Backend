@@ -41,7 +41,7 @@ module.exports = {
 
             return res.status(201).json({ message: 'Viatura cadastrada com sucesso.', novaViatura });
         } catch (error) {
-            return res.status(500).json({ message: 'Erro ao criar o registo, por favor verifique a console. Detalhes: ' + error });
+            return res.status(500).json({ message: 'Erro ao criar o registo, por favor verifique a console.',error });
         }
     },
 
@@ -98,7 +98,7 @@ module.exports = {
             }
             return res.status(200).json({viatura: viatura});
         }catch (error) {
-            return res.status(500).json({ message: 'Erro ao listar viaturas: ' + error });
+            return res.status(500).json({ message: 'Erro ao listar a viatura, por favor verifique a console. ',error });
         }
     },
 
@@ -164,7 +164,7 @@ module.exports = {
 
             return res.status(201).json({ message: 'Viatura atualizada com sucesso.', viaturaAtualizada });
         } catch (error) {
-            return res.status(500).json({ message: 'Erro ao atualizar o registo, por favor verifique a console. Detalhes:' + error });
+            return res.status(500).json({ message: 'Erro ao atualizar o registo, por favor verifique a console.',error });
         }
     },
 
@@ -181,7 +181,7 @@ module.exports = {
             const viaturaDeleted = await prisma.viatura.delete({ where: { viaturaId: parseInt(id) } });
             return res.status(200).json({ message: 'Viatura deletada com sucesso.', viaturaDeleted });
         } catch (error) {
-            return res.status(500).json({ message: 'Erro ao deletar o registo, por favor verifique a console.' + error });
+            return res.status(500).json({ message: 'Erro ao deletar o registo, por favor verifique a console.',error });
         }
     },
 };

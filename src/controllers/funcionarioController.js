@@ -134,10 +134,12 @@ module.exports = {
     try {
       const { nome } = req.params;
       const funcionario = await prisma.funcionario.findMany({ where: { funcionarioNome: { contains: nome } } });
-      if (!funcionario) return res.status(404).json({ message: 'Funcionário não encontrado.' });
+      if (!funcionario){ 
+        return res.status(404).json({ message: 'Funcionário não encontrado.' });
+      }
       return res.status(200).json({ funcionario: funcionario });
     } catch (error) {
-      return res.status(500).json({ message: 'Erro ao listar funcionário por nome: ' + error.message });
+      return res.status(500).json({ message: 'Erro ao listar funcionário por nome, por favor verifique a console.', error});
     }
   },
 
@@ -149,7 +151,7 @@ module.exports = {
       if (!funcionario) return res.status(404).json({ message: 'Funcionário não encontrado.' });
       return res.status(200).json({ funcionario: funcionario });
     } catch (error) {
-      return res.status(500).json({ message: 'Erro ao listar funcionário por ID: ' + error.message });
+      return res.status(500).json({ message: 'Erro ao listar funcionário por ID, por favor verifique a console.',error });
     }
   },
 
@@ -159,7 +161,7 @@ module.exports = {
       const funcionarios = await prisma.funcionario.findMany({orderBy: {funcionarioId: 'asc'}});
       return res.status(200).json({ funcionarios });
     } catch (error) {
-      return res.status(500).json({ message: 'Erro ao listar todos os funcionários: ' + error.message });
+      return res.status(500).json({ message: 'Erro ao listar todos os funcionários, por favor verifique a console.',error });
     }
   },
 
@@ -169,7 +171,7 @@ module.exports = {
       const motoristas = await prisma.funcionario.count({ where: { funcaoTipoId: 'motorista' } });
       return res.status(200).json({ quantidade: motoristas });
     } catch (error) {
-      return res.status(500).json({ message: 'Erro ao listar motoristas: ' + error.message });
+      return res.status(500).json({ message: 'Erro ao listar motoristas, por favor verifique a console.',error });
     }
   },
 };
