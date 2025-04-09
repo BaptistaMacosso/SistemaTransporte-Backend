@@ -4,47 +4,53 @@ const prisma = new PrismaClient();
 
 module.exports = {
     //Nova Viatura
-    async createViatura(req, res){
+    async createViatura(req, res) {
         const { viaturaTipoId, viaturaCategoriaId, viaturaMarca, viaturaModelo, viaturaMatricula,
-                viaturaAnoFabrica, viaturaCombustivel, viaturaCor, quilometragem
-            } = req.body;
-
-        //Verificação
+          viaturaAnoFabrica, viaturaCombustivel, viaturaCor, quilometragem } = req.body;
+      
         if (!viaturaTipoId || !viaturaCategoriaId || !viaturaMarca || !viaturaModelo || !viaturaMatricula 
-        || !viaturaAnoFabrica || !viaturaCombustivel || !viaturaCor || !quilometragem) {
-            return res.status(409).json({ message: 'Todos os campos são de preenchimento obrigatório.' });
-        };
-
-        if (isNaN(Number(quilometragem))) {
-            return res.status(409).json({message:"Quilometragem deve ser um número."});
-        };
-
-        try {
-            const viaturaExists = await prisma.viatura.findUnique({ where: { viaturaMatricula: viaturaMatricula } });
-            if (viaturaExists) {
-                return res.status(400).json({ message: 'Viatura já cadastrada.'});
-            }
-            console.log(viaturaTipoId, viaturaCategoriaId, viaturaMarca, viaturaModelo, viaturaMatricula,
-                viaturaAnoFabrica, viaturaCombustivel, viaturaCor, quilometragem);
-            const novaViatura = await prisma.viatura.create({
-                data: {
-                    viaturaTipoId: viaturaTipoId,
-                    viaturaCategoriaId: viaturaCategoriaId,
-                    viaturaMarca: viaturaMarca,
-                    viaturaModelo: viaturaModelo,
-                    viaturaMatricula: viaturaMatricula,
-                    viaturaAnoFabrica: viaturaAnoFabrica,
-                    viaturaCombustivel: viaturaCombustivel,
-                    viaturaCor: viaturaCor,
-                    quilometragem: quilometragem,
-                },
-            });
-
-            return res.status(201).json({ message: 'Viatura cadastrada com sucesso.', novaViatura });
-        } catch (error) {
-            return res.status(500).json({ message: 'Erro ao criar o registo, por favor verifique a console.',error });
+          || !viaturaAnoFabrica || !viaturaCombustivel || !viaturaCor || !quilometragem) {
+          return res.status(409).json({ message: 'Todos os campos são obrigatórios.' });
         }
-    },
+      
+        if (isNaN(Number(quilometragem)) || isNaN(Number(viaturaAnoFabrica))) {
+          return res.status(409).json({ message: 'Ano de fábrica e quilometragem devem ser números.' });
+        }
+      
+        try {
+          const tipoExiste = await prisma.viaturaTipo.findUnique({ where: { id: Number(viaturaTipoId) } });
+          const categoriaExiste = await prisma.viaturaCategoria.findUnique({ where: { id: Number(viaturaCategoriaId) } });
+      
+          if (!tipoExiste || !categoriaExiste) {
+            return res.status(404).json({ message: 'Tipo ou Categoria não encontrada.' });
+          }
+      
+          const viaturaExists = await prisma.viatura.findUnique({ where: { viaturaMatricula } });
+          if (viaturaExists) {
+            return res.status(400).json({ message: 'Viatura já cadastrada.' });
+          }
+      
+          const novaViatura = await prisma.viatura.create({
+            data: {
+              viaturaTipoId: Number(viaturaTipoId),
+              viaturaCategoriaId: Number(viaturaCategoriaId),
+              viaturaMarca: viaturaMarca,
+              viaturaModelo: viaturaModelo,
+              viaturaMatricula: viaturaMatricula,
+              viaturaAnoFabrica: Number(viaturaAnoFabrica),
+              viaturaCombustivel: viaturaCombustivel,
+              viaturaCor:viaturaCor,
+              quilometragem: Number(quilometragem),
+            },
+          });
+      
+          return res.status(201).json({ message: 'Viatura cadastrada com sucesso.', novaViatura });
+      
+        } catch (error) {
+          console.error("Erro ao criar viatura:", error);
+          return res.status(500).json({ message: 'Erro ao criar o registo, verifique o console.', error });
+        }
+      },
 
     // Obter todas as viaturas
     async getAllViaturas (req, res){  
