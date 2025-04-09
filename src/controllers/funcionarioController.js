@@ -130,19 +130,18 @@ module.exports = {
   },
 
   // Listar funcionário por nome
-  async listarPorNome(req, res) {
+  async listarPeloNumeroBI(req, res) {
     try {
-      const { funcionarioNome } = req.body;
-      console.log('Nome do funcionário recebido: ',funcionarioNome);
+      const { funcionarioBI } = req.body;
 
-      const funcionario = await prisma.funcionario.findFirst({ where: { funcionarioNome: funcionarioNome } });
+      const funcionario = await prisma.funcionario.findUnique({ where: { numeroBI: funcionarioBI } });
       if (!funcionario){ 
         return res.status(404).json({ message: 'Funcionário não encontrado.' });
       };
 
       return res.status(200).json({ funcionario: funcionario });
     } catch (error) {
-      return res.status(500).json({ message: 'Erro ao listar funcionário por nome, por favor verifique a console.', error});
+      return res.status(500).json({ message: 'Erro ao listar funcionário pelo número de identificação, por favor verifique a console.', error});
     }
   },
 

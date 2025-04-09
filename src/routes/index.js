@@ -64,7 +64,7 @@ router.get('/funcionarios/listar',protect, funcionarioController.listarTodos);
 router.put('/funcionarios/update/:id', protect, funcionarioController.updateFuncionario);
 router.delete('/funcionarios/delete/:id', protect, funcionarioController.deleteFuncionario);
 router.get('/funcionarios/listarPeloId/:id', protect, funcionarioController.getFuncionarioById);
-router.post('/funcionarios/listarPeloNome', protect, funcionarioController.listarPorNome);
+router.post('/funcionarios/listarPeloNumeroBI', protect, funcionarioController.listarPeloNumeroBI);
 router.post('/funcionarios/atribuirViatura', protect, funcionarioController.atribuirViaturaFuncionario);
 
 //Rotas Viaturas
