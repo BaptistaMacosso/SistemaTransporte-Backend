@@ -133,13 +133,14 @@ module.exports = {
   async listarPeloNumeroBI(req, res) {
     try {
       const { funcionarioBI } = req.body;
-
-      const funcionario = await prisma.funcionario.findUnique({ where: { numeroBI: funcionarioBI } });
-      if (!funcionario){ 
+      const BIFormatada = funcionarioBI.trim().toUpperCase();
+      console.log('Recebido: ', BIFormatada);
+      const funcionarios = await prisma.funcionario.findUnique({ where: { numeroBI: BIFormatada } });
+      if (!funcionarios){ 
         return res.status(404).json({ message: 'Funcionário não encontrado.' });
       };
-
-      return res.status(200).json({ funcionario: funcionario });
+      console.log('Encontrado: ', funcionarios);
+      return res.status(200).json({ funcionario: funcionarios });
     } catch (error) {
       return res.status(500).json({ message: 'Erro ao listar funcionário pelo número de identificação, por favor verifique a console.', error});
     }
