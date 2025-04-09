@@ -36,7 +36,7 @@ module.exports = {
             viaturaAnoFabrica: typeof viaturaAnoFabrica,
             quilometragem: typeof quilometragem
           });
-          
+
           const novaViatura = await prisma.viatura.create({
             data: {
               viaturaTipoId: Number(viaturaTipoId),
@@ -44,7 +44,7 @@ module.exports = {
               viaturaMarca: viaturaMarca,
               viaturaModelo: viaturaModelo,
               viaturaMatricula: viaturaMatricula,
-              viaturaAnoFabrica: Number(viaturaAnoFabrica),
+              viaturaAnoFabrica: String(viaturaAnoFabrica),
               viaturaCombustivel: viaturaCombustivel,
               viaturaCor:viaturaCor,
               quilometragem: Number(quilometragem),
