@@ -24,7 +24,8 @@ module.exports = {
             if (viaturaExists) {
                 return res.status(400).json({ message: 'Viatura já cadastrada.'});
             }
-            
+            console.log(viaturaTipoId, viaturaCategoriaId, viaturaMarca, viaturaModelo, viaturaMatricula,
+                viaturaAnoFabrica, viaturaCombustivel, viaturaCor, quilometragem);
             const novaViatura = await prisma.viatura.create({
                 data: {
                     viaturaTipoId: viaturaTipoId,
