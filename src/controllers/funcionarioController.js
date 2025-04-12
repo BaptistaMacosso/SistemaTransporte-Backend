@@ -11,7 +11,7 @@ module.exports = {
             copiaBI, copiaCartaConducao, copiaLicencaConducao, fotografia, estado } = req.body;
                   
       if (!funcionarioNome || !numeroBI || !nacionalidade || !genero || !provincia || !funcionarioTelefone || !funcaoTipoId || !estado) {
-        return res.status(400).json({ message: 'Todos os campos obrigatórios devem ser preenchidos.' });
+        return res.status(409).json({ message: 'Todos os campos obrigatórios devem ser preenchidos.' });
       }
 
       const funcionario = await prisma.funcionario.create({ data:{
@@ -33,10 +33,10 @@ module.exports = {
         fotografia:           fotografia,
         estado:               estado
       } });
-      return res.status(201).json({ message: 'Funcionário salvo com sucesso.', funcionario });
+      return res.status(201).json({ message: 'O registo foi salvo com sucesso.', funcionario });
     } catch (error) {
-      console.error("❌ Erro ao salvar funcionário:", error);
-      return res.status(500).json({ message: 'Erro ao salvar funcionário: ' + error });
+      console.error("❌ Erro ao salvar criar o registo:", error);
+      return res.status(500).json({ message: 'Erro ao criar o registo, por favor verifique a console.', error });
     }
   },
 
@@ -44,17 +44,17 @@ module.exports = {
     try {
       const {viaturaId, funcionarioId } = req.body;
       if (!viaturaId || !funcionarioId ) {
-        return res.status(400).json({ message: 'Os campos viatura ID e funcionário ID são obrigatórios.' });
+        return res.status(409).json({ message: 'Os campos viatura ID e funcionário ID são obrigatórios.' });
       }
       //Verificar Viatura Atribuida.
       const viaturaAtribuida = await prisma.viaturaFuncionario.findUnique({where: {viaturaId: viaturaId}});
       if (viaturaAtribuida) {
-        return res.status(400).json({ message: 'A viatura selecionada já se encontra atribuida.' });
+        return res.status(409).json({ message: 'A viatura selecionada já se encontra atribuida.' });
       }
       //Verificar Funcionário já Atribuido.
       const funcionarioAtribuido = await prisma.viaturaFuncionario.findUnique({where: {funcionarioId: funcionarioId}});
       if (funcionarioAtribuido) {
-        return res.status(400).json({ message: 'O funcionário selecionado já possui uma viatura atribuida.' });
+        return res.status(409).json({ message: 'O funcionário selecionado já possui uma viatura atribuida.' });
       }
 
       const atribuicao = await prisma.viaturaFuncionario.create({ 
@@ -65,7 +65,7 @@ module.exports = {
       return res.status(201).json({ message: 'Viatura atribuida com sucesso.', atribuicao });
     } catch (error) {
       console.error("❌ Erro ao salvar atribuição de viatura ao funcionário:", error);
-      return res.status(500).json({ message: 'Erro ao salvar atribuição de viatura ao funcionário: ' + error });
+      return res.status(500).json({ message: 'Erro ao atribuir a viatura, por favor verifique a console.', error });
     }
   },
 
@@ -84,7 +84,7 @@ module.exports = {
       }
 
       if (!funcionarioNome || !numeroBI || !nacionalidade || !genero || !provincia || !funcionarioTelefone || !funcaoTipoId || !estado) {
-        return res.status(400).json({ message: 'Todos os campos (*) são de preenchimento obrigatório.' });
+        return res.status(409).json({ message: 'Todos os campos (*) são de preenchimento obrigatório.' });
       }
       
       const funcionario = await prisma.funcionario.update({ where: { funcionarioId: parseInt(id) }, 
@@ -107,9 +107,9 @@ module.exports = {
         fotografia:           fotografia,
         estado:               estado 
       } });
-      return res.status(200).json({ message: 'Funcionário atualizado com sucesso.', funcionario });
+      return res.status(200).json({ message: 'O registo foi actualizado com sucesso.', funcionario });
     } catch (error) {
-      return res.status(500).json({ message: 'Erro ao editar funcionário: ' + error.message });
+      return res.status(500).json({ message: 'Erro ao editar o registo, por favor verifique a console.', error });
     }
   },
 
@@ -119,13 +119,13 @@ module.exports = {
       const { id } = req.params;
       const funcionarioExiste = await prisma.funcionario.findUnique({ where: { funcionarioId: parseInt(id) } });
       if (!funcionarioExiste) {
-        return res.status(404).json({ message: 'Funcionário não encontrado.' });
+        return res.status(404).json({ message: 'Não foi encontrado registo com este ID.' });
       }
       
       await prisma.funcionario.delete({ where: { funcionarioId: parseInt(id) } });
-      return res.status(200).json({ message: 'Funcionário eliminado com sucesso.' });
+      return res.status(200).json({ message: 'O registo foi eliminado com sucesso.' });
     } catch (error) {
-      return res.status(500).json({ message: 'Erro ao eliminar funcionário: ' + error.message });
+      return res.status(500).json({ message: 'Erro ao eliminar o registo, por favor verifique a console.' + error.message });
     }
   },
 

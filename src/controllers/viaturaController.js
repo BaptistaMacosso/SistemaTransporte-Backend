@@ -48,7 +48,7 @@ module.exports = {
       
         } catch (error) {
           console.error("Erro ao criar viatura:", error);
-          return res.status(500).json({ message: 'Erro ao criar o registo, verifique o console.', error:{
+          return res.status(500).json({ message: 'Erro ao criar o registo, por favor verifique a console.', error:{
             name: error.name,
             message: error.message
           } });
@@ -131,7 +131,7 @@ module.exports = {
             return res.status(200).json({viatura: viatura});
         }catch (error) {
             console.error('Erro ao buscar viatura:', error);
-            return res.status(500).json({ message: 'Erro ao pesquisar viatura pela matrícula, por favor verificar console.', error});
+            return res.status(500).json({ message: 'Erro ao pesquisar viatura pela matrícula, por favor verifique a console.', error});
         }
     },
 

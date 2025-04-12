@@ -5,22 +5,26 @@ module.exports = {
   //Criar Categorias
   async createCategoria (req, res){
     const { categoriaId } = req.body;
-    //Verificar campos vazios.
-    if (!categoriaId) {
-      return res.status(400).json({ message: 'O campo é obrigatório.' });
-    }
-      
-    const categoriaExists = await prisma.categorias.findFirst({ where: { categoriaId: categoriaId } });
-    if (categoriaExists) {
-      return res.status(400).json({ message: 'Categoria já existe' });
-    }
+    try {
+      //Verificar campos vazios.
+      if (!categoriaId) {
+        return res.status(409).json({ message: 'O campo é obrigatório.' });
+      }
+        
+      const categoriaExists = await prisma.categorias.findFirst({ where: { categoriaId: categoriaId } });
+      if (categoriaExists) {
+        return res.status(409).json({ message: 'Categoria já existe' });
+      }
 
-    // Salvar os dados no banco de dados
-    const categorias = await prisma.categorias.create({
-        data: { categoriaId: categoriaId,},
-    });
+      // Salvar os dados no banco de dados
+      const categorias = await prisma.categorias.create({
+          data: { categoriaId: categoriaId,},
+      });
 
-    return res.status(201).json({ message: 'Categoria criada com sucesso.', categorias });
+      return res.status(201).json({ message: 'Categoria criada com sucesso.', categorias });
+    } catch (error) {
+      return res.status(500).json({message: 'error ao criar categorias, por favor verifique a console.',error });
+    }
   },
 
   //Listar Categorias
@@ -29,7 +33,7 @@ module.exports = {
           const listaCategorias = await prisma.categorias.findMany();
           return res.status(200).json({ categorias: listaCategorias });
       } catch (error) {
-          return res.status(500).json({message: 'error ao listar categorias '+error.message });
+          return res.status(500).json({message: 'error ao listar categorias, por favor verifique a console.',error });
       }
   },
 
@@ -44,7 +48,7 @@ module.exports = {
       const categoriaDelete = await prisma.categorias.delete({ where: { categoriaId: categoriaId } });
       return res.status(200).json({ message: 'Categoria deletada com sucesso. ', categoriaDelete });
     }catch(error){
-        return res.status(500).json({message: 'error ao deletar a categoria '+error });
+        return res.status(500).json({message: 'error ao deletar a categoria, por favor verifique a console.',error });
     }
   },
   

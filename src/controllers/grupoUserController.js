@@ -5,25 +5,29 @@ module.exports = {
   //Criar Grupo de Usuário
   async createGrupoUser (req, res){
     const { grupoName, descricao } = req.body;
-    //Verificar campos vazios.
-    if (!grupoName || !descricao) {
-      return res.status(400).json({ message: 'Todos os campos são obrigatórios.' });
-    }
-      
-    const grupoUserExists = await prisma.grupoUser.findUnique({ where: { grupoName: grupoName } });
-    if (grupoUserExists) {
-      return res.status(400).json({ message: 'Grupo de usuário já existe.' });
-    }
+    try {
+      //Verificar campos vazios.
+      if (!grupoName || !descricao) {
+        return res.status(409).json({ message: 'Todos os campos são obrigatórios.' });
+      }
+        
+      const grupoUserExists = await prisma.grupoUser.findUnique({ where: { grupoName: grupoName } });
+      if (grupoUserExists) {
+        return res.status(409).json({ message: 'Grupo de usuário já existe.' });
+      }
 
-    // Salvar os dados no banco de dados
-    const grupoUser = await prisma.grupoUser.create({
-          data: {
-              grupoName: grupoName,
-              descricao: descricao,
-          },
-    });
+      // Salvar os dados no banco de dados
+      const grupoUser = await prisma.grupoUser.create({
+            data: {
+                grupoName: grupoName,
+                descricao: descricao,
+            },
+      });
 
-    return res.status(201).json({ grupoUser: grupoUser });
+      return res.status(201).json({ grupoUser: grupoUser });
+    } catch (error) {
+      return res.status(500).json({message: 'error ao criar grupo de usuários, por favor verifique a console.',error });
+    }
   },
 
   //Listar Grupo de Usuários
@@ -35,7 +39,7 @@ module.exports = {
           }
           return res.status(200).json({ grupoUser: listaGrupoUser });
       } catch (error) {
-          return res.status(500).json({message: 'error ao listar tipo de usuários '+error });
+          return res.status(500).json({message: 'error ao listar grupo de usuários, por favor verifique a console.',error });
       }
   },
 
@@ -50,7 +54,7 @@ module.exports = {
       const grupoUserDelete = await prisma.grupoUser.delete({ where: { id: parseInt(id) } });
       return res.status(200).json({ grupoUserDeleted: grupoUserDelete });
     }catch(error){
-        return res.status(500).json({message: 'error ao deletar grupo de usuário. '+error });
+        return res.status(500).json({message: 'error ao deletar grupo de usuário, por favor verifique a console.',error });
     }
   },
 

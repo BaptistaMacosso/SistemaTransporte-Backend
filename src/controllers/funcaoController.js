@@ -6,21 +6,19 @@ module.exports = {
   async createFuncao (req, res){
     const { funcaoId } = req.body;
     //Verificar campos vazios.
-    if (!funcaoId) {
-      return res.status(400).json({ message: 'O campo é obrigatório.' });
+    try {
+      if (!funcaoId) { return res.status(409).json({ message: 'O campo é obrigatório.' }); }
+        
+      const funcaoExists = await prisma.funcaoTipo.findFirst({ where: { funcaoId: funcaoId } });
+      if (funcaoExists) { return res.status(409).json({ message: 'Função já existe' }); }
+  
+      // Salvar os dados no banco de dados
+      const funcao = await prisma.funcaoTipo.create({data: { funcaoId: funcaoId, },});
+  
+      return res.status(201).json({ message: 'Função criada com sucesso.', funcao });
+    } catch (error) {
+      return res.status(500).json({message: 'Error ao criar a função, por favor verifique a console. ', error });
     }
-      
-    const funcaoExists = await prisma.funcaoTipo.findFirst({ where: { funcaoId: funcaoId } });
-    if (funcaoExists) {
-      return res.status(400).json({ message: 'Função já existe' });
-    }
-
-    // Salvar os dados no banco de dados
-    const funcao = await prisma.funcaoTipo.create({
-        data: { funcaoId: funcaoId, },
-    });
-
-    return res.status(201).json({ message: 'Função criada com sucesso.', funcao });
   },
 
   //Listar Funções
@@ -29,7 +27,7 @@ module.exports = {
           const listaFuncao = await prisma.funcaoTipo.findMany();
           return res.status(200).json({ funcoes: listaFuncao });
       } catch (error) {
-          return res.status(500).json({message: 'error ao listar Funções '+error.message });
+          return res.status(500).json({message: 'Error ao listar as funções, por favor verifique a console. ', error });
       }
   },
 
@@ -44,7 +42,7 @@ module.exports = {
       const funcaoDelete = await prisma.funcaoTipo.delete({ where: { funcaoId: funcaoId } });
       return res.status(200).json({ message: 'Função deletada com sucesso. ', funcaoDelete });
     }catch(error){
-        return res.status(500).json({message: 'error ao deletar função '+error });
+        return res.status(500).json({message: 'error ao deletar função, por favor verifique a console.',error });
     }
   },
   

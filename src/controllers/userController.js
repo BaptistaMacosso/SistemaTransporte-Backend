@@ -10,7 +10,7 @@ async registerUser (req, res) {
     const { userNome, userEmail, userPassword, tipoUsuarioId, grupoUsuarioId } = req.body;
     //Verificação
     if (!userNome || !userEmail || !userPassword || !tipoUsuarioId || !grupoUsuarioId) {
-        return res.status(400).json({ message: 'Todos os campos são obrigatórios' });
+        return res.status(409).json({ message: 'Todos os campos são obrigatórios' });
     }
 
     const userExists = await prisma.user.findUnique({ where: { userEmail } }); 
@@ -39,7 +39,7 @@ async registerUser (req, res) {
 
     return res.status(201).json({message: 'Usuário registrado com sucesso.', user});
   } catch (error) {
-    return res.status(500).json({ message: 'Erro ao registrar o usuário. '+error });
+    return res.status(500).json({ message: 'Erro ao registrar o usuário, por favor verifique a console.',error });
   }
 },
 
@@ -67,7 +67,7 @@ async listarUser (req, res) {
     });
     return res.status(200).json({ allUsers: allUsers });
   } catch (error) {
-    return res.status(500).json({ message: 'Erro ao listar os usuários '+error });
+    return res.status(500).json({ message: 'Erro ao listar os usuários, por favor verifique a console.',error });
   }
 },
 
@@ -78,7 +78,7 @@ async loginUser (req, res) {
   try {
     // Verifique se os dados foram enviados corretamente
     if (!userEmail || !userPassword) {
-      return res.status(400).json({ message: 'Campos obrigatórios não preenchidos.' });
+      return res.status(409).json({ message: 'Campos obrigatórios não preenchidos.' });
     }
 
     const user = await prisma.user.findUnique({ where: { userEmail: userEmail } });
@@ -95,7 +95,7 @@ async loginUser (req, res) {
     const token = await authToken.GenerateToken(user.userId, user.userNome);
     return res.status(201).json({ token: token });
   } catch (error) {
-    return res.status(500).json({ message: 'Erro ao efectuar o login do usuário. Detalhes: '+error });
+    return res.status(500).json({ message: 'Erro ao efectuar o login do usuário, por favor verifique a console.',error });
   }
 },
 
@@ -154,7 +154,7 @@ async getUserProfile (req, res){
       isAdmin: user.isAdmin,
     });
   } catch (error) {
-    res.status(500).json({ message: 'Erro ao obter perfil.'});
+    res.status(500).json({ message: 'Erro ao obter perfil do usuário, por favor verifique a console.', error});
   }
 },
 
@@ -169,9 +169,9 @@ async deleteUser (req, res){
     };
 
     const userDeleted = await prisma.user.delete({ where: { userId: parseInt(id) } });
-    return res.status(200).json({ message: 'Usuário deletado com sucesso.'+userDeleted });
+    return res.status(200).json({ message: 'Usuário deletado com sucesso.',userDeleted });
   } catch (error) {
-    return res.status(500).json({ message: 'Erro ao deletar usuário: ' + error });
+    return res.status(500).json({ message: 'Erro ao deletar usuário, por favor verifique a console.',error });
   }
 },
 
@@ -189,7 +189,7 @@ async alterarPasswordUser (req, res){
     // Comparar senha usando bcrypt
     const isMatch = await bcrypt.compare(oldPassword, userExists.userPassword);
     if (!isMatch) {
-      return res.status(400).json({ message: 'A senha antiga está incorreta. Tente novamente.' });
+      return res.status(409).json({ message: 'A senha antiga está incorreta. Tente novamente.' });
     };
 
     // Hash da senha usando bcrypt
@@ -203,7 +203,7 @@ async alterarPasswordUser (req, res){
     });
     return res.status(200).json({ message: 'Senha do usuário alterada com sucesso.' });
   } catch (error) {
-    return res.status(500).json({ message: 'Erro: Não foi possível alterar a senha do usuário. ' + error });
+    return res.status(500).json({ message: 'Erro ao alterar a senha do usuário, por favor verifique a console.',error });
   }
 },
 
@@ -213,6 +213,7 @@ async getUserById (req, res){
   try {
     const { id } = req.params;
     //Verificação
+    if(!user){ return res.status(404).json({message: "Usuário não encontrado."}); }
     const user = await prisma.user.findUnique({ where: { userId: parseInt(id) }, 
       select: {
         userId: true,
@@ -232,9 +233,8 @@ async getUserById (req, res){
         }
       }
     });
-    if(!user){ return res.status(404).json({message: "Usuário não encontrado."}); }
     return res.status(200).json({user: user});
   } catch (error) {
-    return res.status(500).json({ message: 'Erro ao listar o usuário pelo Id '+error });
+    return res.status(500).json({ message: 'Erro ao listar o usuário pelo Id, por favor verifique a console.',error });
   }
 },};
