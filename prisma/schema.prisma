@@ -25,7 +25,6 @@ model User {
   permissoes     Permissao[]
   servicos       Servico[]
   agendamento    Agendamento[]
-  checklist      Checklist[]
   userFuncionario UserFuncionario[]
   @@map("tblusuarios")
 }
@@ -90,6 +89,7 @@ model Funcionario {
   nacionalidades       Nacionalidades @relation(fields: [nacionalidade], references: [nacionalidadeId])
   viaturaFuncionario   ViaturaFuncionario[]
   userFuncionario      UserFuncionario[]
+  checklist            Checklist[]
   @@map("tblfuncionarios")
 }
 
@@ -159,18 +159,15 @@ model ViaturaFuncionario{
 model Checklist {
   id                 Int       @id @default(autoincrement())
   viaturaId          Int
-  checklistcategoriaId    Int
-  userId             Int
-  quilometragem      Float     @db.DoublePrecision
+  motoristaId       Int
+  odometro           Float     @db.DoublePrecision //Quilometragem
   nivelCombustivel   String    @db.VarChar(50) // Ex: "Cheio", "Meio tanque", "Reserva"
   condicaoPneus      String    @db.VarChar(100) // Ex: "Calibrado", "Desgastado", "Troca necessária"
   observacao         String?   @db.VarChar(250)
   dataCheckList      DateTime  @default(now())
-  tecnicoResponsavel String    @db.VarChar(100)
   status             String    @db.VarChar(50) // Ex: "Aprovado", "Reprovado", "Pendências"
   viatura            Viatura   @relation(fields: [viaturaId], references: [viaturaId])
-  usuario            User      @relation(fields: [userId], references: [userId])
-  checkListcategoria ChecklistCategoria @relation(fields: [checklistcategoriaId], references: [id])
+  motorista          Funcionario @relation(fields: [motoristaId], references: [funcionarioId])
   itens              ChecklistItem[]
   @@map("tblchecklist")
 }
@@ -179,16 +176,10 @@ model ChecklistItem {
   id           Int      @id @default(autoincrement())
   checklistId  Int
   descricao    String   @db.VarChar(100) // Ex: "Faróis funcionando", "Nível do óleo", "Freios revisados"
+  marcado      Boolean  @db.Boolean
   status       String   @db.VarChar(50) // Ex: "OK", "Necessita manutenção"
   checklist    Checklist @relation(fields: [checklistId], references: [id])
   @@map("tblchecklistItem")
-}
-
-model ChecklistCategoria {
-  id          Int     @id @default(autoincrement())
-  nome        String  @unique  // Exemplo: "Checklist Matutino", "Checklist Noturno", "Checklist Semanal"
-  checklists  Checklist[]
-  @@map("tblchecklistCategoria")
 }
 
 model LicencaPublicidadeViaturas{
