@@ -4,38 +4,41 @@ const prisma = new PrismaClient();
 module.exports = {
     //Create CheckList
     async createChecklist(req, res){
-        const { 
-            viaturaId,
-            tipoManutencaoId,
-            quilometragem,
-            itemsVerificados,
-            observacao,
-            tecnicoResponsavel
-        } = req.body;
+        const { viaturaId,motoristaId,odometro,nivelCombustivel,condicaoPneus,
+                observacao,status,itens} = req.body;
 
-        if (!viaturaId || !tipoManutencaoId || !quilometragem || !itemsVerificados || !observacao || !tecnicoResponsavel) {
-            return res.status(400).json({ message: 'Todos os campos são obrigatórios' });
-        }
+        if (!viaturaId || !motoristaId || !odometro || !nivelCombustivel || !condicaoPneus || !status) {
+            return res.status(409).json({ message: 'Todos os campos são de preenchimento obrigatórios.' });
+        };
 
-        if (isNaN(Number(quilometragem))) {
+        if (isNaN(Number(odometro))) {
             return res.status(500).json({message:"Quilometragem deve ser um número."});
-          }
+        };
 
         try {
             const insertedChecklist = await prisma.checklist.create({
                 data: {
                     viaturaId: viaturaId,
-                    tipoManutencaoId: tipoManutencaoId,
-                    quilometragem: Number(quilometragem),
-                    itemsVerificados: itemsVerificados,
+                    motoristaId: motoristaId,
+                    odometro: Number(odometro),
+                    nivelCombustivel: nivelCombustivel,
+                    condicaoPneus: condicaoPneus,
                     observacao: observacao,
-                    tecnicoResponsavel: tecnicoResponsavel
-                }
+                    status: status,
+                    itens: {
+                        create: itens.map(item => ({
+                            descricao: item.descricao,
+                            marcado: item.marcado,
+                            status: item.status
+                        }))
+                    }
+                },
+                include: { itens: true } 
             });
 
-            return res.status(201).json({ message: 'Checklist cadastrado com sucesso.', insertedChecklist });
+            return res.status(201).json({ message: 'Checklist criado com sucesso.', insertedChecklist });
         } catch (error) {
-            return res.status(500).json({ message: 'Erro ao cadastrar checklist: ' + error });
+            return res.status(500).json({ message: 'Erro ao criar checklist, por favor verifique a console.',error });
         }
     },
 
@@ -49,6 +52,52 @@ module.exports = {
         }
     },
 
+    //Listar CheckListItem Pelo ID
+    async listarChecklistItemById(req, res) {
+        const { id } = req.params;
+    
+        try {
+            const item = await prisma.checklistItem.findUnique({ where: { id: Number(id) }});
+            if (!item) {
+                return res.status(404).json({ message: 'Item não encontrado.' });
+            }
+    
+            return res.status(200).json({ item });
+        } catch (error) {
+            return res.status(500).json({ message: 'Erro ao buscar item, por favor verifique a console.', error});
+        }
+    },    
+
+    //Update CheckListeItem
+    async updateChecklistItem(req, res) {
+        const { id } = req.params;
+        const { descricao, marcado, status } = req.body;
+    
+        try {
+            const item = await prisma.checklistItem.update({
+                where: { id: Number(id) },
+                data: { descricao, marcado, status }
+            });
+    
+            return res.status(200).json({ message: 'Item atualizado com sucesso.', item });
+        } catch (error) {
+            return res.status(500).json({ message: 'Erro ao atualizar item, por favor verifique a console.', error });
+        }
+    },
+
+    //Delete CheckListItem
+    async deleteChecklistItem(req, res) {
+        const { id } = req.params;
+    
+        try {
+            await prisma.checklistItem.delete({where: { id: Number(id) }});
+    
+            return res.status(200).json({ message: 'Item deletado com sucesso.' });
+        } catch (error) {
+            return res.status(500).json({ message: 'Erro ao deletar item, por favor verifique a console.', error});
+        }
+    },
+    
     //Deletar Checklist por ID
     async deleteChecklist (req, res){
         const { id } = req.params;
@@ -62,6 +111,8 @@ module.exports = {
             const checklistDeleted = await prisma.checklist.delete({ where: { id: parseInt(id) } });
             return res.status(201).json({ message: 'Checklist deletado com sucesso.', checklistDeleted });
         } catch (error) {
-            return res.status(500).json({ message: 'Erro ao deletar checklist: ' + error });
+            return res.status(500).json({ message: 'Erro ao deletar checklist, por favor verifique a console.',error });
         }
-},};
+    },
+
+};
